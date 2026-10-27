@@ -480,7 +480,7 @@ class App:
 
     def _build_connect(self, parent: tk.Misc) -> Card:
         """Подключение: ник, кнопка, подключённый ник и статус."""
-        card, body = self._card(parent, "Подключение", "Введите ник стримера TikTok")
+        card, body = self._card(parent, "Подключение")
         tk.Label(body, text="Ник стримера", bg=PANEL, fg=MUTED, font=FONT_SMALL,
                  anchor="w").pack(anchor="w", pady=(8, 4))
         frame, entry = self._field(body, self.v_user, prefix="@")
@@ -493,16 +493,13 @@ class App:
 
         self._nick_label = self._info_row(body, "Подключённый ник", "—", ACCENT)
         self._status_label = self._info_row(body, "Статус подключения", "Не подключено", ORANGE)
-        self.stat_values["uptime"] = self._info_row(body, "Время в эфире", "—")
         return card
 
     def _build_voice(self, parent: tk.Misc) -> Card:
         """Озвучка: выбор голоса, проверка и своя фраза."""
         card, body = self._card(parent, "Озвучка")
-        tk.Label(body, text="Голос", bg=PANEL, fg=MUTED, font=FONT_SMALL,
-                 anchor="w").pack(anchor="w", pady=(8, 4))
         picker = tk.Frame(body, bg=PANEL)
-        picker.pack(fill="x")
+        picker.pack(fill="x", pady=(8, 0))
         picker.columnconfigure(0, weight=1)
         self.cmb_voice = ttk.Combobox(picker, textvariable=self.v_voice, state="readonly",
                                       style="Dark.TCombobox", font=FONT,
@@ -575,16 +572,22 @@ class App:
         foot.columnconfigure(1, weight=1)
         tk.Label(foot, text=f"{APP_NAME} · версия {__version__}", bg=BG, fg=MUTED,
                  font=FONT_SMALL).grid(row=0, column=0, sticky="w")
+        live = tk.Frame(foot, bg=BG)
+        live.grid(row=0, column=2, sticky="e", padx=(0, 16))
+        tk.Label(live, text="В эфире", bg=BG, fg=MUTED, font=FONT_SMALL).pack(side="left",
+                                                                           padx=(0, 5))
+        self.stat_values["uptime"] = tk.Label(live, text="—", bg=BG, fg=FG, font=FONT_SMALL)
+        self.stat_values["uptime"].pack(side="left")
         self.btn_check = tk.Button(foot, text="Проверить обновления",
                                    command=lambda: self._start_update_check(manual=True),
                                    bg=BG, fg=MUTED, activebackground=BG, activeforeground=FG,
                                    relief="flat", bd=0, font=FONT_SMALL, cursor="hand2")
-        self.btn_check.grid(row=0, column=1, sticky="w", padx=14)
+        self.btn_check.grid(row=0, column=3, sticky="e", padx=(0, 16))
         self.btn_update = self._button(foot, "⬆ Обновить", self.apply_update, primary=True)
-        self.btn_update.grid(row=0, column=2, sticky="e", padx=(0, 14))
+        self.btn_update.grid(row=0, column=4, sticky="e", padx=(0, 16))
         self.btn_update.grid_remove()
         self.lbl_queue = tk.Label(foot, text="В очереди: 0", bg=BG, fg=MUTED, font=FONT_SMALL)
-        self.lbl_queue.grid(row=0, column=3, sticky="e")
+        self.lbl_queue.grid(row=0, column=5, sticky="e")
 
     # ---- настройки -----------------------------------------------------------
 
