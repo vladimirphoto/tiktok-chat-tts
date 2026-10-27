@@ -1,5 +1,5 @@
 {
-  "version": "1.0.31",
+  "version": "1.0.35",
   "python": "3.12.10",
   "platform": "win32",
   "frozen": true,
@@ -9,7 +9,7 @@
       "name": "Импорт библиотек и модулей",
       "ok": true,
       "required": true,
-      "seconds": 2.23,
+      "seconds": 2.81,
       "detail": "импортировано модулей: 15"
     },
     {
@@ -30,70 +30,70 @@
       "name": "Каталог голосов Microsoft",
       "ok": true,
       "required": false,
-      "seconds": 0.53,
+      "seconds": 0.11,
       "detail": "всего голосов: 322; русские женские: ru-RU-SvetlanaNeural"
     },
     {
       "name": "Синтез: ru-RU-SvetlanaNeural",
       "ok": true,
       "required": true,
-      "seconds": 0.52,
+      "seconds": 0.34,
       "detail": "42336 байт, ≈7.1 с речи"
     },
     {
       "name": "Синтез: en-US-AvaMultilingualNeural",
       "ok": true,
       "required": false,
-      "seconds": 0.64,
+      "seconds": 0.22,
       "detail": "27792 байт, ≈4.6 с речи"
     },
     {
       "name": "Синтез: en-US-EmmaMultilingualNeural",
       "ok": true,
       "required": false,
-      "seconds": 0.67,
+      "seconds": 0.33,
       "detail": "31680 байт, ≈5.3 с речи"
     },
     {
       "name": "Синтез: fr-FR-VivienneMultilingualNeural",
       "ok": true,
       "required": false,
-      "seconds": 0.59,
+      "seconds": 0.19,
       "detail": "30240 байт, ≈5.0 с речи"
     },
     {
       "name": "Синтез: de-DE-SeraphinaMultilingualNeural",
       "ok": true,
       "required": false,
-      "seconds": 0.56,
+      "seconds": 0.36,
       "detail": "36432 байт, ≈6.1 с речи"
     },
     {
       "name": "Воспроизведение (MCI)",
       "ok": false,
       "required": false,
-      "seconds": 0.55,
+      "seconds": 0.33,
       "detail": "PlayerError: MCI «open»: A problem occurred in initializing MCI."
     },
     {
       "name": "Очередь: синтез → воспроизведение",
       "ok": false,
       "required": false,
-      "seconds": 1.03,
+      "seconds": 0.64,
       "detail": "RuntimeError: Ошибка воспроизведения: MCI «open»: A problem occurred in initializing MCI."
     },
     {
       "name": "Обновление: проверка, скачивание и замена файла",
       "ok": true,
       "required": true,
-      "seconds": 2.16,
+      "seconds": 2.2,
       "detail": "версия найдена, файл скачан, sha256 сошёлся, exe заменён скриптом обновления"
     },
     {
       "name": "TikTok: попытка подключения к @tiktok",
       "ok": true,
       "required": false,
-      "seconds": 2.0,
+      "seconds": 1.33,
       "detail": "offline: Стример сейчас не в эфире (или TikTok не отдаёт эфир). Проверьте ник. Повтор через 30 с."
     }
   ]
