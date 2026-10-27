@@ -48,15 +48,15 @@ FONT = ("Segoe UI", 10)
 FONT_BOLD = ("Segoe UI", 10, "bold")
 FONT_SMALL = ("Segoe UI", 9)
 FONT_TINY = ("Segoe UI", 8)
-FONT_H1 = ("Segoe UI", 15, "bold")
+FONT_H1 = ("Segoe UI", 14, "bold")
 FONT_H2 = ("Segoe UI", 11, "bold")
-FONT_STAT = ("Segoe UI", 15, "bold")
+FONT_STAT = ("Segoe UI", 14, "bold")
 
 RADIUS = 12             # радиус скругления карточек
-CARD_PAD = 14           # внутренние поля обычных карточек
-STAT_PAD = 12           # внутренние поля карточек статистики
-GAP = 10                # отступ между карточками
-SIDE_GAP = 12           # отступ между колонками
+CARD_PAD = 13           # внутренние поля обычных карточек
+STAT_PAD = 10           # внутренние поля карточек статистики
+GAP = 8                 # отступ между карточками
+SIDE_GAP = 10           # отступ между колонками
 
 STATE_VIEW: Dict[str, tuple] = {
     "connecting": ("Подключение…", ORANGE),
@@ -77,7 +77,7 @@ LOG_COLORS = {
     "join": "#6aa9f4",
 }
 LOG_LIMIT_LINES = 1500
-SCREEN_RESERVE = 96  # px высоты экрана под заголовок окна и панель задач
+SCREEN_RESERVE = 80  # px высоты экрана под заголовок окна и панель задач
 
 # Сверху — четыре карточки: зрители, лайки, подарки, новые подписки.
 # Значения берутся по факту событий (сколько реально подарили/подписались).
@@ -347,7 +347,7 @@ class App:
     def _info_row(self, body: tk.Misc, title: str, value: str,
                   color: str = FG) -> tk.Label:
         row = tk.Frame(body, bg=PANEL)
-        row.pack(fill="x", pady=(7, 0))
+        row.pack(fill="x", pady=(6, 0))
         row.columnconfigure(1, weight=1)
         tk.Label(row, text=title, bg=PANEL, fg=MUTED, font=FONT_SMALL, anchor="w").grid(
             row=0, column=0, sticky="w")
@@ -367,7 +367,7 @@ class App:
                          insertbackground=FG, relief="flat", bd=0, font=FONT,
                          highlightthickness=0, disabledbackground=FIELD,
                          disabledforeground=MUTED)
-        entry.pack(side="left", fill="x", expand=True, ipady=6, padx=(8 if prefix else 10, 8))
+        entry.pack(side="left", fill="x", expand=True, ipady=5, padx=(8 if prefix else 10, 8))
         return frame, entry
 
     # ---- построение интерфейса ----------------------------------------------
@@ -410,7 +410,6 @@ class App:
 
         self.v_user.trace_add("write", lambda *a: self._changed())
         self._fit_window()
-        self._refresh_modules()
 
     def _fit_window(self) -> None:
         """Размер окна по содержимому, но не больше экрана."""
@@ -420,7 +419,7 @@ class App:
         screen_w, screen_h = root.winfo_screenwidth(), root.winfo_screenheight()
         max_w, max_h = screen_w - 40, screen_h - SCREEN_RESERVE
         width = min(max(need_w, 1000), max_w)
-        height = min(max(need_h, 640), max_h)
+        height = min(max(need_h, 620), max_h)
         left = max(0, (screen_w - width) // 2)
         top = max(0, (screen_h - height) // 3)
         root.geometry(f"{width}x{height}+{left}+{top}")
@@ -476,7 +475,6 @@ class App:
         left.columnconfigure(0, weight=1)
         self._build_connect(left).grid(row=0, column=0, sticky="ew")
         self._build_voice(left).grid(row=1, column=0, sticky="ew", pady=(GAP, 0))
-        self._build_modules(left).grid(row=2, column=0, sticky="ew", pady=(GAP, 0))
 
         self._build_feed(main).grid(row=0, column=1, sticky="nsew")
 
@@ -484,7 +482,7 @@ class App:
         """Подключение: ник, кнопка, подключённый ник и статус."""
         card, body = self._card(parent, "Подключение", "Введите ник стримера TikTok")
         tk.Label(body, text="Ник стримера", bg=PANEL, fg=MUTED, font=FONT_SMALL,
-                 anchor="w").pack(anchor="w", pady=(10, 4))
+                 anchor="w").pack(anchor="w", pady=(8, 4))
         frame, entry = self._field(body, self.v_user, prefix="@")
         frame.pack(fill="x")
         entry.bind("<Return>", lambda e: self.toggle_connect())
@@ -502,7 +500,7 @@ class App:
         """Озвучка: выбор голоса, проверка и своя фраза."""
         card, body = self._card(parent, "Озвучка")
         tk.Label(body, text="Голос", bg=PANEL, fg=MUTED, font=FONT_SMALL,
-                 anchor="w").pack(anchor="w", pady=(10, 4))
+                 anchor="w").pack(anchor="w", pady=(8, 4))
         picker = tk.Frame(body, bg=PANEL)
         picker.pack(fill="x")
         picker.columnconfigure(0, weight=1)
@@ -520,22 +518,6 @@ class App:
         frame.grid(row=0, column=0, sticky="ew", padx=(0, 6))
         field.bind("<Return>", lambda e: self.speak_manual())
         self._button(manual, "Озвучить текст", self.speak_manual).grid(row=0, column=1)
-        return card
-
-    def _build_modules(self, parent: tk.Misc) -> Card:
-        """Статус модулей: соединение с TikTok, движок озвучки и очередь."""
-        card, body = self._card(parent, "Статус модулей")
-        self._module_labels: Dict[str, tk.Label] = {}
-        for key, title in (("tiktok", "TikTok LIVE"), ("voice", "Озвучка"),
-                           ("queue", "Очередь")):
-            row = tk.Frame(body, bg=PANEL)
-            row.pack(fill="x", pady=(8, 0))
-            row.columnconfigure(0, weight=1)
-            tk.Label(row, text=title, bg=PANEL, fg=FG, font=FONT, anchor="w").grid(
-                row=0, column=0, sticky="w")
-            value = tk.Label(row, text="—", bg=PANEL, fg=MUTED, font=FONT_SMALL, anchor="e")
-            value.grid(row=0, column=1, sticky="e")
-            self._module_labels[key] = value
         return card
 
     def _build_feed(self, parent: tk.Misc) -> Card:
@@ -582,7 +564,7 @@ class App:
         for index, (key, (text, _)) in enumerate(self.flags.items()):
             row, column = divmod(index, columns)
             box = Checkbox(area, text, self.flag_vars[key], self._changed)
-            box.grid(row=row, column=column, sticky="w", pady=3)
+            box.grid(row=row, column=column, sticky="w", pady=2)
             self._flag_widgets[key] = box
         for column in range(columns):
             area.columnconfigure(column, weight=1, uniform="flags")
@@ -751,28 +733,6 @@ class App:
                 self._live_since = time.monotonic()
         else:
             self._live_since = None
-        self._refresh_modules()
-
-    def _refresh_modules(self) -> None:
-        """Реальные состояния модулей: соединение, движок озвучки, очередь."""
-        state = self._conn_state
-        if state == "connected":
-            tiktok = ("Подключено", GREEN)
-        elif state in ("connecting", "reconnecting"):
-            tiktok = ("Подключение…", ORANGE)
-        elif state in ("offline", "rate_limit", "blocked", "other"):
-            tiktok = (STATE_VIEW.get(state, ("—", MUTED))[0], ORANGE)
-        elif state in ("fatal", "error"):
-            tiktok = ("Ошибка", RED)
-        else:
-            tiktok = ("Не подключено", MUTED)
-        voice = ("Готово", GREEN) if self.voice_ids else ("Нет голосов", ORANGE)
-        pending = self.engine.pending()
-        queue = (f"{pending} в очереди", ORANGE if pending else MUTED)
-        for key, (text, color) in (("tiktok", tiktok), ("voice", voice), ("queue", queue)):
-            label = self._module_labels.get(key)
-            if label is not None:
-                label.configure(text=text, fg=color)
 
     def _log(self, level: str, message: str) -> None:
         stamp = time.strftime("%H:%M:%S")
@@ -836,7 +796,6 @@ class App:
             pass
         self._refresh_stats()
         self.lbl_queue.configure(text=f"В очереди: {self.engine.pending()}")
-        self._refresh_modules()
         self.root.after(100, self._drain)
 
     def close(self) -> None:
