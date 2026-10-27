@@ -9,14 +9,14 @@
       "name": "Импорт библиотек и модулей",
       "ok": true,
       "required": true,
-      "seconds": 2.77,
-      "detail": "импортировано модулей: 14"
+      "seconds": 1.88,
+      "detail": "импортировано модулей: 15"
     },
     {
       "name": "Настройки",
       "ok": true,
       "required": true,
-      "seconds": 0.01,
+      "seconds": 0.02,
       "detail": "сохранение и чтение настроек работают"
     },
     {
@@ -30,63 +30,63 @@
       "name": "Каталог голосов Microsoft",
       "ok": true,
       "required": false,
-      "seconds": 0.33,
+      "seconds": 0.45,
       "detail": "всего голосов: 322; русские женские: ru-RU-SvetlanaNeural"
     },
     {
       "name": "Синтез: ru-RU-SvetlanaNeural",
       "ok": true,
       "required": true,
-      "seconds": 0.69,
+      "seconds": 0.58,
       "detail": "42336 байт, ≈7.1 с речи"
     },
     {
       "name": "Синтез: en-US-AvaMultilingualNeural",
       "ok": true,
       "required": false,
-      "seconds": 0.58,
+      "seconds": 0.62,
       "detail": "27792 байт, ≈4.6 с речи"
     },
     {
       "name": "Синтез: en-US-EmmaMultilingualNeural",
       "ok": true,
       "required": false,
-      "seconds": 0.66,
+      "seconds": 0.62,
       "detail": "31680 байт, ≈5.3 с речи"
     },
     {
       "name": "Синтез: fr-FR-VivienneMultilingualNeural",
       "ok": true,
       "required": false,
-      "seconds": 0.69,
+      "seconds": 0.64,
       "detail": "30240 байт, ≈5.0 с речи"
     },
     {
       "name": "Синтез: de-DE-SeraphinaMultilingualNeural",
       "ok": true,
       "required": false,
-      "seconds": 0.62,
+      "seconds": 0.61,
       "detail": "36432 байт, ≈6.1 с речи"
     },
     {
       "name": "Воспроизведение (MCI)",
       "ok": false,
       "required": false,
-      "seconds": 0.72,
+      "seconds": 0.56,
       "detail": "PlayerError: MCI «open»: A problem occurred in initializing MCI."
     },
     {
       "name": "Очередь: синтез → воспроизведение",
       "ok": false,
       "required": false,
-      "seconds": 1.11,
+      "seconds": 1.03,
       "detail": "RuntimeError: Ошибка воспроизведения: MCI «open»: A problem occurred in initializing MCI."
     },
     {
       "name": "TikTok: попытка подключения к @tiktok",
       "ok": true,
       "required": false,
-      "seconds": 1.55,
+      "seconds": 1.59,
       "detail": "offline: Стример сейчас не в эфире (или TikTok не отдаёт эфир). Проверьте ник. Повтор через 30 с."
     }
   ]
