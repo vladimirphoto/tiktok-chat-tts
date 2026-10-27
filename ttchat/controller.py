@@ -41,7 +41,7 @@ class Controller:
         self.stats = Stats()
         self._service = TikTokService(
             Handlers(self.on_comment, self.on_gift, self.on_follow, self._on_connect,
-                     self.on_viewers, self.on_likes),
+                     self.on_viewers, self.on_likes, self.on_join),
             self._on_status, library=library,
         )
 
@@ -111,17 +111,22 @@ class Controller:
 
     def on_gift(self, nick: str, gift: str, count: int) -> None:
         self.stats.gifts += max(1, int(count))
-        if not self._get_settings().read_gifts:
-            return
+        # В ленту событий попадает всё, что подарили, — независимо от озвучки подарков.
         self._emit("gift", f"{nick} отправил подарок {gift} ×{count}")
-        self.engine.enqueue(gift_phrase(nick, gift, count), "gift")
+        if self._get_settings().read_gifts:
+            self.engine.enqueue(gift_phrase(nick, gift, count), "gift")
 
     def on_follow(self, nick: str) -> None:
         self.stats.follows += 1
-        if not self._get_settings().read_follows:
+        self._emit("follow", f"{nick} подписался")
+        if self._get_settings().read_follows:
+            self.engine.enqueue(follow_phrase(nick), "follow")
+
+    def on_join(self, nick: str) -> None:
+        """Зритель вошёл в эфир. В ленте видно, в слух не читаем."""
+        if not (nick or "").strip():
             return
-        self._emit("gift", f"{nick} подписался")
-        self.engine.enqueue(follow_phrase(nick), "follow")
+        self._emit("join", f"{nick} зашёл в эфир")
 
     # ---- ручная озвучка ----------------------------------------------------
     def speak(self, text: str) -> bool:

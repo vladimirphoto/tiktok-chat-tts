@@ -54,6 +54,7 @@ class Handlers:
     on_connect: Callable[[], None]
     on_viewers: Optional[Callable[[int], None]] = None      # сколько зрителей сейчас
     on_likes: Optional[Callable[[int, int], None]] = None   # лайков в событии, всего в эфире (0, если неизвестно)
+    on_join: Optional[Callable[[str], None]] = None         # ник вошедшего в эфир зрителя
 
 
 class RealLibrary:
@@ -96,6 +97,16 @@ class RealLibrary:
         @client.on(FollowEvent)
         async def _follow(event: Any) -> None:
             handlers.on_follow(nick_of(event))
+
+        # Вход зрителя в эфир — для ленты событий. Если события нет в версии библиотеки, пропускаем.
+        try:
+            from TikTokLive.events import JoinEvent
+        except Exception:
+            JoinEvent = None  # noqa: N806
+        if JoinEvent is not None and handlers.on_join is not None:
+            @client.on(JoinEvent)
+            async def _join(event: Any) -> None:
+                handlers.on_join(nick_of(event))
 
         # Статистика необязательна: если в версии библиотеки этих событий нет, просто пропускаем.
         try:
@@ -253,7 +264,8 @@ class TikTokService:
 
             handlers = Handlers(self._handlers.on_comment, self._handlers.on_gift,
                                 self._handlers.on_follow, on_connect,
-                                self._handlers.on_viewers, self._handlers.on_likes)
+                                self._handlers.on_viewers, self._handlers.on_likes,
+                                self._handlers.on_join)
             self._on_status("connecting", f"Подключаюсь к @{username}…")
             delay: float
             try:
