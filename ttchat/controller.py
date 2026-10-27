@@ -38,6 +38,7 @@ class Controller:
         self._recent = RecentTracker()
         self._connected_at_ms = 0
         self._lock = threading.Lock()
+        self._followers: set = set()  # кто подписался во время этого эфира
         self.stats = Stats()
         self._service = TikTokService(
             Handlers(self.on_comment, self.on_gift, self.on_follow, self._on_connect,
@@ -91,11 +92,14 @@ class Controller:
             return False
         return created_ms < connected - BACKLOG_TOLERANCE_MS
 
-    def on_comment(self, nick: str, text: str, created_ms: Optional[int] = None) -> None:
+    def on_comment(self, nick: str, text: str, created_ms: Optional[int] = None,
+                   is_follower: Optional[bool] = None) -> None:
         settings = self._get_settings()
         if settings.only_new and self._is_backlog(created_ms):
             return
-        result = prepare_chat(nick, text, settings, self._recent)
+        if settings.followers_only and is_follower is None and self._is_follower(nick):
+            is_follower = True  # подписался в этом эфире — считаем подписчиком
+        result = prepare_chat(nick, text, settings, self._recent, is_follower=is_follower)
         if result.phrase is None:
             self._emit("skip", f"{nick}: {text}  — пропущено ({result.reason})")
             return
@@ -118,9 +122,16 @@ class Controller:
 
     def on_follow(self, nick: str) -> None:
         self.stats.follows += 1
+        key = (nick or "").strip().lower()
+        if key:
+            self._followers.add(key)
         self._emit("follow", f"{nick} подписался")
         if self._get_settings().read_follows:
             self.engine.enqueue(follow_phrase(nick), "follow")
+
+    def _is_follower(self, nick: str) -> bool:
+        key = (nick or "").strip().lower()
+        return bool(key) and key in self._followers
 
     def on_join(self, nick: str) -> None:
         """Зритель вошёл в эфир. В ленте видно, в слух не читаем."""
