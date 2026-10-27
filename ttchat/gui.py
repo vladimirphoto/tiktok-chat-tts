@@ -134,7 +134,7 @@ class RoundedCanvas(tk.Canvas):
             return
         self.delete("shape")
         self.create_polygon(rounded_points(0, 0, w - 1, h - 1, self._radius),
-                            close=True, smooth=True, fill=self._fill, outline=self._outline,
+                            smooth=True, fill=self._fill, outline=self._outline,
                             width=1, tags="shape")
 
     def set_colors(self, fill: str, outline: str) -> None:
@@ -176,7 +176,7 @@ class StatusChip:
         h = int(self.canvas.cget("height"))
         self.canvas.delete("pill")
         self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-                                   close=True, smooth=True, fill=PANEL, outline=self.color,
+                                   smooth=True, fill=PANEL, outline=self.color,
                                    width=1, tags="pill")
         cy = h / 2
         self.canvas.create_oval(10, cy - 4, 18, cy + 4, fill=self.color, outline="",
