@@ -83,20 +83,12 @@ class GuiTests(unittest.TestCase):
 
     def test_settings_are_collected_and_saved(self):
         self.app.flag_vars["read_nick"].set(False)
-        self.app.v_blacklist.set("слово")
         self.app.cmb_voice.set("Ава — мультиязычный, читает по-русски")
         self.app._changed()
         self.assertFalse(self.app.settings.read_nick)
         self.assertEqual(self.app.settings.voice, "en-US-AvaMultilingualNeural")
         self.assertTrue(pump(self.root, lambda: self.store.path.exists(), timeout=3))
-        self.assertEqual(self.store.load().blacklist, "слово")
-
-    def test_invalid_spinbox_value_keeps_previous(self):
-        self.app.v_max_len.set(100)
-        self.app._changed()
-        self.root.tk.globalsetvar(str(self.app.v_max_len), "abc")
-        self.app._changed()
-        self.assertEqual(self.app.settings.max_len, 100)
+        self.assertFalse(self.store.load().read_nick)
 
     def test_test_voice_and_manual_speech(self):
         self.app.test_voice()
@@ -116,14 +108,70 @@ class GuiTests(unittest.TestCase):
         self.assertIn(f"сообщение {gui.LOG_LIMIT_LINES + 49}", log_text(self.app))
 
     def test_close_saves_and_shuts_down(self):
-        self.app.v_max_len.set(222)
+        self.app.flag_vars["read_gifts"].set(False)
         self.app.close()
-        self.assertEqual(self.store.load().max_len, 222)
+        self.assertFalse(self.store.load().read_gifts)
         self.assertFalse(self.app.controller.running)
 
     def test_no_voice_tuning_widgets(self):
         for name in ("v_rate", "v_pitch", "v_volume"):
             self.assertFalse(hasattr(self.app, name), name)
+
+    def test_no_advanced_settings(self):
+        self.assertFalse(hasattr(self.app, "open_advanced"))
+        for name in ("v_max_len", "v_queue", "v_blacklist", "v_key"):
+            self.assertFalse(hasattr(self.app, name), name)
+
+    def _all_buttons_text(self):
+        texts = []
+
+        def walk(widget):
+            for child in widget.winfo_children():
+                if isinstance(child, tk.Button):
+                    texts.append(child.cget("text"))
+                walk(child)
+
+        walk(self.root)
+        return texts
+
+    def test_no_advanced_button(self):
+        self.assertFalse([x for x in self._all_buttons_text() if "Дополнительно" in x])
+
+    def test_everything_visible_at_default_size_and_any_scaling(self):
+        """Озвучка, фильтры и подвал целиком помещаются в окно при масштабе 100–200 %."""
+        from ttchat.gui import App
+
+        checked = 0
+        checked_all = True
+        for scaling in (1.333, 1.667, 2.0, 2.667):  # 100, 125, 150, 200 % масштаба Windows
+            if not self.app._closing:
+                self.app.close()  # close() уничтожает и окно Tk
+            self.root = tk.Tk()
+            self.root.withdraw()
+            self.root.tk.call("tk", "scaling", scaling)
+            app = App(self.root, self.store, synth=self.synth, player=NullPlayer(), library=self.lib,
+                      update_check=None)
+            self.app = app
+            if (self.root.winfo_reqwidth() > self.root.winfo_screenwidth() - 40
+                    or self.root.winfo_reqheight() > self.root.winfo_screenheight() - 60):
+                checked_all = False  # экран тест-машины слишком мал для такого масштаба
+                continue
+            self.root.deiconify()
+            self.root.update()
+            width, height = self.root.winfo_width(), self.root.winfo_height()
+            for name, widget in (("озвучка", app.cmb_voice), ("подключение", app.btn_connect),
+                                 ("фильтры", app.lbl_queue), ("лента", app.log)):
+                bottom = widget.winfo_rooty() - self.root.winfo_rooty() + widget.winfo_height()
+                right = widget.winfo_rootx() - self.root.winfo_rootx() + widget.winfo_width()
+                self.assertGreater(widget.winfo_height(), 10, f"{name}: {scaling}")
+                self.assertLessEqual(bottom, height, f"{name} обрезано по высоте при {scaling}")
+                self.assertLessEqual(right, width, f"{name} обрезано по ширине при {scaling}")
+            self.assertGreaterEqual(app.log.winfo_height(), 60, f"лента слишком низкая при {scaling}")
+            self.assertLessEqual(width, self.root.winfo_screenwidth())
+            self.assertLessEqual(height, self.root.winfo_screenheight())
+            checked += 1
+        if not checked:
+            self.skipTest("экран слишком мал даже для масштаба 100 %")
 
     def test_stats_cards_follow_controller(self):
         self.assertEqual(self.app.stat_values["viewers"].cget("text"), "—")
@@ -134,6 +182,7 @@ class GuiTests(unittest.TestCase):
         self.assertEqual(self.app.stat_values["viewers"].cget("text"), "1\u00a0234")
         self.assertEqual(self.app.stat_values["gifts"].cget("text"), "2")
         self.assertEqual(self.app.stat_values["follows"].cget("text"), "1")
+        self.assertEqual(self.app.stat_values["uptime"].cget("text"), "—")
 
     def test_update_button_hidden_until_new_version(self):
         self.assertFalse(self.app.btn_update.winfo_ismapped())

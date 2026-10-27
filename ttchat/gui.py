@@ -17,7 +17,6 @@ from .controller import Controller
 from .engine import Engine
 from .player import create_player
 from .settings import DEFAULT_VOICE, Settings, SettingsStore
-from .tiktok import parse_username
 from .tts import SAMPLE_PHRASE, VOICES, Synthesizer
 
 # ---- палитра (тёмная тема) --------------------------------------------------------------
@@ -40,7 +39,7 @@ FONT_BOLD = ("Segoe UI", 10, "bold")
 FONT_SMALL = ("Segoe UI", 9)
 FONT_H1 = ("Segoe UI", 16, "bold")
 FONT_H2 = ("Segoe UI", 12, "bold")
-FONT_BIG = ("Segoe UI", 22, "bold")
+FONT_STAT = ("Segoe UI", 16, "bold")
 
 # состояние -> (текст, цвет)
 STATE_VIEW: Dict[str, tuple] = {
@@ -64,6 +63,7 @@ LOG_LIMIT_LINES = 1500
 
 STAT_CARDS: Tuple[Tuple[str, str], ...] = (
     ("viewers", "Зрители сейчас"), ("likes", "Лайки"), ("gifts", "Подарки"), ("follows", "Новые подписки"),
+    ("uptime", "Время в эфире"),
 )
 
 
@@ -96,7 +96,6 @@ class App:
         self._update_check = update_check
         self._update_info: Optional[updater.UpdateInfo] = None
         self._updating = False
-        self._advanced: Optional[tk.Toplevel] = None
 
         self._synth = synth or Synthesizer()
         self.engine = Engine(lambda: self.settings, self._synth, player or create_player(),
@@ -148,12 +147,12 @@ class App:
         frame = tk.Frame(parent, bg=PANEL, highlightthickness=1,
                          highlightbackground=BORDER, highlightcolor=BORDER)
         head = tk.Frame(frame, bg=PANEL)
-        head.pack(fill="x", padx=16, pady=(12, 0))
+        head.pack(fill="x", padx=14, pady=(10, 0))
         tk.Label(head, text=title, bg=PANEL, fg=FG, font=FONT_H2, anchor="w").pack(anchor="w")
         if subtitle:
             tk.Label(head, text=subtitle, bg=PANEL, fg=MUTED, font=FONT_SMALL, anchor="w").pack(anchor="w")
         body = tk.Frame(frame, bg=PANEL)
-        body.pack(fill="both", expand=True, padx=16, pady=(8, 14))
+        body.pack(fill="both", expand=True, padx=14, pady=(6, 12))
         return frame, body
 
     def _entry(self, parent: tk.Misc, var: tk.Variable, **kwargs: Any) -> tk.Entry:
@@ -183,17 +182,11 @@ class App:
         root = self.root
         root.title(f"{APP_NAME} {__version__}")
         root.configure(bg=BG)
-        root.geometry("1040x780")
-        root.minsize(960, 700)
         self._setup_style()
 
         self.v_user = tk.StringVar(value=s.username)
         voice = s.voice if s.voice in VOICES else DEFAULT_VOICE
         self.v_voice = tk.StringVar(value=VOICES[voice])
-        self.v_max_len = tk.IntVar(value=s.max_len)
-        self.v_queue = tk.IntVar(value=s.queue_limit)
-        self.v_blacklist = tk.StringVar(value=s.blacklist)
-        self.v_key = tk.StringVar(value=s.euler_key)
         self.v_manual = tk.StringVar()
         self.flags = {
             "read_nick": ("Читать ник перед сообщением", s.read_nick),
@@ -207,119 +200,119 @@ class App:
         }
         self.flag_vars = {k: tk.BooleanVar(value=v[1]) for k, v in self.flags.items()}
 
+        # Окно собирается сверху вниз: фиксированные блоки, а лента событий занимает остаток.
+        # Размеры не заданы в пикселях, поэтому при масштабе Windows 125–200 % ничего не обрезается.
         outer = tk.Frame(root, bg=BG)
-        outer.pack(fill="both", expand=True, padx=22, pady=16)
+        outer.pack(fill="both", expand=True, padx=18, pady=10)
         outer.columnconfigure(0, weight=1)
-        outer.rowconfigure(2, weight=1)
+        outer.rowconfigure(3, weight=1)
+        self._outer = outer
 
         self._build_header(outer)
+        self._build_controls(outer)
         self._build_stats(outer)
-
-        body = tk.Frame(outer, bg=BG)
-        body.grid(row=2, column=0, sticky="nsew", pady=(0, 12))
-        body.columnconfigure(0, weight=2, uniform="cols")
-        body.columnconfigure(1, weight=3, uniform="cols")
-        body.rowconfigure(0, weight=1)
-        left = tk.Frame(body, bg=BG)
-        left.grid(row=0, column=0, sticky="nsew", padx=(0, 7))
-        right = tk.Frame(body, bg=BG)
-        right.grid(row=0, column=1, sticky="nsew", padx=(7, 0))
-        self._build_connect(left)
-        self._build_voice(left)
-        self._build_feed(right)
-
+        self._build_feed(outer)
         self._build_filters(outer)
         self._build_footer(outer)
 
-        for var in (self.v_user, self.v_blacklist, self.v_key, self.v_max_len, self.v_queue):
-            var.trace_add("write", lambda *a: self._changed())
+        self.v_user.trace_add("write", lambda *a: self._changed())
+        self._fit_window()
+
+    def _fit_window(self) -> None:
+        """Размер окна = то, что нужно содержимому (с запасом под ленту), но не больше экрана."""
+        root = self.root
+        root.update_idletasks()
+        need_w, need_h = root.winfo_reqwidth(), root.winfo_reqheight()
+        screen_w, screen_h = root.winfo_screenwidth(), root.winfo_screenheight()
+        width = min(max(need_w, 900), screen_w - 40)
+        height = min(need_h + 170, screen_h - 60)
+        root.geometry(f"{width}x{height}+{max(0, (screen_w - width) // 2)}+{max(0, (screen_h - height) // 3)}")
+        root.minsize(min(need_w, screen_w - 40), min(need_h, screen_h - 60))
 
     def _build_header(self, parent: tk.Frame) -> None:
         head = tk.Frame(parent, bg=BG)
-        head.grid(row=0, column=0, sticky="ew", pady=(0, 14))
+        head.grid(row=0, column=0, sticky="ew", pady=(0, 8))
         head.columnconfigure(0, weight=1)
-        titles = tk.Frame(head, bg=BG)
-        titles.grid(row=0, column=0, sticky="w")
-        tk.Label(titles, text="Подключение", bg=BG, fg=FG, font=FONT_H1, anchor="w").pack(anchor="w")
-        tk.Label(titles, text="Чат TikTok LIVE и озвучка сообщений вслух", bg=BG, fg=MUTED,
-                 font=FONT_SMALL, anchor="w").pack(anchor="w")
+        tk.Label(head, text="Чат TikTok LIVE — озвучка", bg=BG, fg=FG, font=FONT_H1, anchor="w").grid(
+            row=0, column=0, sticky="w")
         self.lbl_state = tk.Label(head, text="Не подключено", bg=PANEL, fg=MUTED, font=FONT_BOLD,
-                                  padx=16, pady=7, highlightthickness=1, highlightbackground=MUTED)
+                                  padx=16, pady=6, highlightthickness=1, highlightbackground=MUTED)
         self.lbl_state.grid(row=0, column=1, sticky="e")
+
+    def _build_controls(self, parent: tk.Frame) -> None:
+        """Две карточки рядом: подключение и озвучка."""
+        row = tk.Frame(parent, bg=BG)
+        row.grid(row=1, column=0, sticky="ew", pady=(0, 8))
+        row.columnconfigure(0, weight=1, uniform="controls")
+        row.columnconfigure(1, weight=1, uniform="controls")
+        self._build_connect(row).grid(row=0, column=0, sticky="nsew", padx=(0, 5))
+        self._build_voice(row).grid(row=0, column=1, sticky="nsew", padx=(5, 0))
 
     def _build_stats(self, parent: tk.Frame) -> None:
         row = tk.Frame(parent, bg=BG)
-        row.grid(row=1, column=0, sticky="ew", pady=(0, 14))
+        row.grid(row=2, column=0, sticky="ew", pady=(0, 8))
         self.stat_values: Dict[str, tk.Label] = {}
         for index, (key, title) in enumerate(STAT_CARDS):
             row.columnconfigure(index, weight=1, uniform="stats")
             card = tk.Frame(row, bg=PANEL, highlightthickness=1, highlightbackground=BORDER)
             card.grid(row=0, column=index, sticky="ew",
-                      padx=(0 if index == 0 else 6, 0 if index == len(STAT_CARDS) - 1 else 6))
-            tk.Label(card, text=title, bg=PANEL, fg=MUTED, font=FONT, anchor="w").pack(anchor="w", padx=16, pady=(12, 0))
-            value = tk.Label(card, text="—" if key == "viewers" else "0", bg=PANEL, fg=FG, font=FONT_BIG, anchor="w")
-            value.pack(anchor="w", padx=16, pady=(0, 10))
+                      padx=(0 if index == 0 else 4, 0 if index == len(STAT_CARDS) - 1 else 4))
+            tk.Label(card, text=title, bg=PANEL, fg=MUTED, font=FONT_SMALL, anchor="w").pack(
+                anchor="w", padx=12, pady=(5, 0))
+            value = tk.Label(card, text="—" if key in ("viewers", "uptime") else "0", bg=PANEL, fg=FG,
+                             font=FONT_STAT, anchor="w")
+            value.pack(anchor="w", padx=12, pady=(0, 4))
             self.stat_values[key] = value
 
-    def _build_connect(self, parent: tk.Frame) -> None:
-        card, body = self._card(parent, "Подключение", "Введите ник стримера TikTok")
-        card.pack(fill="x", pady=(0, 12))
-        tk.Label(body, text="Ник стримера", bg=PANEL, fg=FG, font=FONT_BOLD, anchor="w").pack(anchor="w", pady=(0, 4))
+    def _build_connect(self, parent: tk.Frame) -> tk.Frame:
+        card, body = self._card(parent, "Подключение")
+        hint = tk.Label(body, text="Ник стримера (или ссылка на эфир). Стример должен быть в прямом эфире.",
+                 bg=PANEL, fg=MUTED, font=FONT_SMALL, anchor="w", justify="left", wraplength=380)
+        hint.pack(fill="x", pady=(0, 6))
+        hint.bind("<Configure>", lambda e: hint.configure(wraplength=max(200, e.width)))
         line = tk.Frame(body, bg=FIELD, highlightthickness=1, highlightbackground=BORDER)
         line.pack(fill="x")
         tk.Label(line, text="@", bg=FIELD, fg=MUTED, font=FONT).pack(side="left", padx=(10, 0))
         entry = tk.Entry(line, textvariable=self.v_user, bg=FIELD, fg=FG, insertbackground=FG,
                          relief="flat", bd=0, font=FONT, highlightthickness=0)
-        entry.pack(side="left", fill="x", expand=True, ipady=8, padx=6)
+        entry.pack(side="left", fill="x", expand=True, ipady=7, padx=6)
         entry.bind("<Return>", lambda e: self.toggle_connect())
         self.entry_user = entry
         self.btn_connect = self._button(body, "Подключиться", self.toggle_connect, primary=True)
-        self.btn_connect.pack(fill="x", pady=(10, 8))
-        tk.Label(body, text="Можно вставить @ник или ссылку на эфир. Стример должен быть в прямом эфире.",
-                 bg=PANEL, fg=MUTED, font=FONT_SMALL, anchor="w", justify="left", wraplength=340).pack(anchor="w")
-        rows = tk.Frame(body, bg=PANEL)
-        rows.pack(fill="x", pady=(10, 0))
-        rows.columnconfigure(1, weight=1)
-        self.lbl_nick = self._info_row(rows, 0, "Подключённый ник")
-        self.lbl_status = self._info_row(rows, 1, "Статус подключения")
-        self.lbl_uptime = self._info_row(rows, 2, "Время в эфире")
-        self.lbl_status.configure(text="Не подключено", fg=MUTED)
+        self.btn_connect.pack(fill="x", pady=(8, 0))
+        return card
 
-    def _info_row(self, parent: tk.Frame, row: int, title: str) -> tk.Label:
-        tk.Label(parent, text=title, bg=PANEL, fg=MUTED, font=FONT, anchor="w").grid(row=row, column=0, sticky="w", pady=2)
-        value = tk.Label(parent, text="—", bg=PANEL, fg=FG, font=FONT_BOLD, anchor="e")
-        value.grid(row=row, column=1, sticky="e", pady=2)
-        return value
-
-    def _build_voice(self, parent: tk.Frame) -> None:
-        card, body = self._card(parent, "Озвучка", "Голос и ручное управление очередью")
-        card.pack(fill="both", expand=True)
+    def _build_voice(self, parent: tk.Frame) -> tk.Frame:
+        card, body = self._card(parent, "Озвучка")
         body.columnconfigure(0, weight=1)
-        body.columnconfigure(1, weight=1)
         self.cmb_voice = ttk.Combobox(body, textvariable=self.v_voice, state="readonly",
                                       style="Dark.TCombobox", font=FONT,
                                       values=[VOICES[v] for v in self.voice_ids])
-        self.cmb_voice.grid(row=0, column=0, columnspan=2, sticky="ew")
+        self.cmb_voice.grid(row=0, column=0, sticky="ew")
         self.cmb_voice.bind("<<ComboboxSelected>>", lambda e: self._changed())
-        self._button(body, "▶ Проверить голос", self.test_voice).grid(
-            row=1, column=0, columnspan=2, sticky="ew", pady=(8, 0))
-        self._button(body, "⏭ Пропустить", self.engine.skip).grid(
-            row=2, column=0, sticky="ew", pady=(6, 0), padx=(0, 3))
-        self._button(body, "🗑 Очистить очередь", self.engine.clear).grid(
-            row=2, column=1, sticky="ew", pady=(6, 0), padx=(3, 0))
-        tk.Label(body, text="Озвучить свой текст", bg=PANEL, fg=MUTED, font=FONT_SMALL, anchor="w").grid(
-            row=3, column=0, columnspan=2, sticky="w", pady=(12, 3))
-        manual = self._entry(body, self.v_manual)
-        manual.grid(row=4, column=0, sticky="ew", ipady=6, padx=(0, 6))
+        buttons = tk.Frame(body, bg=PANEL)
+        buttons.grid(row=1, column=0, sticky="ew", pady=(6, 0))
+        for col, (text, command) in enumerate((("▶ Проверить", self.test_voice),
+                                               ("⏭ Пропустить", self.engine.skip),
+                                               ("🗑 Очистить", self.engine.clear))):
+            buttons.columnconfigure(col, weight=1, uniform="voice_buttons")
+            self._button(buttons, text, command).grid(
+                row=0, column=col, sticky="ew", padx=(0 if col == 0 else 3, 0 if col == 2 else 3))
+        manual_line = tk.Frame(body, bg=PANEL)
+        manual_line.grid(row=2, column=0, sticky="ew", pady=(6, 0))
+        manual_line.columnconfigure(0, weight=1)
+        manual = self._entry(manual_line, self.v_manual)
+        manual.grid(row=0, column=0, sticky="ew", ipady=6, padx=(0, 6))
         manual.bind("<Return>", lambda e: self.speak_manual())
-        self._button(body, "Озвучить", self.speak_manual).grid(row=4, column=1, sticky="ew")
+        self._button(manual_line, "Озвучить свой текст", self.speak_manual).grid(row=0, column=1)
+        return card
 
     def _build_feed(self, parent: tk.Frame) -> None:
-        card, body = self._card(parent, "Лента событий", "Чат, подарки и подписки; ▶ — что сейчас озвучивается")
-        card.pack(fill="both", expand=True)
+        card, body = self._card(parent, "Лента событий  (▶ — что сейчас озвучивается)")
+        card.grid(row=3, column=0, sticky="nsew", pady=(0, 8))
         body.columnconfigure(0, weight=1)
         body.rowconfigure(0, weight=1)
-        self.log = tk.Text(body, wrap="word", state="disabled", font=FONT, bg=FIELD, fg=FG,
+        self.log = tk.Text(body, wrap="word", state="disabled", font=FONT, bg=FIELD, fg=FG, height=4,
                            relief="flat", bd=0, highlightthickness=1, highlightbackground=BORDER,
                            padx=10, pady=8, insertbackground=FG, spacing3=2)
         scroll = ttk.Scrollbar(body, command=self.log.yview, style="Dark.Vertical.TScrollbar")
@@ -331,19 +324,17 @@ class App:
 
     def _build_filters(self, parent: tk.Frame) -> None:
         card, body = self._card(parent, "Что озвучивать")
-        card.grid(row=3, column=0, sticky="ew", pady=(0, 8))
+        card.grid(row=4, column=0, sticky="ew", pady=(0, 4))
         for col in range(4):
             body.columnconfigure(col, weight=1, uniform="flags")
         for index, (key, (text, _)) in enumerate(self.flags.items()):
             ttk.Checkbutton(body, text=text, variable=self.flag_vars[key], style="Dark.TCheckbutton",
                             command=self._changed).grid(
-                row=index // 4, column=index % 4, sticky="w", padx=(0, 10), pady=3)
-        self._button(body, "⚙ Дополнительно…", self.open_advanced).grid(
-            row=2, column=0, columnspan=4, sticky="e", pady=(6, 0))
+                row=index // 4, column=index % 4, sticky="w", padx=(0, 10), pady=2)
 
     def _build_footer(self, parent: tk.Frame) -> None:
         foot = tk.Frame(parent, bg=BG)
-        foot.grid(row=4, column=0, sticky="ew")
+        foot.grid(row=5, column=0, sticky="ew")
         foot.columnconfigure(1, weight=1)
         tk.Label(foot, text=f"{APP_NAME} · версия {__version__}", bg=BG, fg=MUTED,
                  font=FONT_SMALL).grid(row=0, column=0, sticky="w")
@@ -358,49 +349,9 @@ class App:
         self.lbl_queue = tk.Label(foot, text="В очереди: 0", bg=BG, fg=MUTED, font=FONT_SMALL)
         self.lbl_queue.grid(row=0, column=3, sticky="e")
 
-    def open_advanced(self) -> None:
-        """Редко нужные настройки: лимиты, чёрный список слов, ключ Euler Stream."""
-        if self._advanced is not None and self._advanced.winfo_exists():
-            self._advanced.lift()
-            return
-        win = tk.Toplevel(self.root)
-        self._advanced = win
-        win.title("Дополнительно")
-        win.configure(bg=PANEL)
-        win.transient(self.root)
-        win.resizable(False, False)
-        body = tk.Frame(win, bg=PANEL)
-        body.pack(fill="both", expand=True, padx=18, pady=16)
-        body.columnconfigure(1, weight=1)
-
-        def spin(row: int, title: str, var: tk.IntVar, low: int, high: int) -> None:
-            tk.Label(body, text=title, bg=PANEL, fg=FG, font=FONT, anchor="w").grid(
-                row=row, column=0, sticky="w", pady=5)
-            tk.Spinbox(body, from_=low, to=high, width=6, textvariable=var, command=self._changed,
-                       bg=FIELD, fg=FG, insertbackground=FG, buttonbackground=BTN, relief="flat",
-                       highlightthickness=1, highlightbackground=BORDER, font=FONT).grid(
-                row=row, column=1, sticky="w", padx=(12, 0))
-
-        spin(0, "Макс. длина сообщения (символов)", self.v_max_len, 20, 500)
-        spin(1, "Макс. очередь (сообщений)", self.v_queue, 1, 100)
-        tk.Label(body, text="Не читать слова (через запятую)", bg=PANEL, fg=FG, font=FONT, anchor="w").grid(
-            row=2, column=0, sticky="w", pady=5)
-        self._entry(body, self.v_blacklist, width=34).grid(row=2, column=1, sticky="ew", padx=(12, 0), ipady=4)
-        tk.Label(body, text="Ключ Euler Stream (необязательно)", bg=PANEL, fg=FG, font=FONT, anchor="w").grid(
-            row=3, column=0, sticky="w", pady=5)
-        self._entry(body, self.v_key, show="•", width=34).grid(row=3, column=1, sticky="ew", padx=(12, 0), ipady=4)
-        self._button(body, "Готово", win.destroy, primary=True).grid(
-            row=4, column=0, columnspan=2, sticky="e", pady=(12, 0))
-
     # ---- настройки ------------------------------------------------------------
     def _collect(self) -> Settings:
         """Собрать настройки из элементов окна (только в главном потоке)."""
-        def number(var: tk.IntVar, default: int) -> int:
-            try:
-                return int(var.get())
-            except (tk.TclError, ValueError):
-                return default
-
         label = self.v_voice.get()
         voice = next((vid for vid, text in VOICES.items() if text == label), self.settings.voice)
         current = self.settings
@@ -408,10 +359,6 @@ class App:
             current,
             username=self.v_user.get().strip(),
             voice=voice,
-            max_len=number(self.v_max_len, current.max_len),
-            queue_limit=number(self.v_queue, current.queue_limit),
-            blacklist=self.v_blacklist.get(),
-            euler_key=self.v_key.get().strip(),
             **{key: bool(var.get()) for key, var in self.flag_vars.items()},
         ).validated()
         self.settings = new
@@ -435,10 +382,6 @@ class App:
             return
         if self.controller.connect():
             self.btn_connect.configure(text="Отключиться")
-            try:
-                self.lbl_nick.configure(text="@" + parse_username(self.settings.username))
-            except ValueError:
-                pass
             self._set_state("connecting")
 
     def _disconnect_async(self) -> None:
@@ -538,7 +481,6 @@ class App:
     def _set_state(self, state: str) -> None:
         text, color = STATE_VIEW.get(state, (state, MUTED))
         self.lbl_state.configure(text=text, fg=color, highlightbackground=color)
-        self.lbl_status.configure(text=text, fg=color)
         if state == "connected":
             if self._live_since is None:
                 self._live_since = time.monotonic()
@@ -563,7 +505,7 @@ class App:
         self.stat_values["gifts"].configure(text=format_count(stats.gifts))
         self.stat_values["follows"].configure(text=format_count(stats.follows))
         uptime = "—" if self._live_since is None else format_uptime(time.monotonic() - self._live_since)
-        self.lbl_uptime.configure(text=uptime)
+        self.stat_values["uptime"].configure(text=uptime)
 
     def _drain(self) -> None:
         if self._closing:
@@ -582,7 +524,6 @@ class App:
                     self._busy_disconnect = False
                     self.btn_connect.configure(state="normal", text="Подключиться")
                     self._set_state("stopped")
-                    self.lbl_nick.configure(text="—")
                 elif kind == "update":
                     self._on_update_result(item[1], item[2])
                 elif kind == "progress":

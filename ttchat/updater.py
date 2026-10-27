@@ -162,7 +162,7 @@ def _remove(path: Path) -> None:
         pass
 
 
-def build_replace_script(new_path: Path, target: Path) -> str:
+def build_replace_script(new_path: Path, target: Path, restart: bool = True) -> str:
     """Текст .bat: ждёт выхода приложения, подменяет exe и запускает новую версию."""
     return "\r\n".join([
         "@echo off",
@@ -177,17 +177,17 @@ def build_replace_script(new_path: Path, target: Path) -> str:
         "if %tries% lss 60 goto retry",
         "exit /b 1",
         ":done",
-        f'start "" "{target}"',
+        *([f'start "" "{target}"'] if restart else []),
         '(goto) 2>nul & del "%~f0"',
         "",
     ])
 
 
-def launch_replacer(new_path: Path, target: Optional[Path] = None) -> Path:
+def launch_replacer(new_path: Path, target: Optional[Path] = None, restart: bool = True) -> Path:
     """Запустить фоновый .bat-скрипт замены. После этого приложению нужно сразу закрыться."""
     target = Path(target or sys.executable)
-    script = Path(tempfile.gettempdir()) / "ttchat-update.bat"
-    script.write_text(build_replace_script(Path(new_path), target), encoding="utf-8", newline="")
+    script = Path(tempfile.gettempdir()) / f"ttchat-update-{os.getpid()}.bat"
+    script.write_text(build_replace_script(Path(new_path), target, restart), encoding="utf-8", newline="")
     flags = 0
     if sys.platform.startswith("win"):
         flags = subprocess.CREATE_NO_WINDOW | subprocess.DETACHED_PROCESS  # type: ignore[attr-defined]

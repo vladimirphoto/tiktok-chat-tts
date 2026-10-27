@@ -289,7 +289,7 @@ class TikTokService:
         if kind == OFFLINE:
             return f"Стример сейчас не в эфире (или TikTok не отдаёт эфир). Проверьте ник. {wait}"
         if kind == RATE_LIMIT:
-            return f"Сервис подписи ограничил число подключений. {wait} Можно указать свой Euler-ключ."
+            return f"Сервис подписи ограничил число подключений. {wait}"
         if kind == BLOCKED:
             return f"TikTok или сервис подписи отклонил подключение ({type(ex).__name__}). {wait}"
         return f"Ошибка подключения: {type(ex).__name__}: {ex}. {wait}"

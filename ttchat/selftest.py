@@ -176,6 +176,70 @@ def _check_engine_end_to_end() -> str:
     return "очередь синтезировала и воспроизвела фразу"
 
 
+def _check_update_flow() -> str:
+    """Настоящее обновление на локальном «GitHub»: проверка версии → скачивание → sha256 → замена файла.
+
+    Замену делает тот же .bat-скрипт, что и в программе (в Windows — через настоящий cmd).
+    """
+    import hashlib
+    import http.server
+    import functools
+
+    from . import updater
+
+    with tempfile.TemporaryDirectory(prefix="ttchat-upd-") as tmp:
+        root = Path(tmp)
+        site = root / "site"
+        site.mkdir()
+        payload = b"MZ" + os.urandom(300_000)
+        (site / updater.EXE_NAME).write_bytes(payload)
+        (site / updater.SHA_NAME).write_text(
+            f"{hashlib.sha256(payload).hexdigest()}  {updater.EXE_NAME}\n", encoding="utf-8")
+
+        class Quiet(http.server.SimpleHTTPRequestHandler):
+            def log_message(self, *args: Any) -> None:
+                pass
+
+        server = http.server.ThreadingHTTPServer(
+            ("127.0.0.1", 0), functools.partial(Quiet, directory=str(site)))
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        base = f"http://127.0.0.1:{server.server_address[1]}"
+        try:
+            release = {
+                "tag_name": "v99.0.0", "body": "тест",
+                "assets": [
+                    {"name": updater.EXE_NAME, "size": len(payload),
+                     "browser_download_url": f"{base}/{updater.EXE_NAME}"},
+                    {"name": updater.SHA_NAME, "browser_download_url": f"{base}/{updater.SHA_NAME}"},
+                ],
+            }
+            info = updater.check_for_update("1.0.0", fetch=lambda url: release)
+            if info is None or info.version != "99.0.0":
+                raise RuntimeError("новая версия не обнаружена")
+            if updater.check_for_update("99.0.0", fetch=lambda url: release) is not None:
+                raise RuntimeError("для актуальной версии предлагается обновление")
+            target = root / "app.exe"
+            target.write_bytes(b"MZ" + b"old")
+            progress: List[int] = []
+            new_path = updater.download_update(info, target, progress.append)
+            if new_path.read_bytes() != payload:
+                raise RuntimeError("скачанный файл не совпадает с оригиналом")
+            if not progress or progress[-1] != 100:
+                raise RuntimeError("нет прогресса скачивания")
+        finally:
+            server.shutdown()
+            server.server_close()
+        if not sys.platform.startswith("win"):
+            return "проверка версии, скачивание и sha256 работают (замена файла проверяется только в Windows)"
+        script = updater.launch_replacer(new_path, target, restart=False)
+        deadline = time.monotonic() + 40
+        while time.monotonic() < deadline:
+            if target.read_bytes() == payload and not new_path.exists() and not script.exists():
+                return "версия найдена, файл скачан, sha256 сошёлся, exe заменён скриптом обновления"
+            time.sleep(0.3)
+        raise RuntimeError("скрипт обновления не заменил файл за 40 с")
+
+
 def probe_tiktok(username: str, timeout: float = 75.0) -> str:
     """Одна попытка подключения: достаточно любого осмысленного ответа TikTok/подписи."""
     from .tiktok import TikTokService, Handlers, parse_username
@@ -223,6 +287,7 @@ def run_selftest(report_path: Optional[str] = None, probe_user: Optional[str] = 
     # поэтому сквозная проверка очереди обязательна, только если базовое воспроизведение работает.
     report.run("Очередь: синтез → воспроизведение", _check_engine_end_to_end,
                required=sys.platform.startswith("win") and playback_ok)
+    report.run("Обновление: проверка, скачивание и замена файла", _check_update_flow)
     if probe_user:
         report.run(f"TikTok: попытка подключения к @{probe_user.lstrip('@')}",
                    lambda: probe_tiktok(probe_user), required=False)

@@ -19,6 +19,12 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Версия сборки (1.0.<номер запуска> = тег релиза)
+        shell: bash
+        run: |
+          sed -i 's/^__version__ = .*/__version__ = "1.0.${{ github.run_number }}"/' ttchat/__init__.py
+          grep __version__ ttchat/__init__.py
+
       - name: Установка зависимостей
         shell: bash
         run: |

@@ -234,7 +234,7 @@ class DescribeTests(unittest.TestCase):
     def test_messages_mention_retry_delay(self):
         text = TikTokService._describe(tiktok.RATE_LIMIT, RuntimeError("x"), 60)
         self.assertIn("60", text)
-        self.assertIn("Euler", text)
+        self.assertIn("ограничил", text)
 
 
 if __name__ == "__main__":
