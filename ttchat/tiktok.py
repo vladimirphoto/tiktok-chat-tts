@@ -52,6 +52,8 @@ class Handlers:
     on_gift: Callable[[str, str, int], None]                # ник, подарок, количество
     on_follow: Callable[[str], None]
     on_connect: Callable[[], None]
+    on_viewers: Optional[Callable[[int], None]] = None      # сколько зрителей сейчас
+    on_likes: Optional[Callable[[int, int], None]] = None   # лайков в событии, всего в эфире (0, если неизвестно)
 
 
 class RealLibrary:
@@ -94,6 +96,31 @@ class RealLibrary:
         @client.on(FollowEvent)
         async def _follow(event: Any) -> None:
             handlers.on_follow(nick_of(event))
+
+        # Статистика необязательна: если в версии библиотеки этих событий нет, просто пропускаем.
+        try:
+            from TikTokLive.events import LikeEvent, RoomUserSeqEvent
+        except Exception:
+            return client
+
+        def as_int(value: Any) -> int:
+            try:
+                return max(0, int(value))
+            except (TypeError, ValueError):
+                return 0
+
+        @client.on(LikeEvent)
+        async def _like(event: Any) -> None:
+            if handlers.on_likes is not None:
+                handlers.on_likes(as_int(getattr(event, "count", 0)), as_int(getattr(event, "total", 0)))
+
+        @client.on(RoomUserSeqEvent)
+        async def _viewers(event: Any) -> None:
+            if handlers.on_viewers is not None:
+                number = getattr(event, "total", None)
+                if number is None:
+                    number = getattr(event, "total_user", None)
+                handlers.on_viewers(as_int(number))
 
         return client
 
@@ -225,7 +252,8 @@ class TikTokService:
                 self._handlers.on_connect()
 
             handlers = Handlers(self._handlers.on_comment, self._handlers.on_gift,
-                                self._handlers.on_follow, on_connect)
+                                self._handlers.on_follow, on_connect,
+                                self._handlers.on_viewers, self._handlers.on_likes)
             self._on_status("connecting", f"Подключаюсь к @{username}…")
             delay: float
             try:

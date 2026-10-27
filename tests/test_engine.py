@@ -6,7 +6,7 @@ from dataclasses import replace
 from tests.helpers import wait_for
 from ttchat.engine import Engine
 from ttchat.player import NullPlayer
-from ttchat.settings import Settings
+from ttchat.settings import PLAYBACK_VOLUME, Settings
 
 
 class RecordingSynth:
@@ -16,7 +16,7 @@ class RecordingSynth:
         self.fail_on = fail_on
         self.gate = None
 
-    def __call__(self, text, voice, rate, pitch):
+    def __call__(self, text, voice, rate=0, pitch=0):
         if self.gate is not None:
             self.gate.wait(3)
         time.sleep(self.delay)
@@ -48,8 +48,8 @@ class EngineTests(unittest.TestCase):
         self.assertEqual([c[0] for c in synth.calls], ["раз", "два", "три"])
         self.assertEqual([m for lvl, m in events if lvl == "speak"], ["раз", "два", "три"])
 
-    def test_uses_current_voice_rate_pitch_volume(self):
-        s = replace(Settings(), voice="en-US-AvaMultilingualNeural", rate=20, pitch=-3, volume=55)
+    def test_uses_current_voice_and_fixed_volume(self):
+        s = replace(Settings(), voice="en-US-AvaMultilingualNeural")
         engine, synth, player, _ = make_engine(settings=s)
         engine.start()
         try:
@@ -57,8 +57,8 @@ class EngineTests(unittest.TestCase):
             self.assertTrue(wait_for(lambda: player.played))
         finally:
             engine.stop()
-        self.assertEqual(synth.calls[0], ("привет", "en-US-AvaMultilingualNeural", 20, -3))
-        self.assertEqual(player.played[0][1], 55)
+        self.assertEqual(synth.calls[0], ("привет", "en-US-AvaMultilingualNeural", 0, 0))
+        self.assertEqual(player.played[0][1], PLAYBACK_VOLUME)
 
     def test_empty_text_not_queued(self):
         engine, *_ = make_engine()

@@ -117,5 +117,40 @@ class ControllerTests(unittest.TestCase):
             h.ctl.shutdown()
 
 
+class StatsTests(unittest.TestCase):
+    def test_counters(self):
+        h = Harness()
+        self.assertIsNone(h.ctl.stats.viewers)
+        h.ctl.on_viewers(42)
+        h.ctl.on_gift("Аня", "Rose", 3)
+        h.ctl.on_gift("Аня", "Rose", 1)
+        h.ctl.on_follow("Оля")
+        self.assertEqual((h.ctl.stats.viewers, h.ctl.stats.gifts, h.ctl.stats.follows), (42, 4, 1))
+
+    def test_likes_use_total_when_known_else_sum(self):
+        h = Harness()
+        h.ctl.on_likes(5, 0)
+        h.ctl.on_likes(3, 0)
+        self.assertEqual(h.ctl.stats.likes, 8)
+        h.ctl.on_likes(2, 1000)
+        self.assertEqual(h.ctl.stats.likes, 1000)
+
+    def test_gift_counted_even_when_not_spoken(self):
+        h = Harness(read_gifts=False, read_follows=False)
+        h.ctl.on_gift("Аня", "Rose", 1)
+        h.ctl.on_follow("Оля")
+        self.assertEqual((h.ctl.stats.gifts, h.ctl.stats.follows), (1, 1))
+
+    def test_stats_reset_on_connect(self):
+        h = Harness()
+        h.ctl.on_gift("Аня", "Rose", 2)
+        h.settings = replace(h.settings, username="streamer")
+        try:
+            self.assertTrue(h.ctl.connect())
+            self.assertEqual(h.ctl.stats.gifts, 0)
+        finally:
+            h.ctl.shutdown()
+
+
 if __name__ == "__main__":
     unittest.main()

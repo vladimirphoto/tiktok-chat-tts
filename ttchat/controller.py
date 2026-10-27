@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import threading
+from dataclasses import dataclass
 from typing import Any, Callable, Optional
 
 from .engine import Engine
@@ -12,6 +13,14 @@ from .tiktok import Handlers, TikTokService, now_ms, parse_username
 
 EmitCallback = Callable[[str, str], None]    # (уровень, текст) -> журнал
 StateCallback = Callable[[str, str], None]   # (состояние, пояснение) -> строка статуса
+
+@dataclass
+class Stats:
+    viewers: Optional[int] = None   # None — TikTok ещё не прислал
+    likes: int = 0
+    gifts: int = 0
+    follows: int = 0
+
 
 BACKLOG_WINDOW_S = 5.0      # сразу после подключения TikTok присылает «хвост» старых комментариев
 BACKLOG_TOLERANCE_MS = 10_000
@@ -29,8 +38,10 @@ class Controller:
         self._recent = RecentTracker()
         self._connected_at_ms = 0
         self._lock = threading.Lock()
+        self.stats = Stats()
         self._service = TikTokService(
-            Handlers(self.on_comment, self.on_gift, self.on_follow, self._on_connect),
+            Handlers(self.on_comment, self.on_gift, self.on_follow, self._on_connect,
+                     self.on_viewers, self.on_likes),
             self._on_status, library=library,
         )
 
@@ -49,6 +60,7 @@ class Controller:
         if self._service.running:
             return False
         self._connected_at_ms = 0
+        self.stats = Stats()
         self._service.start(username, settings.euler_key.strip())
         return True
 
@@ -90,13 +102,22 @@ class Controller:
         self._emit("chat", f"{nick}: {text}")
         self.engine.enqueue(result.phrase, "chat")
 
+    def on_viewers(self, count: int) -> None:
+        self.stats.viewers = count
+
+    def on_likes(self, count: int, total: int) -> None:
+        # «total» — сумма лайков по всему эфиру; если её нет, копим сами
+        self.stats.likes = total if total > self.stats.likes else self.stats.likes + count
+
     def on_gift(self, nick: str, gift: str, count: int) -> None:
+        self.stats.gifts += max(1, int(count))
         if not self._get_settings().read_gifts:
             return
         self._emit("gift", f"{nick} отправил подарок {gift} ×{count}")
         self.engine.enqueue(gift_phrase(nick, gift, count), "gift")
 
     def on_follow(self, nick: str) -> None:
+        self.stats.follows += 1
         if not self._get_settings().read_follows:
             return
         self._emit("gift", f"{nick} подписался")

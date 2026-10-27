@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from typing import Callable, Deque, Optional
 
 from .player import Player
-from .settings import Settings
+from .settings import PLAYBACK_VOLUME, Settings
 
 EventCallback = Callable[[str, str], None]  # (уровень, сообщение)
 
@@ -26,8 +26,9 @@ class Item:
 class Engine:
     def __init__(self, get_settings: Callable[[], Settings], synth: Callable[..., bytes],
                  player: Player, on_event: Optional[EventCallback] = None,
-                 ready_size: int = 2) -> None:
+                 ready_size: int = 2, volume: int = PLAYBACK_VOLUME) -> None:
         self._get_settings = get_settings
+        self._volume = volume
         self._synth = synth
         self._player = player
         self._on_event = on_event or (lambda level, message: None)
@@ -116,7 +117,7 @@ class Engine:
                 continue
             settings = self._get_settings()
             try:
-                audio = self._synth(item.text, settings.voice, settings.rate, settings.pitch)
+                audio = self._synth(item.text, settings.voice)
             except Exception as ex:
                 self._emit("error", f"Не удалось озвучить: {ex}")
                 continue
@@ -137,6 +138,6 @@ class Engine:
                 continue
             self._emit("speak", item.text)
             try:
-                self._player.play(audio, self._get_settings().volume)
+                self._player.play(audio, self._volume)
             except Exception as ex:
                 self._emit("error", f"Ошибка воспроизведения: {ex}")

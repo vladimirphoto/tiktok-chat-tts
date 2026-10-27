@@ -12,11 +12,10 @@ from typing import Any, Dict
 
 DEFAULT_VOICE = "ru-RU-SvetlanaNeural"
 
+PLAYBACK_VOLUME = 80  # громкость воспроизведения, %: регулируется в системе, в окне её нет
+
 # (минимум, максимум) для числовых настроек
 LIMITS: Dict[str, tuple] = {
-    "rate": (-50, 100),       # скорость речи, %
-    "pitch": (-30, 30),       # тон, Гц
-    "volume": (0, 100),       # громкость воспроизведения, %
     "max_len": (20, 500),     # максимум символов в одном сообщении
     "queue_limit": (1, 100),  # максимум сообщений в очереди
 }
@@ -26,9 +25,6 @@ LIMITS: Dict[str, tuple] = {
 class Settings:
     username: str = ""
     voice: str = DEFAULT_VOICE
-    rate: int = 0
-    pitch: int = 0
-    volume: int = 80
     read_nick: bool = True
     max_len: int = 150
     queue_limit: int = 15

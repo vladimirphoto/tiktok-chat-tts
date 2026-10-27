@@ -10,6 +10,7 @@ except Exception:  # pragma: no cover - нет tkinter
 
 from tests.test_engine import RecordingSynth
 from tests.test_tiktok import FakeLibrary, connect_and_hold
+from ttchat import updater
 from ttchat.player import NullPlayer
 from ttchat.settings import SettingsStore
 
@@ -44,7 +45,8 @@ class GuiTests(unittest.TestCase):
         self.lib = FakeLibrary(connect_and_hold)
         from ttchat.gui import App
 
-        self.app = App(self.root, self.store, synth=self.synth, player=self.player, library=self.lib)
+        self.app = App(self.root, self.store, synth=self.synth, player=self.player, library=self.lib,
+                       update_check=None)
 
     def tearDown(self):
         try:
@@ -80,14 +82,10 @@ class GuiTests(unittest.TestCase):
         self.assertEqual(self.app.btn_connect.cget("text"), "Подключиться")
 
     def test_settings_are_collected_and_saved(self):
-        self.app.v_rate.set(25)
-        self.app.v_volume.set(40)
         self.app.flag_vars["read_nick"].set(False)
         self.app.v_blacklist.set("слово")
         self.app.cmb_voice.set("Ава — мультиязычный, читает по-русски")
         self.app._changed()
-        self.assertEqual(self.app.settings.rate, 25)
-        self.assertEqual(self.app.settings.volume, 40)
         self.assertFalse(self.app.settings.read_nick)
         self.assertEqual(self.app.settings.voice, "en-US-AvaMultilingualNeural")
         self.assertTrue(pump(self.root, lambda: self.store.path.exists(), timeout=3))
@@ -118,10 +116,52 @@ class GuiTests(unittest.TestCase):
         self.assertIn(f"сообщение {gui.LOG_LIMIT_LINES + 49}", log_text(self.app))
 
     def test_close_saves_and_shuts_down(self):
-        self.app.v_rate.set(30)
+        self.app.v_max_len.set(222)
         self.app.close()
-        self.assertEqual(self.store.load().rate, 30)
+        self.assertEqual(self.store.load().max_len, 222)
         self.assertFalse(self.app.controller.running)
+
+    def test_no_voice_tuning_widgets(self):
+        for name in ("v_rate", "v_pitch", "v_volume"):
+            self.assertFalse(hasattr(self.app, name), name)
+
+    def test_stats_cards_follow_controller(self):
+        self.assertEqual(self.app.stat_values["viewers"].cget("text"), "—")
+        self.app.controller.on_viewers(1234)
+        self.app.controller.on_gift("Аня", "Rose", 2)
+        self.app.controller.on_follow("Оля")
+        self.app._refresh_stats()
+        self.assertEqual(self.app.stat_values["viewers"].cget("text"), "1\u00a0234")
+        self.assertEqual(self.app.stat_values["gifts"].cget("text"), "2")
+        self.assertEqual(self.app.stat_values["follows"].cget("text"), "1")
+
+    def test_update_button_hidden_until_new_version(self):
+        self.assertFalse(self.app.btn_update.winfo_ismapped())
+        info = updater.UpdateInfo("1.0.9", "v1.0.9", "https://example.test/a.exe")
+        self.app.ui_queue.put(("update", info, False))
+        self.assertTrue(pump(self.root, lambda: "1.0.9" in self.app.btn_update.cget("text")))
+        self.assertIn("новая версия", log_text(self.app))
+
+    def test_update_check_errors_are_quiet_unless_manual(self):
+        self.app.ui_queue.put(("update", RuntimeError("нет сети"), False))
+        pump(self.root, lambda: False, timeout=0.3)
+        self.assertNotIn("нет сети", log_text(self.app))
+        self.app.ui_queue.put(("update", RuntimeError("нет сети"), True))
+        self.assertTrue(pump(self.root, lambda: "нет сети" in log_text(self.app)))
+
+    def test_update_failure_re_enables_button(self):
+        self.app._update_info = updater.UpdateInfo("1.0.9", "v1.0.9", "https://example.test/a.exe")
+        self.app._updating = True
+        self.app.ui_queue.put(("update_failed", "контрольная сумма не совпала"))
+        self.assertTrue(pump(self.root, lambda: not self.app._updating))
+        self.assertIn("контрольная сумма", log_text(self.app))
+
+    def test_format_helpers(self):
+        from ttchat import gui
+
+        self.assertEqual(gui.format_count(None), "—")
+        self.assertEqual(gui.format_count(0), "0")
+        self.assertEqual(gui.format_uptime(3725), "1:02:05")
 
 
 if __name__ == "__main__":

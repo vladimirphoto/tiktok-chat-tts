@@ -64,7 +64,7 @@ def _check_imports() -> str:
     import importlib
 
     modules = ["ttchat.settings", "ttchat.textproc", "ttchat.tts", "ttchat.player", "ttchat.engine",
-               "ttchat.tiktok", "ttchat.controller", "ttchat.gui", "edge_tts", "TikTokLive",
+               "ttchat.tiktok", "ttchat.controller", "ttchat.updater", "ttchat.gui", "edge_tts", "TikTokLive",
                "TikTokLive.events", "TikTokLive.client.errors",
                "TikTokLive.client.web.web_settings", "tkinter"]
     for name in modules:
@@ -78,7 +78,7 @@ def _check_settings() -> str:
 
     with tempfile.TemporaryDirectory() as folder:
         store = SettingsStore(Path(folder) / "s.json")
-        original = replace(Settings(), username="тест", rate=10)
+        original = replace(Settings(), username="тест", max_len=99)
         if not store.save(original) or store.load() != original:
             raise RuntimeError("настройки не сохраняются или читаются неверно")
     return "сохранение и чтение настроек работают"
@@ -99,7 +99,7 @@ def _check_text() -> str:
 def _synth_voice(voice: str, samples_dir: Optional[Path]) -> str:
     synth = Synthesizer()
     try:
-        data = synth(SAMPLE_PHRASE, voice, 0, 0)
+        data = synth(SAMPLE_PHRASE, voice)
     finally:
         synth.close()
     if not looks_like_mp3(data):
@@ -132,7 +132,7 @@ def _check_playback() -> str:
         return "пропущено: воспроизведение проверяется только в Windows"
     synth = Synthesizer()
     try:
-        data = synth("Проверка звука.", REQUIRED_VOICES[0], 0, 0)
+        data = synth("Проверка звука.", REQUIRED_VOICES[0])
     finally:
         synth.close()
     player = create_player()
@@ -155,7 +155,7 @@ def _check_engine_end_to_end() -> str:
         (spoken if level == "speak" else errors if level == "error" else []).append(message)
 
     synth = Synthesizer()
-    engine = Engine(lambda: Settings(volume=0), synth, create_player(), on_event)
+    engine = Engine(lambda: Settings(), synth, create_player(), on_event, volume=0)
     engine.start()
     try:
         engine.enqueue("Это проверка очереди озвучки.")

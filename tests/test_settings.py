@@ -14,20 +14,28 @@ class SettingsTests(unittest.TestCase):
         self.assertTrue(s.read_nick)
 
     def test_validated_clamps(self):
-        s = replace(Settings(), rate=999, pitch=-999, volume=500, max_len=1, queue_limit=0).validated()
-        self.assertEqual((s.rate, s.pitch, s.volume, s.max_len, s.queue_limit), (100, -30, 100, 20, 1))
+        s = replace(Settings(), max_len=1, queue_limit=0).validated()
+        self.assertEqual((s.max_len, s.queue_limit), (20, 1))
+        s = replace(Settings(), max_len=9999, queue_limit=9999).validated()
+        self.assertEqual((s.max_len, s.queue_limit), (500, 100))
 
     def test_from_dict_ignores_junk(self):
-        s = from_dict({"username": 5, "volume": "громко", "rate": 12.7, "read_nick": "yes",
+        s = from_dict({"username": 5, "max_len": "много", "queue_limit": 12.7, "read_nick": "yes",
                        "unknown": 1, "voice": "en-US-AvaMultilingualNeural"})
         self.assertEqual(s.username, "")
-        self.assertEqual(s.volume, 80)
-        self.assertEqual(s.rate, 12)
+        self.assertEqual(s.max_len, Settings().max_len)
+        self.assertEqual(s.queue_limit, 12)
         self.assertTrue(s.read_nick)
         self.assertEqual(s.voice, "en-US-AvaMultilingualNeural")
 
     def test_bool_is_not_int(self):
-        self.assertEqual(from_dict({"volume": True}).volume, 80)
+        self.assertEqual(from_dict({"max_len": True}).max_len, Settings().max_len)
+
+    def test_old_settings_with_voice_tuning_still_load(self):
+        # в прежних версиях были скорость, тон и громкость: такие файлы не должны ломаться
+        s = from_dict({"rate": 20, "pitch": -5, "volume": 50, "username": "abc"})
+        self.assertEqual(s.username, "abc")
+        self.assertFalse(hasattr(s, "rate"))
 
     def test_from_dict_non_dict(self):
         self.assertEqual(from_dict(None), Settings())
@@ -38,7 +46,7 @@ class StoreTests(unittest.TestCase):
     def test_roundtrip_and_unicode(self):
         with tempfile.TemporaryDirectory() as d:
             store = SettingsStore(Path(d) / "sub" / "settings.json")
-            original = replace(Settings(), username="тест", blacklist="слово", rate=15)
+            original = replace(Settings(), username="тест", blacklist="слово", max_len=77)
             self.assertTrue(store.save(original))
             self.assertEqual(store.load(), original)
             raw = json.loads(store.path.read_text(encoding="utf-8"))
