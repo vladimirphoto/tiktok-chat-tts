@@ -61,6 +61,21 @@ class ControllerTests(unittest.TestCase):
         h.ctl.on_follow("Оля")
         self.assertEqual(h.engine.pending(), 2)
 
+    def test_followers_only_filter(self):
+        h = Harness(followers_only=True, read_follows=False)
+        h.ctl.on_comment("Вася", "привет", None, False)
+        self.assertEqual(h.engine.pending(), 0)
+        h.ctl.on_comment("Петя", "привет", None, True)
+        self.assertEqual(h.engine.pending(), 1)
+        h.ctl.on_comment("Аня", "привет", None, None)  # статус не известен
+        self.assertEqual(h.engine.pending(), 1)
+        h.ctl.on_follow("Маша")  # подписалась в этом эфире
+        h.ctl.on_comment("Маша", "новое сообщение", None)
+        self.assertEqual(h.engine.pending(), 2)
+        reasons = [m for lvl, m in h.log if lvl == "skip"]
+        self.assertTrue(any("не подписчик" in r for r in reasons))
+        self.assertTrue(any("не определён" in r for r in reasons))
+
     def test_backlog_comments_right_after_connect_are_dropped(self):
         h = Harness()
         h.ctl._on_connect()  # подключились в момент now=1_000_000
