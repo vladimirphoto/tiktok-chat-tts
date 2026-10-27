@@ -1,0 +1,170 @@
+test_version (tests.test_cli.CliTests.test_version) ... ok
+test_json_shape (tests.test_cli.ReportTests.test_json_shape) ... ok
+test_local_checks_pass_without_network (tests.test_cli.ReportTests.test_local_checks_pass_without_network) ... ok
+test_optional_failure_is_only_a_warning (tests.test_cli.ReportTests.test_optional_failure_is_only_a_warning) ... ok
+test_required_failure_fails_report (tests.test_cli.ReportTests.test_required_failure_fails_report) ... ok
+test_selftest_writes_report_even_when_network_is_down (tests.test_cli.ReportTests.test_selftest_writes_report_even_when_network_is_down)
+Без интернета самопроверка не падает, а честно сообщает об ошибках в отчёте. ... C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages\websockets\legacy\__init__.py:6: DeprecationWarning: websockets.legacy is deprecated; see https://websockets.readthedocs.io/en/stable/howto/upgrade.html for upgrade instructions
+  warnings.warn(  # deprecated in 14.0 - 2024-11-09
+C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages\TikTokLive\client\ws\ws_connect.py:6: DeprecationWarning: websockets.exceptions.InvalidStatusCode is deprecated
+  from websockets.exceptions import InvalidStatusCode  # type: ignore[attr-defined]
+ok
+test_backlog_comments_right_after_connect_are_dropped (tests.test_controller.ControllerTests.test_backlog_comments_right_after_connect_are_dropped) ... ok
+test_backlog_filter_expires_and_can_be_disabled (tests.test_controller.ControllerTests.test_backlog_filter_expires_and_can_be_disabled) ... ok
+test_comment_is_filtered_logged_and_queued (tests.test_controller.ControllerTests.test_comment_is_filtered_logged_and_queued) ... ok
+test_comment_without_timestamp_is_kept (tests.test_controller.ControllerTests.test_comment_without_timestamp_is_kept) ... ok
+test_connect_passes_settings_to_library_and_reports_state (tests.test_controller.ControllerTests.test_connect_passes_settings_to_library_and_reports_state) ... ok
+test_connect_validates_username (tests.test_controller.ControllerTests.test_connect_validates_username) ... ok
+test_gifts_and_follows_respect_switches (tests.test_controller.ControllerTests.test_gifts_and_follows_respect_switches) ... ok
+test_skipped_comment_is_logged_with_reason_not_spoken (tests.test_controller.ControllerTests.test_skipped_comment_is_logged_with_reason_not_spoken) ... ok
+test_speak_bypasses_filters (tests.test_controller.ControllerTests.test_speak_bypasses_filters) ... ok
+test_clear_drops_pending_and_in_flight (tests.test_engine.EngineTests.test_clear_drops_pending_and_in_flight) ... ok
+test_empty_text_not_queued (tests.test_engine.EngineTests.test_empty_text_not_queued) ... ok
+test_overflow_drops_oldest (tests.test_engine.EngineTests.test_overflow_drops_oldest) ... ok
+test_pending_counts_synth_and_ready (tests.test_engine.EngineTests.test_pending_counts_synth_and_ready) ... ok
+test_player_error_is_reported_and_queue_continues (tests.test_engine.EngineTests.test_player_error_is_reported_and_queue_continues) ... ok
+test_skip_interrupts_current_and_continues (tests.test_engine.EngineTests.test_skip_interrupts_current_and_continues) ... ok
+test_speaks_in_order (tests.test_engine.EngineTests.test_speaks_in_order) ... ok
+test_stop_is_idempotent_and_prompt (tests.test_engine.EngineTests.test_stop_is_idempotent_and_prompt) ... ok
+test_synth_error_is_reported_and_queue_continues (tests.test_engine.EngineTests.test_synth_error_is_reported_and_queue_continues) ... ok
+test_uses_current_voice_rate_pitch_volume (tests.test_engine.EngineTests.test_uses_current_voice_rate_pitch_volume) ... ok
+test_builds_with_defaults (tests.test_gui.GuiTests.test_builds_with_defaults) ... ok
+test_close_saves_and_shuts_down (tests.test_gui.GuiTests.test_close_saves_and_shuts_down) ... ok
+test_connect_chat_flow_and_disconnect (tests.test_gui.GuiTests.test_connect_chat_flow_and_disconnect) ... invalid command name "1974838045568_save"
+    while executing
+"1974838045568_save"
+    ("after" script)
+invalid command name "1974893023808_drain"
+    while executing
+"1974893023808_drain"
+    ("after" script)
+invalid command name "1974893032256_drain"
+    while executing
+"1974893032256_drain"
+    ("after" script)
+FAIL
+test_invalid_spinbox_value_keeps_previous (tests.test_gui.GuiTests.test_invalid_spinbox_value_keeps_previous) ... ok
+test_invalid_username_is_reported (tests.test_gui.GuiTests.test_invalid_username_is_reported) ... invalid command name "1974890546560_drain"
+    while executing
+"1974890546560_drain"
+    ("after" script)
+invalid command name "1974890551040_save"
+    while executing
+"1974890551040_save"
+    ("after" script)
+invalid command name "1974890552448_save"
+    while executing
+"1974890552448_save"
+    ("after" script)
+invalid command name "1974892536064_drain"
+    while executing
+"1974892536064_drain"
+    ("after" script)
+ok
+test_log_is_trimmed (tests.test_gui.GuiTests.test_log_is_trimmed) ... ok
+test_settings_are_collected_and_saved (tests.test_gui.GuiTests.test_settings_are_collected_and_saved) ... invalid command name "1974800537536_drain"
+    while executing
+"1974800537536_drain"
+    ("after" script)
+invalid command name "1974890528448_save"
+    while executing
+"1974890528448_save"
+    ("after" script)
+invalid command name "1974890548544_save"
+    while executing
+"1974890548544_save"
+    ("after" script)
+invalid command name "1974893055104_drain"
+    while executing
+"1974893055104_drain"
+    ("after" script)
+invalid command name "1974890517184_save"
+    while executing
+"1974890517184_save"
+    ("after" script)
+ok
+test_test_voice_and_manual_speech (tests.test_gui.GuiTests.test_test_voice_and_manual_speech) ... invalid command name "1974890182464_drain"
+    while executing
+"1974890182464_drain"
+    ("after" script)
+ok
+test_command_sequence_and_volume (tests.test_player.MciPlayerTests.test_command_sequence_and_volume) ... ok
+test_open_failure_raises_and_cleans_up (tests.test_player.MciPlayerTests.test_open_failure_raises_and_cleans_up) ... ok
+test_setaudio_failure_is_not_fatal (tests.test_player.MciPlayerTests.test_setaudio_failure_is_not_fatal) ... ok
+test_stop_interrupts_playback (tests.test_player.MciPlayerTests.test_stop_interrupts_playback) ... ok
+test_stop_while_idle_does_not_affect_next_play (tests.test_player.MciPlayerTests.test_stop_while_idle_does_not_affect_next_play) ... ok
+test_temp_file_exists_during_open_and_removed_after (tests.test_player.MciPlayerTests.test_temp_file_exists_during_open_and_removed_after) ... ok
+test_unique_aliases (tests.test_player.MciPlayerTests.test_unique_aliases) ... ok
+test_volume_is_clamped (tests.test_player.MciPlayerTests.test_volume_is_clamped) ... ok
+test_records_calls (tests.test_player.NullPlayerTests.test_records_calls) ... ok
+test_stop_cuts_delay (tests.test_player.NullPlayerTests.test_stop_cuts_delay) ... ok
+test_bool_is_not_int (tests.test_settings.SettingsTests.test_bool_is_not_int) ... ok
+test_defaults (tests.test_settings.SettingsTests.test_defaults) ... ok
+test_from_dict_ignores_junk (tests.test_settings.SettingsTests.test_from_dict_ignores_junk) ... ok
+test_from_dict_non_dict (tests.test_settings.SettingsTests.test_from_dict_non_dict) ... ok
+test_validated_clamps (tests.test_settings.SettingsTests.test_validated_clamps) ... ok
+test_corrupt_file_gives_defaults (tests.test_settings.StoreTests.test_corrupt_file_gives_defaults) ... ok
+test_missing_file_gives_defaults (tests.test_settings.StoreTests.test_missing_file_gives_defaults) ... ok
+test_no_temp_files_left (tests.test_settings.StoreTests.test_no_temp_files_left) ... ok
+test_roundtrip_and_unicode (tests.test_settings.StoreTests.test_roundtrip_and_unicode) ... ok
+test_parse (tests.test_textproc.BlacklistTests.test_parse) ... ok
+test_collapses_repeated_punctuation (tests.test_textproc.CleanTextTests.test_collapses_repeated_punctuation) ... ok
+test_collapses_stretched_letters (tests.test_textproc.CleanTextTests.test_collapses_stretched_letters) ... ok
+test_does_not_mangle_numbers (tests.test_textproc.CleanTextTests.test_does_not_mangle_numbers) ... ok
+test_keeps_bracket_cyrillic (tests.test_textproc.CleanTextTests.test_keeps_bracket_cyrillic) ... ok
+test_removes_at_sign_and_collapses_spaces (tests.test_textproc.CleanTextTests.test_removes_at_sign_and_collapses_spaces) ... ok
+test_removes_emoji_and_tiktok_emotes (tests.test_textproc.CleanTextTests.test_removes_emoji_and_tiktok_emotes) ... ok
+test_removes_links (tests.test_textproc.CleanTextTests.test_removes_links) ... ok
+test_cleans_nick (tests.test_textproc.NickTests.test_cleans_nick) ... ok
+test_drops_long_digit_runs (tests.test_textproc.NickTests.test_drops_long_digit_runs) ... ok
+test_empty_nick_gets_default (tests.test_textproc.NickTests.test_empty_nick_gets_default) ... ok
+test_basic_phrase_with_nick (tests.test_textproc.PrepareChatTests.test_basic_phrase_with_nick) ... ok
+test_blacklist (tests.test_textproc.PrepareChatTests.test_blacklist) ... ok
+test_gift_and_follow_phrases (tests.test_textproc.PrepareChatTests.test_gift_and_follow_phrases) ... ok
+test_links_skipped_or_stripped (tests.test_textproc.PrepareChatTests.test_links_skipped_or_stripped) ... ok
+test_only_emoji_has_nothing_to_read (tests.test_textproc.PrepareChatTests.test_only_emoji_has_nothing_to_read) ... ok
+test_only_russian (tests.test_textproc.PrepareChatTests.test_only_russian) ... ok
+test_repeats (tests.test_textproc.PrepareChatTests.test_repeats) ... ok
+test_skips_commands (tests.test_textproc.PrepareChatTests.test_skips_commands) ... ok
+test_skips_empty (tests.test_textproc.PrepareChatTests.test_skips_empty) ... ok
+test_truncates_to_max_len (tests.test_textproc.PrepareChatTests.test_truncates_to_max_len) ... ok
+test_without_nick (tests.test_textproc.PrepareChatTests.test_without_nick) ... ok
+test_capacity (tests.test_textproc.RecentTrackerTests.test_capacity) ... ok
+test_window (tests.test_textproc.RecentTrackerTests.test_window) ... ok
+test_cuts_on_word_boundary (tests.test_textproc.TruncateTests.test_cuts_on_word_boundary) ... ok
+test_hard_cut_when_no_space (tests.test_textproc.TruncateTests.test_hard_cut_when_no_space) ... ok
+test_short_text_unchanged (tests.test_textproc.TruncateTests.test_short_text_unchanged) ... ok
+test_messages_mention_retry_delay (tests.test_tiktok.DescribeTests.test_messages_mention_retry_delay) ... ok
+test_invalid (tests.test_tiktok.ParseUsernameTests.test_invalid) ... ok
+test_variants (tests.test_tiktok.ParseUsernameTests.test_variants) ... ok
+test_age_restricted_is_fatal (tests.test_tiktok.ServiceTests.test_age_restricted_is_fatal) ... ok
+test_connects_forwards_events_and_stops (tests.test_tiktok.ServiceTests.test_connects_forwards_events_and_stops) ... ok
+test_double_start_rejected (tests.test_tiktok.ServiceTests.test_double_start_rejected) ... ok
+test_not_found_is_fatal_no_retry (tests.test_tiktok.ServiceTests.test_not_found_is_fatal_no_retry) ... ok
+test_offline_retries_until_live (tests.test_tiktok.ServiceTests.test_offline_retries_until_live) ... ok
+test_reconnects_after_clean_disconnect (tests.test_tiktok.ServiceTests.test_reconnects_after_clean_disconnect) ... ok
+test_restart_after_stop (tests.test_tiktok.ServiceTests.test_restart_after_stop) ... ok
+test_stop_during_retry_sleep_is_prompt (tests.test_tiktok.ServiceTests.test_stop_during_retry_sleep_is_prompt) ... ok
+test_stop_while_connecting_cancels (tests.test_tiktok.ServiceTests.test_stop_while_connecting_cancels) ... ok
+test_unknown_error_backs_off_and_retries (tests.test_tiktok.ServiceTests.test_unknown_error_backs_off_and_retries) ... ok
+test_estimate_seconds (tests.test_tts.FormatTests.test_estimate_seconds) ... ok
+test_mp3_header_detection (tests.test_tts.FormatTests.test_mp3_header_detection) ... ok
+test_rate_and_pitch_format (tests.test_tts.FormatTests.test_rate_and_pitch_format) ... ok
+test_voice_catalogue (tests.test_tts.FormatTests.test_voice_catalogue) ... ok
+test_gives_up_with_tts_error (tests.test_tts.SynthesizerTests.test_gives_up_with_tts_error) ... ok
+test_retries_then_succeeds (tests.test_tts.SynthesizerTests.test_retries_then_succeeds) ... ok
+test_success_passes_arguments (tests.test_tts.SynthesizerTests.test_success_passes_arguments) ... ok
+test_timeout_is_error (tests.test_tts.SynthesizerTests.test_timeout_is_error) ... ok
+
+======================================================================
+FAIL: test_connect_chat_flow_and_disconnect (tests.test_gui.GuiTests.test_connect_chat_flow_and_disconnect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\tests\test_gui.py", line 69, in test_connect_chat_flow_and_disconnect
+    self.assertIn("Маша: Привет всем", log_text(self.app))
+AssertionError: 'Маша: Привет всем' not found in '[05:32:38] TikTok Chat TTS 1.0.0. Введите ник стримера и нажмите «Подключиться».\n[05:32:38] Подключаюсь к @streamer…\n[05:32:38] Подключено к @streamer\n\n'
+
+----------------------------------------------------------------------
+Ran 100 tests in 19.312s
+
+FAILED (failures=1)

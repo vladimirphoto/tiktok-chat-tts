@@ -1,0 +1,100 @@
+{
+  "version": "1.0.0",
+  "python": "3.12.10",
+  "platform": "win32",
+  "frozen": true,
+  "passed": false,
+  "steps": [
+    {
+      "name": "Импорт библиотек и модулей",
+      "ok": true,
+      "required": true,
+      "seconds": 2.59,
+      "detail": "импортировано модулей: 14"
+    },
+    {
+      "name": "Настройки",
+      "ok": true,
+      "required": true,
+      "seconds": 0.0,
+      "detail": "сохранение и чтение настроек работают"
+    },
+    {
+      "name": "Фильтры текста",
+      "ok": true,
+      "required": true,
+      "seconds": 0.0,
+      "detail": "фраза: «Маша: Привет, всем привет!»"
+    },
+    {
+      "name": "Каталог голосов Microsoft",
+      "ok": false,
+      "required": false,
+      "seconds": 0.3,
+      "detail": "RuntimeError: в каталоге Microsoft нет голосов: ru-RU-DariyaNeural"
+    },
+    {
+      "name": "Синтез: ru-RU-SvetlanaNeural",
+      "ok": true,
+      "required": true,
+      "seconds": 0.56,
+      "detail": "42336 байт, ≈7.1 с речи"
+    },
+    {
+      "name": "Синтез: ru-RU-DariyaNeural",
+      "ok": false,
+      "required": true,
+      "seconds": 2.78,
+      "detail": "TTSError: NoAudioReceived: No audio was received. Please verify that your parameters are correct."
+    },
+    {
+      "name": "Синтез: en-US-AvaMultilingualNeural",
+      "ok": true,
+      "required": false,
+      "seconds": 0.69,
+      "detail": "27792 байт, ≈4.6 с речи"
+    },
+    {
+      "name": "Синтез: en-US-EmmaMultilingualNeural",
+      "ok": true,
+      "required": false,
+      "seconds": 1.95,
+      "detail": "31680 байт, ≈5.3 с речи"
+    },
+    {
+      "name": "Синтез: fr-FR-VivienneMultilingualNeural",
+      "ok": true,
+      "required": false,
+      "seconds": 0.58,
+      "detail": "30240 байт, ≈5.0 с речи"
+    },
+    {
+      "name": "Синтез: de-DE-SeraphinaMultilingualNeural",
+      "ok": true,
+      "required": false,
+      "seconds": 0.62,
+      "detail": "36432 байт, ≈6.1 с речи"
+    },
+    {
+      "name": "Воспроизведение (MCI)",
+      "ok": false,
+      "required": false,
+      "seconds": 0.53,
+      "detail": "PlayerError: MCI «open»: A problem occurred in initializing MCI."
+    },
+    {
+      "name": "Очередь: синтез → воспроизведение",
+      "ok": false,
+      "required": true,
+      "seconds": 0.98,
+      "detail": "RuntimeError: Ошибка воспроизведения: MCI «open»: A problem occurred in initializing MCI."
+    },
+    {
+      "name": "TikTok: попытка подключения к @tiktok",
+      "ok": true,
+      "required": false,
+      "seconds": 1.59,
+      "detail": "offline: Стример сейчас не в эфире. Повтор через 30 с."
+    }
+  ]
+}

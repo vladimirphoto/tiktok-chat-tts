@@ -1,0 +1,5 @@
+unit=failure
+selftest_source=failure
+build=success
+selftest_exe=failure
+gui=success
