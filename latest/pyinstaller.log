@@ -1,11 +1,11 @@
-268 INFO: PyInstaller: 6.22.3, contrib hooks: 2026.9
-268 INFO: Python: 3.12.10
-292 INFO: Platform: Windows-2025Server-10.0.26100-SP0
-292 INFO: Python environment: C:\hostedtoolcache\windows\Python\3.12.10\x64
-292 INFO: wrote D:\a\tiktok-chat-tts\tiktok-chat-tts\TikTokChatTTS.spec
-300 INFO: Removing temporary files and cleaning cache in C:\Users\runneradmin\AppData\Local\pyinstaller
-139 WARNING: Failed to collect submodules for 'betterproto2.grpclib' because importing 'betterproto2.grpclib' raised: ModuleNotFoundError: No module named 'grpclib'
-8722 INFO: Module search paths (PYTHONPATH):
+389 INFO: PyInstaller: 6.22.3, contrib hooks: 2026.9
+390 INFO: Python: 3.12.10
+412 INFO: Platform: Windows-2025Server-10.0.26100-SP0
+412 INFO: Python environment: C:\hostedtoolcache\windows\Python\3.12.10\x64
+412 INFO: wrote D:\a\tiktok-chat-tts\tiktok-chat-tts\TikTokChatTTS.spec
+421 INFO: Removing temporary files and cleaning cache in C:\Users\runneradmin\AppData\Local\pyinstaller
+135 WARNING: Failed to collect submodules for 'betterproto2.grpclib' because importing 'betterproto2.grpclib' raised: ModuleNotFoundError: No module named 'grpclib'
+9508 INFO: Module search paths (PYTHONPATH):
 ['D:\\a\\tiktok-chat-tts\\tiktok-chat-tts',
  'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python312.zip',
  'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\DLLs',
@@ -13,154 +13,154 @@
  'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64',
  'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages',
  'D:\\a\\tiktok-chat-tts\\tiktok-chat-tts']
-8962 INFO: Appending 'datas' from .spec
-8978 INFO: checking Analysis
-8980 INFO: Building Analysis because Analysis-00.toc is non existent
-8980 INFO: Looking for Python shared library...
-8980 INFO: Using Python shared library: C:\hostedtoolcache\windows\Python\3.12.10\x64\python312.dll
-8980 INFO: Running Analysis Analysis-00.toc
-8980 INFO: Target bytecode optimization level: 0
-8980 INFO: Initializing module dependency graph...
-8982 INFO: Initializing module graph hook caches...
-8998 INFO: Analyzing modules for base_library.zip ...
-10146 INFO: Processing standard module hook 'hook-encodings.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-10547 INFO: Processing standard module hook 'hook-math.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-10820 INFO: Processing standard module hook 'hook-heapq.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-11861 INFO: Processing standard module hook 'hook-pickle.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-13306 INFO: Caching module dependency graph...
-13354 INFO: Analyzing D:\a\tiktok-chat-tts\tiktok-chat-tts\run_app.py
-13598 INFO: Processing standard module hook 'hook-multiprocessing.util.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-13769 INFO: Processing standard module hook 'hook-xml.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-14024 INFO: Processing standard module hook 'hook-_ctypes.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-14446 INFO: Processing standard module hook 'hook-platform.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-15149 INFO: Processing standard module hook 'hook-pydantic.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
-15470 INFO: Processing pre-safe-import-module hook 'hook-typing_extensions.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
-15470 INFO: SetuptoolsInfo: initializing cached setuptools info...
-16543 INFO: Processing standard module hook 'hook-zoneinfo.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
-16573 INFO: Processing standard module hook 'hook-sysconfig.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-17601 INFO: Processing pre-safe-import-module hook 'hook-backports.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
-17603 INFO: Setuptools: 'backports' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.backports'!
-17607 INFO: Processing standard module hook 'hook-setuptools.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-17619 INFO: Processing pre-safe-import-module hook 'hook-distutils.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
-17645 INFO: Processing pre-safe-import-module hook 'hook-jaraco.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
-17645 INFO: Setuptools: 'jaraco' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.jaraco'!
-17656 INFO: Processing pre-safe-import-module hook 'hook-more_itertools.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
-17656 INFO: Setuptools: 'more_itertools' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.more_itertools'!
-17789 INFO: Processing standard module hook 'hook-_osx_support.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-17805 INFO: Processing pre-safe-import-module hook 'hook-packaging.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
-18118 INFO: Processing standard module hook 'hook-setuptools._vendor.jaraco.text.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-18120 INFO: Processing pre-safe-import-module hook 'hook-importlib_resources.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
-18706 INFO: Processing pre-safe-import-module hook 'hook-tomli.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
-18706 INFO: Setuptools: 'tomli' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.tomli'!
-19306 INFO: Processing pre-safe-import-module hook 'hook-wheel.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
-19306 INFO: Setuptools: 'wheel' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.wheel'!
-19901 INFO: Processing standard module hook 'hook-certifi.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
-20372 INFO: Processing standard module hook 'hook-anyio.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
-21485 INFO: Processing standard module hook 'hook-difflib.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-21620 INFO: Processing standard module hook 'hook-webbrowser.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-22285 INFO: Processing standard module hook 'hook-dateutil.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
-22428 INFO: Processing pre-safe-import-module hook 'hook-six.moves.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
-23279 INFO: Processing standard module hook 'hook-websockets.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
-24009 INFO: Processing pre-find-module-path hook 'hook-tkinter.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
-24009 INFO: TclTkInfo: initializing cached Tcl/Tk info...
-24632 INFO: Processing standard module hook 'hook-_tkinter.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-24721 INFO: Analyzing hidden import 'TikTokLiveProto.v1'
-24749 INFO: Analyzing hidden import 'TikTokLiveProto.v2'
-25093 INFO: Analyzing hidden import 'EulerApiSdk.api.accounts'
-25093 INFO: Analyzing hidden import 'EulerApiSdk.api.accounts.retrieve_account_self'
-25095 INFO: Analyzing hidden import 'EulerApiSdk.api.analytics'
-25097 INFO: Analyzing hidden import 'EulerApiSdk.api.analytics.fetch_agents'
-25100 INFO: Analyzing hidden import 'EulerApiSdk.api.analytics.get_hosts'
-25102 INFO: Analyzing hidden import 'EulerApiSdk.api.analytics.pips'
-25107 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication'
-25107 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication.create_jwt'
-25111 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication.create_key'
-25114 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication.delete_key'
-25118 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication.get_key'
-25122 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication.list_keys'
-25124 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication.update_key'
-25128 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_captchas'
-25128 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_captchas.complete_icon_captcha'
-25132 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_captchas.complete_puzzle_captcha'
-25135 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_captchas.complete_shapes_captcha'
-25138 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_captchas.complete_whirl_captcha'
-25141 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_captchas.retrieve_captcha_credits'
-25143 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_general'
-25143 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_general.exchange_token'
-25147 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_general.revoke_token'
-25150 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.get_rate_limits'
-25152 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.retrieve_gift_info'
-25156 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.retrieve_hashtag_list'
-25158 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.retrieve_room_cover'
-25160 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.retrieve_room_id'
-25164 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.retrieve_room_video'
-25168 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.retrieve_webcast_rankings'
-25172 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alert_targets'
-25172 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alert_targets.create_alert_target'
-25176 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alert_targets.delete_alert_target'
-25180 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alert_targets.list_alert_targets'
-25181 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alert_targets.test_alert_target'
-25185 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alerts'
-25185 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alerts.create_alert'
-25190 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alerts.delete_alert'
-25192 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alerts.list_alerts'
-25196 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alerts.retrieve_alert'
-25199 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation'
-25200 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.add_room_moderator'
-25204 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.kick_room_user'
-25207 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.mute_room_user'
-25212 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.remove_room_moderator'
-25215 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.retrieve_room_banned_users'
-25219 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.retrieve_room_moderators'
-25223 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.retrieve_room_muted_users'
-25225 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.toggle_room_comments'
-25231 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.unban_room_user'
-25234 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.unmute_room_user'
-25238 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_bulk_live_check'
-25242 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_live_analytics_user_interactions'
-25245 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_live_analytics_video_detail'
-25250 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_live_analytics_video_list'
-25254 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_room_info'
-25257 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_webcast_feed'
-25260 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_webcast_user_earnings'
-25265 INFO: Analyzing hidden import 'edge_tts.__main__'
-25346 INFO: Analyzing hidden import 'certifi.__main__'
-25348 INFO: Analyzing hidden import 'certifi.tests'
-25348 INFO: Analyzing hidden import 'certifi.tests.test_certify'
-25455 INFO: Processing module hooks (post-graph stage)...
-25988 WARNING: Hidden import "tzdata" not found!
-26207 INFO: Processing standard module hook 'hook-_tkinter.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
-26233 INFO: Performing binary vs. data reclassification (1421 entries)
-26646 INFO: Looking for ctypes DLLs
-26688 INFO: Analyzing run-time hooks ...
-26694 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
-26696 INFO: Including run-time hook 'pyi_rth_pkgutil.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
-26698 INFO: Including run-time hook 'pyi_rth_multiprocessing.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
-26700 INFO: Including run-time hook 'pyi_rth_setuptools.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
-26701 INFO: Including run-time hook 'pyi_rth__tkinter.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
-26755 INFO: Creating base_library.zip...
-26777 INFO: Looking for dynamic libraries
-31309 INFO: Extra DLL search directories (AddDllDirectory): []
-31309 INFO: Extra DLL search directories (PATH): []
-32037 INFO: Warnings written to D:\a\tiktok-chat-tts\tiktok-chat-tts\build\TikTokChatTTS\warn-TikTokChatTTS.txt
-32163 INFO: Graph cross-reference written to D:\a\tiktok-chat-tts\tiktok-chat-tts\build\TikTokChatTTS\xref-TikTokChatTTS.html
-32242 INFO: checking PYZ
-32242 INFO: Building PYZ because PYZ-00.toc is non existent
-32242 INFO: Building PYZ (ZlibArchive) D:\a\tiktok-chat-tts\tiktok-chat-tts\build\TikTokChatTTS\PYZ-00.pyz
-33237 INFO: Building PYZ (ZlibArchive) D:\a\tiktok-chat-tts\tiktok-chat-tts\build\TikTokChatTTS\PYZ-00.pyz completed successfully.
-33298 INFO: checking PKG
-33298 INFO: Building PKG because PKG-00.toc is non existent
-33298 INFO: Building PKG (CArchive) TikTokChatTTS.pkg
-38814 INFO: Building PKG (CArchive) TikTokChatTTS.pkg completed successfully.
-38843 INFO: Bootloader C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
-38843 INFO: checking EXE
-38843 INFO: Building EXE because EXE-00.toc is non existent
-38843 INFO: Building EXE from EXE-00.toc
-38843 INFO: Copying bootloader EXE to D:\a\tiktok-chat-tts\tiktok-chat-tts\dist\TikTokChatTTS.exe
-38847 INFO: Copying icon to EXE
-38849 INFO: Copying 0 resources to EXE
-38849 INFO: Embedding manifest in EXE
-38851 INFO: Appending PKG archive to EXE
-38863 INFO: Fixing EXE headers
-38990 INFO: Building EXE from EXE-00.toc completed successfully.
-39020 INFO: Build complete! The results are available in: D:\a\tiktok-chat-tts\tiktok-chat-tts\dist
+9744 INFO: Appending 'datas' from .spec
+9761 INFO: checking Analysis
+9761 INFO: Building Analysis because Analysis-00.toc is non existent
+9761 INFO: Looking for Python shared library...
+9761 INFO: Using Python shared library: C:\hostedtoolcache\windows\Python\3.12.10\x64\python312.dll
+9761 INFO: Running Analysis Analysis-00.toc
+9761 INFO: Target bytecode optimization level: 0
+9761 INFO: Initializing module dependency graph...
+9766 INFO: Initializing module graph hook caches...
+9779 INFO: Analyzing modules for base_library.zip ...
+10887 INFO: Processing standard module hook 'hook-encodings.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+11489 INFO: Processing standard module hook 'hook-math.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+12664 INFO: Processing standard module hook 'hook-pickle.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+13608 INFO: Processing standard module hook 'hook-heapq.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+14238 INFO: Caching module dependency graph...
+14288 INFO: Analyzing D:\a\tiktok-chat-tts\tiktok-chat-tts\run_app.py
+14563 INFO: Processing standard module hook 'hook-multiprocessing.util.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+14740 INFO: Processing standard module hook 'hook-xml.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+15009 INFO: Processing standard module hook 'hook-_ctypes.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+15427 INFO: Processing standard module hook 'hook-platform.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+16121 INFO: Processing standard module hook 'hook-pydantic.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+16432 INFO: Processing pre-safe-import-module hook 'hook-typing_extensions.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+16434 INFO: SetuptoolsInfo: initializing cached setuptools info...
+17465 INFO: Processing standard module hook 'hook-zoneinfo.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+17502 INFO: Processing standard module hook 'hook-sysconfig.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+18532 INFO: Processing pre-safe-import-module hook 'hook-backports.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+18532 INFO: Setuptools: 'backports' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.backports'!
+18538 INFO: Processing standard module hook 'hook-setuptools.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+18550 INFO: Processing pre-safe-import-module hook 'hook-distutils.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+18574 INFO: Processing pre-safe-import-module hook 'hook-jaraco.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+18574 INFO: Setuptools: 'jaraco' appears to be a full setuptools-vendored copy - creating alias to 'setuptools._vendor.jaraco'!
+18583 INFO: Processing pre-safe-import-module hook 'hook-more_itertools.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+18583 INFO: Setuptools: 'more_itertools' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.more_itertools'!
+18713 INFO: Processing standard module hook 'hook-_osx_support.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+18726 INFO: Processing pre-safe-import-module hook 'hook-packaging.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+19112 INFO: Processing standard module hook 'hook-setuptools._vendor.jaraco.text.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+19114 INFO: Processing pre-safe-import-module hook 'hook-importlib_resources.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+19650 INFO: Processing pre-safe-import-module hook 'hook-tomli.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+19650 INFO: Setuptools: 'tomli' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.tomli'!
+20222 INFO: Processing pre-safe-import-module hook 'hook-wheel.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+20222 INFO: Setuptools: 'wheel' appears to be a setuptools-vendored copy - creating alias to 'setuptools._vendor.wheel'!
+20813 INFO: Processing standard module hook 'hook-certifi.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+21275 INFO: Processing standard module hook 'hook-anyio.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+22374 INFO: Processing standard module hook 'hook-difflib.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+22529 INFO: Processing standard module hook 'hook-webbrowser.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+23177 INFO: Processing standard module hook 'hook-dateutil.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+23321 INFO: Processing pre-safe-import-module hook 'hook-six.moves.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_safe_import_module'
+24156 INFO: Processing standard module hook 'hook-websockets.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\_pyinstaller_hooks_contrib\\stdhooks'
+24888 INFO: Processing pre-find-module-path hook 'hook-tkinter.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\pre_find_module_path'
+24888 INFO: TclTkInfo: initializing cached Tcl/Tk info...
+25519 INFO: Processing standard module hook 'hook-_tkinter.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+25612 INFO: Analyzing hidden import 'TikTokLiveProto.v1'
+25639 INFO: Analyzing hidden import 'TikTokLiveProto.v2'
+25968 INFO: Analyzing hidden import 'EulerApiSdk.api.accounts'
+25968 INFO: Analyzing hidden import 'EulerApiSdk.api.accounts.retrieve_account_self'
+25972 INFO: Analyzing hidden import 'EulerApiSdk.api.analytics'
+25972 INFO: Analyzing hidden import 'EulerApiSdk.api.analytics.fetch_agents'
+25974 INFO: Analyzing hidden import 'EulerApiSdk.api.analytics.get_hosts'
+25978 INFO: Analyzing hidden import 'EulerApiSdk.api.analytics.pips'
+25982 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication'
+25982 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication.create_jwt'
+25986 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication.create_key'
+25990 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication.delete_key'
+25994 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication.get_key'
+25997 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication.list_keys'
+26000 INFO: Analyzing hidden import 'EulerApiSdk.api.authentication.update_key'
+26004 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_captchas'
+26004 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_captchas.complete_icon_captcha'
+26008 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_captchas.complete_puzzle_captcha'
+26010 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_captchas.complete_shapes_captcha'
+26014 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_captchas.complete_whirl_captcha'
+26016 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_captchas.retrieve_captcha_credits'
+26020 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_general'
+26020 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_general.exchange_token'
+26022 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_general.revoke_token'
+26026 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.get_rate_limits'
+26028 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.retrieve_gift_info'
+26032 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.retrieve_hashtag_list'
+26035 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.retrieve_room_cover'
+26037 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.retrieve_room_id'
+26042 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.retrieve_room_video'
+26046 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live.retrieve_webcast_rankings'
+26050 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alert_targets'
+26050 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alert_targets.create_alert_target'
+26053 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alert_targets.delete_alert_target'
+26057 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alert_targets.list_alert_targets'
+26059 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alert_targets.test_alert_target'
+26063 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alerts'
+26063 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alerts.create_alert'
+26067 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alerts.delete_alert'
+26070 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alerts.list_alerts'
+26074 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_alerts.retrieve_alert'
+26076 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation'
+26077 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.add_room_moderator'
+26081 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.kick_room_user'
+26085 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.mute_room_user'
+26089 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.remove_room_moderator'
+26093 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.retrieve_room_banned_users'
+26097 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.retrieve_room_moderators'
+26102 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.retrieve_room_muted_users'
+26106 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.toggle_room_comments'
+26110 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.unban_room_user'
+26114 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_moderation.unmute_room_user'
+26117 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_bulk_live_check'
+26122 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_live_analytics_user_interactions'
+26126 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_live_analytics_video_detail'
+26130 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_live_analytics_video_list'
+26133 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_room_info'
+26137 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_webcast_feed'
+26139 INFO: Analyzing hidden import 'EulerApiSdk.api.tik_tok_live_premium.retrieve_webcast_user_earnings'
+26145 INFO: Analyzing hidden import 'edge_tts.__main__'
+26226 INFO: Analyzing hidden import 'certifi.__main__'
+26226 INFO: Analyzing hidden import 'certifi.tests'
+26228 INFO: Analyzing hidden import 'certifi.tests.test_certify'
+26333 INFO: Processing module hooks (post-graph stage)...
+26832 WARNING: Hidden import "tzdata" not found!
+27072 INFO: Processing standard module hook 'hook-_tkinter.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks'
+27093 INFO: Performing binary vs. data reclassification (1421 entries)
+27681 INFO: Looking for ctypes DLLs
+27727 INFO: Analyzing run-time hooks ...
+27733 INFO: Including run-time hook 'pyi_rth_inspect.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+27737 INFO: Including run-time hook 'pyi_rth_pkgutil.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+27739 INFO: Including run-time hook 'pyi_rth_multiprocessing.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+27741 INFO: Including run-time hook 'pyi_rth_setuptools.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+27741 INFO: Including run-time hook 'pyi_rth__tkinter.py' from 'C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks'
+27794 INFO: Creating base_library.zip...
+27817 INFO: Looking for dynamic libraries
+32514 INFO: Extra DLL search directories (AddDllDirectory): []
+32514 INFO: Extra DLL search directories (PATH): []
+33421 INFO: Warnings written to D:\a\tiktok-chat-tts\tiktok-chat-tts\build\TikTokChatTTS\warn-TikTokChatTTS.txt
+33557 INFO: Graph cross-reference written to D:\a\tiktok-chat-tts\tiktok-chat-tts\build\TikTokChatTTS\xref-TikTokChatTTS.html
+33639 INFO: checking PYZ
+33639 INFO: Building PYZ because PYZ-00.toc is non existent
+33639 INFO: Building PYZ (ZlibArchive) D:\a\tiktok-chat-tts\tiktok-chat-tts\build\TikTokChatTTS\PYZ-00.pyz
+34586 INFO: Building PYZ (ZlibArchive) D:\a\tiktok-chat-tts\tiktok-chat-tts\build\TikTokChatTTS\PYZ-00.pyz completed successfully.
+34649 INFO: checking PKG
+34649 INFO: Building PKG because PKG-00.toc is non existent
+34649 INFO: Building PKG (CArchive) TikTokChatTTS.pkg
+40079 INFO: Building PKG (CArchive) TikTokChatTTS.pkg completed successfully.
+40112 INFO: Bootloader C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+40112 INFO: checking EXE
+40112 INFO: Building EXE because EXE-00.toc is non existent
+40112 INFO: Building EXE from EXE-00.toc
+40112 INFO: Copying bootloader EXE to D:\a\tiktok-chat-tts\tiktok-chat-tts\dist\TikTokChatTTS.exe
+40115 INFO: Copying icon to EXE
+40117 INFO: Copying 0 resources to EXE
+40117 INFO: Embedding manifest in EXE
+40119 INFO: Appending PKG archive to EXE
+40129 INFO: Fixing EXE headers
+40253 INFO: Building EXE from EXE-00.toc completed successfully.
+40287 INFO: Build complete! The results are available in: D:\a\tiktok-chat-tts\tiktok-chat-tts\dist
