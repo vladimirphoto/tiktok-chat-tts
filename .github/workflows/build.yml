@@ -1,0 +1,135 @@
+name: Сборка и проверка exe
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Установка зависимостей
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-build.txt
+          pip list
+
+      - name: Юнит-тесты (включая окно tkinter)
+        id: unit
+        continue-on-error: true
+        shell: bash
+        run: |
+          mkdir -p reports
+          set -o pipefail
+          python -m unittest discover -s tests -t . -v 2>&1 | tee reports/unittest.log
+
+      - name: Живая самопроверка из исходников (Edge TTS, TikTok)
+        id: selftest_src
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          python run_app.py --selftest --report reports/selftest-source.json --samples reports/samples --probe tiktok 2>&1 | tee reports/selftest-source.log
+
+      - name: Сборка exe
+        id: build
+        shell: bash
+        run: |
+          set -o pipefail
+          python build_exe.py 2>&1 | tee reports/pyinstaller.log
+          ls -l dist
+
+      - name: Самопроверка собранного exe
+        id: selftest_exe
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $p = Start-Process -FilePath "dist\TikTokChatTTS.exe" -ArgumentList @('--selftest','--report','reports\selftest-exe.json','--samples','reports\samples-exe','--probe','tiktok') -Wait -PassThru
+          Write-Host "Код завершения: $($p.ExitCode)"
+          if ($p.ExitCode -ne 0) { exit 1 }
+
+      - name: Запуск окна exe и скриншот
+        id: gui
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $p = Start-Process -FilePath "dist\TikTokChatTTS.exe" -PassThru
+          Start-Sleep -Seconds 12
+          if ($p.HasExited) { Write-Host "Приложение завершилось само, код $($p.ExitCode)"; exit 1 }
+          Add-Type -AssemblyName System.Windows.Forms, System.Drawing
+          $b = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+          $bmp = New-Object System.Drawing.Bitmap $b.Width, $b.Height
+          $g = [System.Drawing.Graphics]::FromImage($bmp)
+          $g.CopyFromScreen($b.Location, [System.Drawing.Point]::Empty, $b.Size)
+          $bmp.Save("reports\gui.png")
+          Write-Host "Окно живо через 12 с, скриншот сохранён"
+          Stop-Process -Id $p.Id -Force
+
+      - name: Контрольная сумма
+        if: always() && hashFiles('dist/TikTokChatTTS.exe') != ''
+        shell: bash
+        run: |
+          cd dist
+          sha256sum TikTokChatTTS.exe | tee ../reports/sha256.txt
+          ls -l TikTokChatTTS.exe | tee ../reports/exe-size.txt
+
+      - name: Итог проверок
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "unit=${{ steps.unit.outcome }}"
+            echo "selftest_source=${{ steps.selftest_src.outcome }}"
+            echo "build=${{ steps.build.outcome }}"
+            echo "selftest_exe=${{ steps.selftest_exe.outcome }}"
+            echo "gui=${{ steps.gui.outcome }}"
+          } | tee reports/outcome.txt
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: TikTokChatTTS-windows
+          path: |
+            dist/TikTokChatTTS.exe
+            reports/
+          if-no-files-found: warn
+
+      - name: Публикация релиза с exe
+        if: always() && hashFiles('dist/TikTokChatTTS.exe') != ''
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="v1.0.${{ github.run_number }}"
+          notes="Сборка из коммита ${GITHUB_SHA::7}. Результаты проверок:"$'\n\n'"$(cat reports/outcome.txt)"
+          gh release create "$tag" dist/TikTokChatTTS.exe reports/sha256.txt \
+            --title "TikTok Chat TTS $tag" --notes "$notes" --latest
+
+      - name: Публикация отчётов в ветку ci-report
+        if: always()
+        shell: bash
+        run: |
+          url="https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git config --global user.name "ci"
+          git config --global user.email "ci@users.noreply.github.com"
+          if git clone --depth 1 --branch ci-report "$url" rep 2>/dev/null; then :; else
+            mkdir rep && cd rep && git init -q -b ci-report && git remote add origin "$url" && cd ..
+          fi
+          rm -rf rep/latest && mkdir -p rep/latest
+          cp -r reports/. rep/latest/
+          cd rep
+          git add -A
+          git commit -q -m "Отчёт проверок: запуск ${{ github.run_number }}, коммит ${GITHUB_SHA::7}" || true
+          git push origin ci-report

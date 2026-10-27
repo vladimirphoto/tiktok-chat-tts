@@ -1,0 +1,2 @@
+edge-tts>=7.3.1
+TikTokLive>=7.0.1
