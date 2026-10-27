@@ -347,7 +347,7 @@ class App:
     def _info_row(self, body: tk.Misc, title: str, value: str,
                   color: str = FG) -> tk.Label:
         row = tk.Frame(body, bg=PANEL)
-        row.pack(fill="x", pady=(6, 0))
+        row.pack(fill="x", pady=(5, 0))
         row.columnconfigure(1, weight=1)
         tk.Label(row, text=title, bg=PANEL, fg=MUTED, font=FONT_SMALL, anchor="w").grid(
             row=0, column=0, sticky="w")
@@ -367,7 +367,7 @@ class App:
                          insertbackground=FG, relief="flat", bd=0, font=FONT,
                          highlightthickness=0, disabledbackground=FIELD,
                          disabledforeground=MUTED)
-        entry.pack(side="left", fill="x", expand=True, ipady=5, padx=(8 if prefix else 10, 8))
+        entry.pack(side="left", fill="x", expand=True, ipady=4, padx=(8 if prefix else 10, 8))
         return frame, entry
 
     # ---- построение интерфейса ----------------------------------------------
@@ -397,7 +397,7 @@ class App:
         self._flag_widgets: Dict[str, Checkbox] = {}
 
         outer = tk.Frame(root, bg=BG)
-        outer.pack(fill="both", expand=True, padx=16, pady=12)
+        outer.pack(fill="both", expand=True, padx=16, pady=8)
         outer.columnconfigure(0, weight=1)
         outer.rowconfigure(2, weight=1)  # лента событий забирает свободную высоту
         self._outer = outer
@@ -482,14 +482,14 @@ class App:
         """Подключение: ник, кнопка, подключённый ник и статус."""
         card, body = self._card(parent, "Подключение")
         tk.Label(body, text="Ник стримера", bg=PANEL, fg=MUTED, font=FONT_SMALL,
-                 anchor="w").pack(anchor="w", pady=(8, 4))
+                 anchor="w").pack(anchor="w", pady=(6, 3))
         frame, entry = self._field(body, self.v_user, prefix="@")
         frame.pack(fill="x")
         entry.bind("<Return>", lambda e: self.toggle_connect())
         self.entry_user = entry
 
         self.btn_connect = self._button(body, "Подключиться", self.toggle_connect, primary=True)
-        self.btn_connect.pack(fill="x", pady=(8, 2))
+        self.btn_connect.pack(fill="x", pady=(6, 2))
 
         self._nick_label = self._info_row(body, "Подключённый ник", "—", ACCENT)
         self._status_label = self._info_row(body, "Статус подключения", "Не подключено", ORANGE)
@@ -499,17 +499,17 @@ class App:
         """Озвучка: выбор голоса, проверка и своя фраза."""
         card, body = self._card(parent, "Озвучка")
         picker = tk.Frame(body, bg=PANEL)
-        picker.pack(fill="x", pady=(8, 0))
+        picker.pack(fill="x", pady=(6, 0))
         picker.columnconfigure(0, weight=1)
         self.cmb_voice = ttk.Combobox(picker, textvariable=self.v_voice, state="readonly",
-                                      style="Dark.TCombobox", font=FONT,
+                                      style="Dark.TCombobox", font=FONT, width=1,
                                       values=[VOICES[v] for v in self.voice_ids])
         self.cmb_voice.grid(row=0, column=0, sticky="ew")
         self.cmb_voice.bind("<<ComboboxSelected>>", lambda e: self._changed())
         self._button(picker, "▶ Проверить", self.test_voice).grid(row=0, column=1, padx=(6, 0))
 
         manual = tk.Frame(body, bg=PANEL)
-        manual.pack(fill="x", pady=(6, 0))
+        manual.pack(fill="x", pady=(5, 0))
         manual.columnconfigure(0, weight=1)
         frame, field = self._field(manual, self.v_manual)
         frame.grid(row=0, column=0, sticky="ew", padx=(0, 6))
@@ -556,12 +556,12 @@ class App:
         card, body = self._card(parent, "Что озвучивать")
         card.grid(row=3, column=0, sticky="ew", pady=(0, GAP - 2))
         area = tk.Frame(body, bg=PANEL)
-        area.pack(fill="x", pady=(8, 0))
+        area.pack(fill="x", pady=(6, 0))
         columns = 4
         for index, (key, (text, _)) in enumerate(self.flags.items()):
             row, column = divmod(index, columns)
             box = Checkbox(area, text, self.flag_vars[key], self._changed)
-            box.grid(row=row, column=column, sticky="w", pady=2)
+            box.grid(row=row, column=column, sticky="w", pady=1)
             self._flag_widgets[key] = box
         for column in range(columns):
             area.columnconfigure(column, weight=1, uniform="flags")
