@@ -227,7 +227,7 @@ class App:
     def _info_row(self, body: tk.Misc, title: str, value: str,
                   color: str = FG) -> tk.Label:
         row = tk.Frame(body, bg=PANEL)
-        row.pack(fill="x", pady=(5, 0))
+        row.pack(fill="x", pady=(4, 0))
         row.columnconfigure(1, weight=1)
         tk.Label(row, text=title, bg=PANEL, fg=MUTED, font=FONT_SMALL, anchor="w").grid(
             row=0, column=0, sticky="w")
@@ -292,7 +292,7 @@ class App:
 
     def _build_header(self, parent: tk.Frame) -> None:
         head = tk.Frame(parent, bg=BG)
-        head.grid(row=0, column=0, sticky="ew", pady=(0, GAP + 2))
+        head.grid(row=0, column=0, sticky="ew", pady=(0, GAP))
         head.columnconfigure(0, weight=1)
         tk.Label(head, text="Чат TikTok LIVE — озвучка", bg=BG, fg=FG, font=FONT_H1,
                  anchor="w").grid(row=0, column=0, sticky="w")
@@ -303,7 +303,7 @@ class App:
     def _build_stats(self, parent: tk.Frame) -> None:
         """Сверху — четыре карточки: зрители, лайки, подарки, новые подписки."""
         row = tk.Frame(parent, bg=BG)
-        row.grid(row=1, column=0, sticky="ew", pady=(0, GAP + 2))
+        row.grid(row=1, column=0, sticky="ew", pady=(0, GAP))
         self.stat_values: Dict[str, tk.Label] = {}
         for index, (key, title, icon) in enumerate(STAT_CARDS):
             row.columnconfigure(index, weight=1, uniform="stats")
@@ -328,7 +328,7 @@ class App:
     def _build_main(self, parent: tk.Frame) -> None:
         """Слева — подключение и озвучка, справа — лента событий."""
         main = tk.Frame(parent, bg=BG)
-        main.grid(row=2, column=0, sticky="nsew", pady=(0, GAP + 2))
+        main.grid(row=2, column=0, sticky="nsew", pady=(0, GAP))
         main.columnconfigure(0, weight=0, minsize=344)
         main.columnconfigure(1, weight=1)
         main.rowconfigure(0, weight=1)
@@ -352,8 +352,8 @@ class App:
         self.entry_user.bind("<Return>", lambda e: self.toggle_connect())
 
         self.btn_connect = RoundButton(body, "Подключиться", self.toggle_connect,
-                                       kind="primary", icon=icon_power, pady=7)
-        self.btn_connect.pack(fill="x", pady=(7, 2))
+                                       kind="primary", icon=icon_power, pady=6)
+        self.btn_connect.pack(fill="x", pady=(6, 2))
 
         self._nick_label = self._info_row(body, "Подключённый ник", "—", ACCENT)
         self._status_label = self._info_row(body, "Статус подключения", "Не подключено", ORANGE)
@@ -369,8 +369,8 @@ class App:
                                 command=self._changed, bg=PANEL)
         self.cmb_voice.grid(row=0, column=0, sticky="ew")
         self.btn_test = RoundButton(body, "Проверить голос", self.test_voice, kind="secondary",
-                                    icon=icon_play, pady=6)
-        self.btn_test.pack(fill="x", pady=(6, 0))
+                                    icon=icon_play, pady=5)
+        self.btn_test.pack(fill="x", pady=(5, 0))
         return card
 
     def _build_feed(self, parent: tk.Misc) -> Card:
@@ -413,14 +413,10 @@ class App:
         for index, (key, (text, _)) in enumerate(self.flags.items()):
             row, column = divmod(index, columns)
             box = Checkbox(area, text, self.flag_vars[key], self._changed)
-            box.grid(row=row, column=column, sticky="w", pady=2)
+            box.grid(row=row, column=column, sticky="w", pady=1)
             self._flag_widgets[key] = box
         for column in range(columns):
             area.columnconfigure(column, weight=1, uniform="flags")
-        tk.Label(body, text="Старые сообщения при входе не читаются всегда. "
-                            "Подписчик — по данным TikTok или по подписке в этом эфире.",
-                 bg=PANEL, fg=MUTED, font=FONT_SMALL, anchor="w").pack(anchor="w",
-                                                                     pady=(6, 0))
 
     def _build_footer(self, parent: tk.Frame) -> None:
         foot = tk.Frame(parent, bg=BG)
