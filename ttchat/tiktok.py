@@ -46,9 +46,32 @@ def parse_username(raw: str) -> str:
     return name
 
 
+def follower_of(event: Any) -> Optional[bool]:
+    """Подписан ли автор события на канал: True/False либо None, если TikTok не сообщил."""
+    user = getattr(event, "user", None)
+    if user is None:
+        return None
+    for attr in ("is_follower", "isFollower", "is_subscriber"):
+        value = getattr(user, attr, None)
+        if isinstance(value, bool):
+            return value
+    info = getattr(user, "follow_info", None)
+    if info is None:
+        info = getattr(user, "followInfo", None)
+    status = getattr(info, "follow_status", None) if info is not None else None
+    if status is None:
+        status = getattr(user, "follow_status", None)
+    if isinstance(status, bool):
+        return status
+    if isinstance(status, int):
+        # 0 — не подписан; 1 — подписан; 2 и дальше — взаимная подписка / друзья
+        return status != 0
+    return None
+
+
 @dataclass
 class Handlers:
-    on_comment: Callable[[str, str, Optional[int]], None]   # ник, текст, время (мс)
+    on_comment: Callable[[str, str, Optional[int], Optional[bool]], None]  # ник, текст, время, подписчик
     on_gift: Callable[[str, str, int], None]                # ник, подарок, количество
     on_follow: Callable[[str], None]
     on_connect: Callable[[], None]
@@ -81,7 +104,8 @@ class RealLibrary:
         async def _comment(event: Any) -> None:
             common = getattr(event, "common", None)
             created = getattr(common, "create_time", None)
-            handlers.on_comment(nick_of(event), getattr(event, "comment", "") or "", created)
+            handlers.on_comment(nick_of(event), getattr(event, "comment", "") or "", created,
+                                follower_of(event))
 
         @client.on(GiftEvent)
         async def _gift(event: Any) -> None:
