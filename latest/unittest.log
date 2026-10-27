@@ -8,7 +8,7 @@ test_selftest_writes_report_even_when_network_is_down (tests.test_cli.ReportTest
   warnings.warn(  # deprecated in 14.0 - 2024-11-09
 C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages\TikTokLive\client\ws\ws_connect.py:6: DeprecationWarning: websockets.exceptions.InvalidStatusCode is deprecated
   from websockets.exceptions import InvalidStatusCode  # type: ignore[attr-defined]
-C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\subprocess.py:1127: ResourceWarning: subprocess 7700 is still running
+C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\subprocess.py:1127: ResourceWarning: subprocess 6592 is still running
   _warn("subprocess %s is still running" % self.pid,
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
 ok
@@ -37,103 +37,103 @@ test_synth_error_is_reported_and_queue_continues (tests.test_engine.EngineTests.
 test_uses_current_voice_and_fixed_volume (tests.test_engine.EngineTests.test_uses_current_voice_and_fixed_volume) ... ok
 test_builds_with_defaults (tests.test_gui.GuiTests.test_builds_with_defaults) ... ok
 test_close_saves_and_shuts_down (tests.test_gui.GuiTests.test_close_saves_and_shuts_down) ... ok
-test_connect_chat_flow_and_disconnect (tests.test_gui.GuiTests.test_connect_chat_flow_and_disconnect) ... invalid command name "3066898590720_drain"
+test_connect_chat_flow_and_disconnect (tests.test_gui.GuiTests.test_connect_chat_flow_and_disconnect) ... invalid command name "2929419540736_drain"
     while executing
-"3066898590720_drain"
+"2929419540736_drain"
     ("after" script)
-invalid command name "3066899184704_drain"
+invalid command name "2929419116736_drain"
     while executing
-"3066899184704_drain"
+"2929419116736_drain"
     ("after" script)
 ok
 test_everything_visible_at_default_size_and_any_scaling (tests.test_gui.GuiTests.test_everything_visible_at_default_size_and_any_scaling)
-Озвучка, фильтры и подвал целиком помещаются в окно при масштабе 100–200 %. ... invalid command name "3066896252544_drain"
+Озвучка, фильтры и подвал целиком помещаются в окно при масштабе 100–200 %. ... invalid command name "2929416616128_drain"
     while executing
-"3066896252544_drain"
+"2929416616128_drain"
     ("after" script)
-invalid command name "3066896326080_save"
+invalid command name "2929416671680_save"
     while executing
-"3066896326080_save"
+"2929416671680_save"
     ("after" script)
-invalid command name "3066898800896_drain"
+invalid command name "2929419192320_drain"
     while executing
-"3066898800896_drain"
+"2929419192320_drain"
     ("after" script)
 ok
 test_format_helpers (tests.test_gui.GuiTests.test_format_helpers) ... ok
-test_invalid_username_is_reported (tests.test_gui.GuiTests.test_invalid_username_is_reported) ... invalid command name "3066896320576_drain"
+test_invalid_username_is_reported (tests.test_gui.GuiTests.test_invalid_username_is_reported) ... invalid command name "2929416637440_drain"
     while executing
-"3066896320576_drain"
+"2929416637440_drain"
     ("after" script)
-invalid command name "3066898767936_drain"
+invalid command name "2929419282752_drain"
     while executing
-"3066898767936_drain"
+"2929419282752_drain"
     ("after" script)
-invalid command name "3066898540992_drain"
+invalid command name "2929419156160_drain"
     while executing
-"3066898540992_drain"
+"2929419156160_drain"
     ("after" script)
-invalid command name "3066898883776_drain"
+invalid command name "2929419575872_drain"
     while executing
-"3066898883776_drain"
+"2929419575872_drain"
     ("after" script)
-invalid command name "3066898512320_drain"
+invalid command name "2929419579968_drain"
     while executing
-"3066898512320_drain"
+"2929419579968_drain"
     ("after" script)
 ok
 test_log_is_trimmed (tests.test_gui.GuiTests.test_log_is_trimmed) ... ok
 test_no_advanced_button (tests.test_gui.GuiTests.test_no_advanced_button) ... ok
 test_no_advanced_settings (tests.test_gui.GuiTests.test_no_advanced_settings) ... ok
 test_no_voice_tuning_widgets (tests.test_gui.GuiTests.test_no_voice_tuning_widgets) ... ok
-test_settings_are_collected_and_saved (tests.test_gui.GuiTests.test_settings_are_collected_and_saved) ... invalid command name "3066896201344_drain"
+test_settings_are_collected_and_saved (tests.test_gui.GuiTests.test_settings_are_collected_and_saved) ... invalid command name "2929416551424_drain"
     while executing
-"3066896201344_drain"
+"2929416551424_drain"
     ("after" script)
-invalid command name "3066896238144_save"
+invalid command name "2929416603392_save"
     while executing
-"3066896238144_save"
+"2929416603392_save"
     ("after" script)
-invalid command name "3066899234496_drain"
+invalid command name "2929472241920_drain"
     while executing
-"3066899234496_drain"
+"2929472241920_drain"
     ("after" script)
-invalid command name "3066896198400_drain"
+invalid command name "2929416515776_drain"
     while executing
-"3066896198400_drain"
+"2929416515776_drain"
     ("after" script)
-invalid command name "3066899223616_drain"
+invalid command name "2929416549440_drain"
     while executing
-"3066899223616_drain"
+"2929416549440_drain"
     ("after" script)
-invalid command name "3066951903360_drain"
+invalid command name "2929472252672_drain"
     while executing
-"3066951903360_drain"
+"2929472252672_drain"
     ("after" script)
 ok
 test_stats_cards_follow_controller (tests.test_gui.GuiTests.test_stats_cards_follow_controller) ... ok
-test_test_voice_and_manual_speech (tests.test_gui.GuiTests.test_test_voice_and_manual_speech) ... invalid command name "3066952075008_drain"
+test_test_voice_and_manual_speech (tests.test_gui.GuiTests.test_test_voice_and_manual_speech) ... invalid command name "2929472424320_drain"
     while executing
-"3066952075008_drain"
+"2929472424320_drain"
     ("after" script)
-invalid command name "3066952144000_drain"
+invalid command name "2929472493312_drain"
     while executing
-"3066952144000_drain"
-    ("after" script)
-ok
-test_update_button_hidden_until_new_version (tests.test_gui.GuiTests.test_update_button_hidden_until_new_version) ... invalid command name "3066952239744_drain"
-    while executing
-"3066952239744_drain"
+"2929472493312_drain"
     ("after" script)
 ok
-test_update_check_errors_are_quiet_unless_manual (tests.test_gui.GuiTests.test_update_check_errors_are_quiet_unless_manual) ... invalid command name "3066843055808_drain"
+test_update_button_hidden_until_new_version (tests.test_gui.GuiTests.test_update_button_hidden_until_new_version) ... invalid command name "2929472588992_drain"
     while executing
-"3066843055808_drain"
+"2929472588992_drain"
     ("after" script)
 ok
-test_update_failure_re_enables_button (tests.test_gui.GuiTests.test_update_failure_re_enables_button) ... invalid command name "3066952310528_drain"
+test_update_check_errors_are_quiet_unless_manual (tests.test_gui.GuiTests.test_update_check_errors_are_quiet_unless_manual) ... invalid command name "2929472247104_drain"
     while executing
-"3066952310528_drain"
+"2929472247104_drain"
+    ("after" script)
+ok
+test_update_failure_re_enables_button (tests.test_gui.GuiTests.test_update_failure_re_enables_button) ... invalid command name "2929472665728_drain"
+    while executing
+"2929472665728_drain"
     ("after" script)
 ok
 test_command_sequence_and_volume (tests.test_player.MciPlayerTests.test_command_sequence_and_volume) ... ok
@@ -223,6 +223,6 @@ test_is_newer_compares_numbers_not_text (tests.test_updater.VersionTests.test_is
 test_parse (tests.test_updater.VersionTests.test_parse) ... ok
 
 ----------------------------------------------------------------------
-Ran 130 tests in 20.800s
+Ran 130 tests in 23.237s
 
 OK
