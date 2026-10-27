@@ -60,6 +60,7 @@ LOG_COLORS = {
     "warn": ORANGE, "error": "#f87171", "speak": "#4ade80",
 }
 LOG_LIMIT_LINES = 1500
+SCREEN_RESERVE = 110  # px высоты экрана под заголовок окна и панель задач
 
 STAT_CARDS: Tuple[Tuple[str, str], ...] = (
     ("viewers", "Зрители сейчас"), ("likes", "Лайки"), ("gifts", "Подарки"), ("follows", "Новые подписки"),
@@ -219,15 +220,20 @@ class App:
         self._fit_window()
 
     def _fit_window(self) -> None:
-        """Размер окна = то, что нужно содержимому (с запасом под ленту), но не больше экрана."""
+        """Размер окна = то, что нужно содержимому (с запасом под ленту), но не больше экрана.
+
+        Из высоты экрана вычитается место под заголовок окна и панель задач Windows,
+        иначе нижняя строка окна оказывается под панелью.
+        """
         root = self.root
         root.update_idletasks()
         need_w, need_h = root.winfo_reqwidth(), root.winfo_reqheight()
         screen_w, screen_h = root.winfo_screenwidth(), root.winfo_screenheight()
-        width = min(max(need_w, 900), screen_w - 40)
-        height = min(need_h + 170, screen_h - 60)
-        root.geometry(f"{width}x{height}+{max(0, (screen_w - width) // 2)}+{max(0, (screen_h - height) // 3)}")
-        root.minsize(min(need_w, screen_w - 40), min(need_h, screen_h - 60))
+        max_w, max_h = screen_w - 40, screen_h - SCREEN_RESERVE
+        width = min(max(need_w, 900), max_w)
+        height = min(need_h + 170, max_h)
+        root.geometry(f"{width}x{height}+{max(0, (screen_w - width) // 2)}+{max(0, (max_h - height) // 2)}")
+        root.minsize(min(need_w, max_w), min(need_h, max_h))
 
     def _build_header(self, parent: tk.Frame) -> None:
         head = tk.Frame(parent, bg=BG)

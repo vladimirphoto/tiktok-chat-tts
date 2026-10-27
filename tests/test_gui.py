@@ -139,6 +139,7 @@ class GuiTests(unittest.TestCase):
 
     def test_everything_visible_at_default_size_and_any_scaling(self):
         """Озвучка, фильтры и подвал целиком помещаются в окно при масштабе 100–200 %."""
+        from ttchat import gui
         from ttchat.gui import App
 
         checked = 0
@@ -153,7 +154,7 @@ class GuiTests(unittest.TestCase):
                       update_check=None)
             self.app = app
             if (self.root.winfo_reqwidth() > self.root.winfo_screenwidth() - 40
-                    or self.root.winfo_reqheight() > self.root.winfo_screenheight() - 60):
+                    or self.root.winfo_reqheight() > self.root.winfo_screenheight() - gui.SCREEN_RESERVE):
                 checked_all = False  # экран тест-машины слишком мал для такого масштаба
                 continue
             self.root.deiconify()
