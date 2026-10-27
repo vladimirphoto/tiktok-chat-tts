@@ -510,22 +510,25 @@ class App:
         outer, body = self._card(
             parent, "Лента событий (▶ — что озвучивается сейчас)", pad=12,
             actions=(("⏭ Пропустить", self.engine.skip), ("🗑 Очистить", self.engine.clear)))
-        body.columnconfigure(0, weight=1)
-        body.rowconfigure(0, weight=1)
+        # Внутри карточки заголовок уже упакован через pack, поэтому сетка — в отдельном фрейме.
+        area = tk.Frame(body, bg=PANEL)
+        area.pack(fill="both", expand=True)
+        area.columnconfigure(0, weight=1)
+        area.rowconfigure(0, weight=1)
 
-        self.log = tk.Text(body, wrap="word", state="disabled", font=FONT, bg=FIELD, fg=FG,
+        self.log = tk.Text(area, wrap="word", state="disabled", font=FONT, bg=FIELD, fg=FG,
                            height=6, relief="flat", bd=0, highlightthickness=1,
                            highlightbackground=BORDER, padx=10, pady=8, insertbackground=FG,
                            spacing3=2)
-        scroll = ttk.Scrollbar(body, command=self.log.yview, style="Dark.Vertical.TScrollbar")
+        scroll = ttk.Scrollbar(area, command=self.log.yview, style="Dark.Vertical.TScrollbar")
         self.log.configure(yscrollcommand=scroll.set)
         self.log.grid(row=0, column=0, sticky="nsew")
         scroll.grid(row=0, column=1, sticky="ns")
         for level, color in LOG_COLORS.items():
             self.log.tag_configure(level, foreground=color)
 
-        self._placeholder = tk.Label(body, text="Событий пока нет\n\nЭфир ещё не начался — "
-                                                "подключимся автоматически, как только он пойдёт.",
+        self._placeholder = tk.Label(area, text="Событий пока нет\n\nЭфир ещё не начался — "
+                                                 "подключимся автоматически, как только он пойдёт.",
                                      bg=FIELD, fg=MUTED, font=FONT, justify="center",
                                      wraplength=380)
         self._placeholder.place(relx=0.5, rely=0.5, anchor="center")
@@ -536,14 +539,17 @@ class App:
         """«Что озвучивать» — отрисованные флажки вместо крестиков."""
         outer, body = self._card(parent, "Что озвучивать")
         outer.grid(row=3, column=0, sticky="ew", pady=(0, 4))
+        # Заголовок карточки упакован через pack, поэтому флажки-сетка — в отдельном фрейме.
+        area = tk.Frame(body, bg=PANEL)
+        area.pack(fill="x", pady=(4, 0))
         columns = 4
         for index, (key, (text, _)) in enumerate(self.flags.items()):
             row, column = divmod(index, columns)
-            box = Checkbox(body, text, self.flag_vars[key], self._changed)
+            box = Checkbox(area, text, self.flag_vars[key], self._changed)
             box.grid(row=row, column=column, sticky="w", padx=(0, 16), pady=2)
             self._flag_widgets[key] = box
         for column in range(columns):
-            body.columnconfigure(column, weight=1, uniform="flags")
+            area.columnconfigure(column, weight=1, uniform="flags")
 
     def _build_footer(self, parent: tk.Frame) -> None:
         foot = tk.Frame(parent, bg=BG)
