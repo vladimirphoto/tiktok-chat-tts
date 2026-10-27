@@ -127,6 +127,14 @@ class PrepareChatTests(unittest.TestCase):
         r = tp.prepare_chat("b", "привет", replace(self.s, ignore_repeats=False), tracker)
         self.assertIsNotNone(r.phrase)
 
+    def test_followers_only(self):
+        s = replace(self.s, followers_only=True)
+        self.assertEqual(tp.prepare_chat("a", "привет", s, is_follower=False).reason,
+                         "не подписчик")
+        self.assertEqual(tp.prepare_chat("a", "привет", s).reason, "подписчик не определён")
+        self.assertIsNotNone(tp.prepare_chat("a", "привет", s, is_follower=True).phrase)
+        self.assertIsNotNone(tp.prepare_chat("a", "привет", self.s, is_follower=False).phrase)
+
     def test_truncates_to_max_len(self):
         s = replace(self.s, max_len=20, read_nick=False)
         r = tp.prepare_chat("a", "слово " * 20, s)
