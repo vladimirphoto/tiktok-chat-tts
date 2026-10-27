@@ -282,7 +282,7 @@ class App:
             pass
         style.configure("Dark.TCombobox", fieldbackground=FIELD, background=BTN, foreground=FG,
                         arrowcolor=MUTED, bordercolor=BORDER, lightcolor=FIELD, darkcolor=FIELD,
-                        selectbackground=FIELD, selectforeground=FG, padding=5)
+                        selectbackground=FIELD, selectforeground=FG, padding=4)
         style.map("Dark.TCombobox",
                   fieldbackground=[("readonly", FIELD)], foreground=[("readonly", FG)],
                   bordercolor=[("focus", ACCENT)],
@@ -466,7 +466,7 @@ class App:
         """Слева — подключение, озвучка и статус модулей, справа — лента событий."""
         main = tk.Frame(parent, bg=BG)
         main.grid(row=2, column=0, sticky="nsew", pady=(0, GAP))
-        main.columnconfigure(0, weight=0, minsize=352)
+        main.columnconfigure(0, weight=0, minsize=376)
         main.columnconfigure(1, weight=1)
         main.rowconfigure(0, weight=1)
 
