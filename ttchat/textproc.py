@@ -118,8 +118,12 @@ class Prepared(NamedTuple):
 
 
 def prepare_chat(nick: str, text: str, settings: Settings,
-                 recent: Optional[RecentTracker] = None) -> Prepared:
-    """Применить фильтры и собрать фразу для озвучки комментария."""
+                 recent: Optional[RecentTracker] = None,
+                 is_follower: Optional[bool] = None) -> Prepared:
+    """Применить фильтры и собрать фразу для озвучки комментария.
+
+    is_follower: True — автор подписан на канал, False — нет, None — TikTok не сообщил.
+    """
     raw = (text or "").strip()
     if not raw:
         return Prepared(None, "пустое сообщение")
@@ -127,6 +131,8 @@ def prepare_chat(nick: str, text: str, settings: Settings,
         return Prepared(None, "команда")
     if settings.skip_links and has_link(raw):
         return Prepared(None, "ссылка")
+    if settings.followers_only and is_follower is not True:
+        return Prepared(None, "не подписчик" if is_follower is False else "подписчик не определён")
 
     cleaned = clean_text(raw)
     if not any(ch.isalnum() for ch in cleaned):
