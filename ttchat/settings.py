@@ -35,6 +35,7 @@ class Settings:
     only_new: bool = True
     read_gifts: bool = True
     read_follows: bool = True
+    followers_only: bool = False   # озвучивать только сообщения подписчиков канала
     blacklist: str = ""
     euler_key: str = ""
 
