@@ -1,15 +1,14 @@
 """Окно приложения (tkinter): тёмный интерфейс в стиле современных desktop-утилит.
 
-Раскладка: шапка с названием и статусом эфира, четыре карточки статистики, слева — подключение,
-озвучка и статус модулей, справа — лента событий, снизу — панель «Что озвучивать».
+Раскладка: шапка с названием и статусом эфира, четыре карточки статистики, слева — подключение
+и озвучка, справа — лента событий, снизу — панель «Что озвучивать» и подвал.
 
-Скруглённые карточки рисуются на Canvas по точкам дуг (без smooth=True), поэтому края ровные,
-а содержимое карточки вложено так, чтобы не перекрывать скругления.
+Скругления рисуются через ttchat.ui: углы растеризуются со сглаживанием, поэтому кромка
+плавная, а не «лесенкой».
 """
 
 from __future__ import annotations
 
-import math
 import queue
 import sys
 import threading
@@ -25,38 +24,12 @@ from .controller import Controller
 from .engine import Engine
 from .player import create_player
 from .settings import DEFAULT_VOICE, Settings, SettingsStore
-from .tts import SAMPLE_PHRASE, VOICES, Synthesizer
-
-# ---- палитра ---------------------------------------------------------------
-
-BG = "#0f1113"          # фон окна
-PANEL = "#17191c"       # поверхность карточки
-FIELD = "#0b0d0f"       # поля ввода и лента
-BORDER = "#292d33"      # тонкая обводка карточек и полей
-BTN = "#23262b"         # обычная кнопка
-BTN_HOVER = "#2e3238"
-FG = "#eceef0"          # основной текст
-MUTED = "#8a9097"       # второстепенный текст
-ACCENT = "#f43f5e"      # акцент (кнопка подключения)
-ACCENT_HOVER = "#e11d48"
-GREEN = "#3ddc84"
-ORANGE = "#f0a13a"
-RED = "#ef5350"
-CHECK_BORDER = "#3a3f46"
-
-FONT = ("Segoe UI", 10)
-FONT_BOLD = ("Segoe UI", 10, "bold")
-FONT_SMALL = ("Segoe UI", 9)
-FONT_TINY = ("Segoe UI", 8)
-FONT_H1 = ("Segoe UI", 14, "bold")
-FONT_H2 = ("Segoe UI", 11, "bold")
-FONT_STAT = ("Segoe UI", 14, "bold")
-
-RADIUS = 12             # радиус скругления карточек
-CARD_PAD = 13           # внутренние поля обычных карточек
-STAT_PAD = 10           # внутренние поля карточек статистики
-GAP = 8                 # отступ между карточками
-SIDE_GAP = 10           # отступ между колонками
+from .tts import VOICES, Synthesizer
+from .ui import (ACCENT, BG, BORDER, FIELD, FG, FONT, FONT_BOLD, FONT_H1, FONT_H2, FONT_SMALL,
+                 FONT_STAT, GREEN, MUTED, ORANGE, PANEL, PANEL_SOFT, RED, Card, Checkbox,
+                 RoundButton, Select, draw_round_rect, icon_download, icon_follow, icon_gift,
+                 icon_heart, icon_play, icon_power, icon_skip, icon_trash, icon_viewers,
+                 text_width)
 
 STATE_VIEW: Dict[str, tuple] = {
     "connecting": ("Подключение…", ORANGE),
@@ -79,13 +52,16 @@ LOG_COLORS = {
 LOG_LIMIT_LINES = 1500
 SCREEN_RESERVE = 80  # px высоты экрана под заголовок окна и панель задач
 
+GAP = 8
+CARD_PAD = 13
+STAT_PAD = 10
+
 # Сверху — четыре карточки: зрители, лайки, подарки, новые подписки.
-# Значения берутся по факту событий (сколько реально подарили/подписались).
-STAT_CARDS: Tuple[Tuple[str, str, str], ...] = (
-    ("viewers", "Зрители сейчас", "◉"),
-    ("likes", "Лайки", "♥"),
-    ("gifts", "Подарки", "◆"),
-    ("follows", "Новые подписки", "＋"),
+STAT_CARDS: Tuple[Tuple[str, str, Any], ...] = (
+    ("viewers", "Зрители сейчас", icon_viewers),
+    ("likes", "Лайки", icon_heart),
+    ("gifts", "Подарки", icon_gift),
+    ("follows", "Новые подписки", icon_follow),
 )
 
 
@@ -103,134 +79,68 @@ def format_uptime(seconds: float) -> str:
     return f"{hours}:{minutes:02d}:{secs:02d}"
 
 
-def rounded_points(x1: float, y1: float, x2: float, y2: float, radius: float,
-                   steps: int = 8) -> list:
-    """Точки прямоугольника со скруглёнными углами (точные дуги, без сглаживания)."""
-    r = max(0.0, min(radius, (x2 - x1) / 2, (y2 - y1) / 2))
-    if r <= 0:
-        return [x1, y1, x2, y1, x2, y2, x1, y2]
-    points: list = []
-    corners = ((x2 - r, y1 + r, -90.0), (x2 - r, y2 - r, 0.0),
-               (x1 + r, y2 - r, 90.0), (x1 + r, y1 + r, 180.0))
-    for cx, cy, start in corners:
-        for index in range(steps + 1):
-            angle = math.radians(start + 90.0 * index / steps)
-            points.extend([cx + r * math.cos(angle), cy + r * math.sin(angle)])
-    return points
+class TextField(tk.Frame):
+    """Поле ввода со сглаженной скруглённой рамкой."""
 
+    HEIGHT = 34
 
-class Card(tk.Frame):
-    """Карточка со скруглёнными краями: фон рисуется на холсте, содержимое — во внутреннем фрейме.
-
-    Внутренний фрейм отступает от края больше радиуса, поэтому его прямые углы не выглядывают
-    из-под скругления, а обводка видна по всему периметру.
-    """
-
-    def __init__(self, parent: tk.Misc, pad: int = CARD_PAD, radius: int = RADIUS,
-                 fill: str = PANEL, outline: str = BORDER, **kwargs: Any) -> None:
-        super().__init__(parent, bg=BG, **kwargs)
-        self._fill = fill
-        self._outline = outline
-        self._radius = radius
-        self._back = tk.Canvas(self, bg=BG, highlightthickness=0, bd=0, takefocus=0)
+    def __init__(self, parent: tk.Misc, var: tk.StringVar, prefix: str = "",
+                 bg: str = PANEL) -> None:
+        super().__init__(parent, bg=bg, height=self.HEIGHT)
+        self.pack_propagate(False)
+        self._bg = bg
+        self._back = tk.Canvas(self, bg=bg, highlightthickness=0, bd=0, takefocus=0)
         self._back.place(x=0, y=0, relwidth=1, relheight=1)
-        self.body = tk.Frame(self, bg=fill)
-        self.body.pack(fill="both", expand=True, padx=pad, pady=pad)
-        self.bind("<Configure>", self._redraw)
+        self._back.bind("<Configure>", lambda e: self._draw())
+        inner = tk.Frame(self, bg=FIELD)
+        inner.pack(fill="both", expand=True, padx=10, pady=6)
+        if prefix:
+            tk.Label(inner, text=prefix, bg=FIELD, fg=MUTED, font=FONT).pack(side="left",
+                                                                            padx=(0, 4))
+        self.entry = tk.Entry(inner, textvariable=var, bg=FIELD, fg=FG, insertbackground=FG,
+                              relief="flat", bd=0, font=FONT, highlightthickness=0,
+                              disabledbackground=FIELD, disabledforeground=MUTED)
+        self.entry.pack(side="left", fill="both", expand=True)
 
-    def _redraw(self, _event: Optional[tk.Event] = None) -> None:
-        width, height = self.winfo_width(), self.winfo_height()
-        if width < 8 or height < 8:
+    def _draw(self) -> None:
+        width, height = self._back.winfo_width(), self._back.winfo_height()
+        if width < 4 or height < 4:
             return
         self._back.delete("all")
-        self._back.create_polygon(
-            rounded_points(0.5, 0.5, width - 0.5, height - 0.5, self._radius),
-            fill=self._fill, outline=self._outline, width=1)
+        draw_round_rect(self._back, 0, 0, width, height, 8, FIELD, BORDER, self._bg)
 
 
-class StatusChip:
+class StatusChip(tk.Canvas):
     """Статус эфира в шапке: скруглённая «пилюля» с точкой и подписью."""
 
-    def __init__(self, parent: tk.Misc, text: str, color: str) -> None:
+    def __init__(self, parent: tk.Misc, text: str, color: str, bg: str = BG) -> None:
+        super().__init__(parent, bg=bg, highlightthickness=0, bd=0, height=30, takefocus=0)
+        self._bg = bg
         self.color = color
-        self.canvas = tk.Canvas(parent, bg=BG, highlightthickness=0, bd=0, width=180, height=30)
-        self.label = tk.Label(self.canvas, text=text, bg=PANEL, fg=color, font=FONT_BOLD)
-        self.label.place(x=24, rely=0.5, anchor="w")
+        self.label = tk.Label(self, text=text, bg=PANEL, fg=color, font=FONT_BOLD)
         self._resize()
 
     def _resize(self) -> None:
-        self.canvas.update_idletasks()
-        width = self.label.winfo_reqwidth() + 36
-        height = max(28, self.label.winfo_reqheight() + 10)
-        self.canvas.configure(width=width, height=height)
+        self.label.update_idletasks()
+        width = self.label.winfo_reqwidth() + 40
+        height = max(29, self.label.winfo_reqheight() + 11)
+        super().configure(width=width, height=height)
+        self.label.place(x=26, rely=0.5, anchor="w")
         self.draw()
 
     def draw(self) -> None:
-        width = int(self.canvas.cget("width"))
-        height = int(self.canvas.cget("height"))
-        self.canvas.delete("pill")
-        self.canvas.create_polygon(
-            rounded_points(0.5, 0.5, width - 0.5, height - 0.5, (height - 1) / 2),
-            fill=PANEL, outline=self.color, width=1, tags="pill")
+        width = int(self.cget("width"))
+        height = int(self.cget("height"))
+        self.delete("pill")
+        draw_round_rect(self, 0, 0, width, height, (height - 1) / 2, PANEL, self.color,
+                        self._bg, tags="pill")
         cy = height / 2
-        self.canvas.create_oval(10, cy - 3.5, 17, cy + 3.5, fill=self.color, outline="",
-                                tags="pill")
+        self.create_oval(11, cy - 3.5, 18, cy + 3.5, fill=self.color, outline="", tags="pill")
 
     def set(self, text: str, color: str) -> None:
         self.color = color
         self.label.configure(text=text, fg=color)
         self._resize()
-
-
-class Checkbox(tk.Frame):
-    """Аккуратный флажок: квадрат с галочкой, без «крестиков» ttk."""
-
-    SIZE = 16
-
-    def __init__(self, parent: tk.Misc, text: str, var: tk.BooleanVar,
-                 command: Optional[Callable[[], None]] = None, **kwargs: Any) -> None:
-        super().__init__(parent, bg=PANEL, **kwargs)
-        self.var = var
-        self.command = command
-        self._box = tk.Canvas(self, width=self.SIZE + 2, height=self.SIZE + 2, bg=PANEL,
-                              highlightthickness=0, takefocus=0)
-        self._box.grid(row=0, column=0, sticky="w", padx=(0, 7))
-        self._label = tk.Label(self, text=text, bg=PANEL, fg=FG, font=FONT, anchor="w",
-                               cursor="hand2")
-        self._label.grid(row=0, column=1, sticky="w")
-        self.configure(cursor="hand2")
-        for widget in (self, self._box, self._label):
-            widget.bind("<Button-1>", self._toggle)
-            widget.bind("<Enter>", self._hover_on)
-            widget.bind("<Leave>", self._hover_off)
-        self._draw()
-
-    def _toggle(self, _event: tk.Event) -> None:
-        self.var.set(not self.var.get())
-        self._draw()
-        if self.command is not None:
-            self.command()
-
-    def _hover_on(self, _event: tk.Event) -> None:
-        self._label.configure(fg="#ffffff")
-
-    def _hover_off(self, _event: tk.Event) -> None:
-        self._label.configure(fg=FG)
-
-    def _draw(self) -> None:
-        on = bool(self.var.get())
-        box = self._box
-        box.delete("all")
-        size = self.SIZE
-        box.create_rectangle(1, 1, size + 1, size + 1,
-                             fill=ACCENT if on else FIELD,
-                             outline=ACCENT if on else CHECK_BORDER, width=1)
-        if on:
-            box.create_line(4, size * 0.55, size * 0.42, size - 3, size - 2, 4,
-                            fill="#ffffff", width=2)
-
-    def refresh(self) -> None:
-        self._draw()
 
 
 class App:
@@ -245,7 +155,6 @@ class App:
         self._closing = False
         self._busy_disconnect = False
         self._live_since: Optional[float] = None
-        self._conn_state = "stopped"
         self._update_check = update_check
         self._update_info: Optional[updater.UpdateInfo] = None
         self._updating = False
@@ -280,30 +189,18 @@ class App:
             style.theme_use("clam")
         except tk.TclError:
             pass
-        style.configure("Dark.TCombobox", fieldbackground=FIELD, background=BTN, foreground=FG,
-                        arrowcolor=MUTED, bordercolor=BORDER, lightcolor=FIELD, darkcolor=FIELD,
-                        selectbackground=FIELD, selectforeground=FG, padding=4)
-        style.map("Dark.TCombobox",
-                  fieldbackground=[("readonly", FIELD)], foreground=[("readonly", FG)],
-                  bordercolor=[("focus", ACCENT)],
-                  selectbackground=[("readonly", FIELD)], selectforeground=[("readonly", FG)])
-        style.configure("Dark.Vertical.TScrollbar", gripcount=0, arrowsize=11, width=9,
-                        background=BTN, darkcolor=BTN, lightcolor=BTN, bordercolor=FIELD,
-                        troughcolor=FIELD, arrowcolor=MUTED, relief="flat")
+        style.configure("Dark.Vertical.TScrollbar", gripcount=0, arrowsize=9, width=8,
+                        background="#2b2f35", darkcolor="#2b2f35", lightcolor="#2b2f35",
+                        bordercolor=PANEL, troughcolor=PANEL, arrowcolor=MUTED, relief="flat")
         style.map("Dark.Vertical.TScrollbar",
-                  background=[("active", BTN_HOVER), ("pressed", BTN_HOVER)])
-        self.root.option_add("*TCombobox*Listbox.background", FIELD)
-        self.root.option_add("*TCombobox*Listbox.foreground", FG)
-        self.root.option_add("*TCombobox*Listbox.selectBackground", ACCENT)
-        self.root.option_add("*TCombobox*Listbox.selectForeground", "#ffffff")
+                  background=[("active", "#383d44"), ("pressed", "#383d44")])
 
     # ---- строительные блоки -------------------------------------------------
 
     def _card(self, parent: tk.Misc, title: Optional[str] = None, subtitle: str = "",
               pad: int = CARD_PAD,
-              actions: Optional[Tuple[Tuple[str, Callable[[], None]], ...]] = None,
-              title_font: tuple = FONT_H2, title_color: str = FG) -> Tuple[Card, tk.Frame]:
-        """Карточка со скруглёнными краями. Возвращает (карточка, фрейм содержимого)."""
+              actions: Optional[Tuple[Tuple[str, Callable[[], None], Any], ...]] = None
+              ) -> Tuple[Card, tk.Frame]:
         card = Card(parent, pad=pad)
         body = card.body
         if not title and not actions:
@@ -314,35 +211,18 @@ class App:
         titles = tk.Frame(head, bg=PANEL)
         titles.grid(row=0, column=0, sticky="w")
         if title:
-            tk.Label(titles, text=title, bg=PANEL, fg=title_color, font=title_font,
-                     anchor="w").pack(anchor="w")
+            tk.Label(titles, text=title, bg=PANEL, fg=FG, font=FONT_H2, anchor="w").pack(
+                anchor="w")
         if subtitle:
             tk.Label(titles, text=subtitle, bg=PANEL, fg=MUTED, font=FONT_SMALL,
                      anchor="w").pack(anchor="w")
         if actions:
             buttons = tk.Frame(head, bg=PANEL)
-            buttons.grid(row=0, column=1, sticky="e")
-            for text, command in actions:
-                self._button(buttons, text, command, small=True).pack(side="left", padx=(6, 0))
+            buttons.grid(row=0, column=1, sticky="ne")
+            for text, command, icon in actions:
+                RoundButton(buttons, text, command, kind="secondary", icon=icon, padx=10,
+                            pady=4, bg=PANEL, font=FONT_SMALL).pack(side="left", padx=(6, 0))
         return card, body
-
-    def _button(self, parent: tk.Misc, text: str, command: Callable[[], None],
-                primary: bool = False, small: bool = False, **kwargs: Any) -> tk.Button:
-        bg, hover = (ACCENT, ACCENT_HOVER) if primary else (BTN, BTN_HOVER)
-        button = tk.Button(parent, text=text, command=command, bg=bg,
-                           fg="#ffffff" if primary else FG,
-                           activebackground=hover, activeforeground=("#ffffff" if primary else FG),
-                           relief="flat", bd=0, font=FONT_BOLD if primary else FONT,
-                           padx=12 if small else 14, pady=3 if small else 7,
-                           cursor="hand2", disabledforeground=MUTED, **kwargs)
-
-        def on_enter(_event: Any) -> None:
-            if str(button.cget("state")) != "disabled":
-                button.configure(bg=hover)
-
-        button.bind("<Enter>", on_enter)
-        button.bind("<Leave>", lambda e: button.configure(bg=bg))
-        return button
 
     def _info_row(self, body: tk.Misc, title: str, value: str,
                   color: str = FG) -> tk.Label:
@@ -354,21 +234,6 @@ class App:
         label = tk.Label(row, text=value, bg=PANEL, fg=color, font=FONT_BOLD, anchor="e")
         label.grid(row=0, column=1, sticky="e")
         return label
-
-    def _field(self, parent: tk.Misc, textvariable: tk.StringVar,
-               prefix: str = "") -> Tuple[tk.Frame, tk.Entry]:
-        """Поле ввода с тонкой обводкой и необязательным префиксом (@)."""
-        frame = tk.Frame(parent, bg=FIELD, highlightthickness=1,
-                         highlightbackground=BORDER, highlightcolor=BORDER)
-        if prefix:
-            tk.Label(frame, text=prefix, bg=FIELD, fg=MUTED, font=FONT).pack(side="left",
-                                                                            padx=(10, 0))
-        entry = tk.Entry(frame, textvariable=textvariable, bg=FIELD, fg=FG,
-                         insertbackground=FG, relief="flat", bd=0, font=FONT,
-                         highlightthickness=0, disabledbackground=FIELD,
-                         disabledforeground=MUTED)
-        entry.pack(side="left", fill="x", expand=True, ipady=4, padx=(8 if prefix else 10, 8))
-        return frame, entry
 
     # ---- построение интерфейса ----------------------------------------------
 
@@ -382,14 +247,14 @@ class App:
         self.v_user = tk.StringVar(value=s.username)
         voice = s.voice if s.voice in VOICES else DEFAULT_VOICE
         self.v_voice = tk.StringVar(value=VOICES[voice])
-        self.v_manual = tk.StringVar()
+        self.v_manual = tk.StringVar()  # остаётся для ручной озвучки из кода, в окне поля нет
         self.flags = {
             "read_nick": ("Читать ник перед сообщением", s.read_nick),
             "skip_commands": ("Пропускать команды (! и /)", s.skip_commands),
             "skip_links": ("Пропускать ссылки", s.skip_links),
             "only_russian": ("Только русские сообщения", s.only_russian),
             "ignore_repeats": ("Не читать повторы и спам", s.ignore_repeats),
-            "only_new": ("Не читать старые при входе", s.only_new),
+            "followers_only": ("Только от подписчиков", s.followers_only),
             "read_gifts": ("Озвучивать подарки", s.read_gifts),
             "read_follows": ("Озвучивать подписки", s.read_follows),
         }
@@ -397,7 +262,7 @@ class App:
         self._flag_widgets: Dict[str, Checkbox] = {}
 
         outer = tk.Frame(root, bg=BG)
-        outer.pack(fill="both", expand=True, padx=16, pady=8)
+        outer.pack(fill="both", expand=True, padx=14, pady=8)
         outer.columnconfigure(0, weight=1)
         outer.rowconfigure(2, weight=1)  # лента событий забирает свободную высоту
         self._outer = outer
@@ -427,24 +292,20 @@ class App:
 
     def _build_header(self, parent: tk.Frame) -> None:
         head = tk.Frame(parent, bg=BG)
-        head.grid(row=0, column=0, sticky="ew", pady=(0, GAP))
+        head.grid(row=0, column=0, sticky="ew", pady=(0, GAP + 2))
         head.columnconfigure(0, weight=1)
-        titles = tk.Frame(head, bg=BG)
-        titles.grid(row=0, column=0, sticky="w")
-        tk.Label(titles, text="Чат TikTok LIVE — озвучка", bg=BG, fg=FG, font=FONT_H1,
-                 anchor="w").pack(anchor="w")
-        tk.Label(titles, text="Лайв-комната TikTok, очередь сообщений и озвучка",
-                 bg=BG, fg=MUTED, font=FONT_SMALL, anchor="w").pack(anchor="w")
+        tk.Label(head, text="Чат TikTok LIVE — озвучка", bg=BG, fg=FG, font=FONT_H1,
+                 anchor="w").grid(row=0, column=0, sticky="w")
         self._chip = StatusChip(head, "Не подключено", MUTED)
-        self._chip.canvas.grid(row=0, column=1, sticky="e")
+        self._chip.grid(row=0, column=1, sticky="e")
         self.lbl_state = self._chip.label
 
     def _build_stats(self, parent: tk.Frame) -> None:
         """Сверху — четыре карточки: зрители, лайки, подарки, новые подписки."""
         row = tk.Frame(parent, bg=BG)
-        row.grid(row=1, column=0, sticky="ew", pady=(0, GAP))
+        row.grid(row=1, column=0, sticky="ew", pady=(0, GAP + 2))
         self.stat_values: Dict[str, tk.Label] = {}
-        for index, (key, title, glyph) in enumerate(STAT_CARDS):
+        for index, (key, title, icon) in enumerate(STAT_CARDS):
             row.columnconfigure(index, weight=1, uniform="stats")
             card = Card(row, pad=STAT_PAD)
             card.grid(row=0, column=index, sticky="nsew",
@@ -455,23 +316,25 @@ class App:
             head.columnconfigure(0, weight=1)
             tk.Label(head, text=title, bg=PANEL, fg=MUTED, font=FONT_SMALL,
                      anchor="w").grid(row=0, column=0, sticky="w")
-            tk.Label(head, text=glyph, bg=PANEL, fg=MUTED, font=FONT_SMALL,
-                     anchor="e").grid(row=0, column=1, sticky="e")
-            value = tk.Label(card.body, text="—" if key == "viewers" else "0", bg=PANEL, fg=FG,
-                             font=FONT_STAT, anchor="w")
-            value.pack(anchor="w", pady=(2, 0))
+            glyph = tk.Canvas(head, width=18, height=18, bg=PANEL, highlightthickness=0,
+                              takefocus=0)
+            glyph.grid(row=0, column=1, sticky="e")
+            icon(glyph, 0, 0, "#6f757c", 18)
+            value = tk.Label(card.body, text="—" if key == "viewers" else "0", bg=PANEL,
+                             fg=FG, font=FONT_STAT, anchor="w")
+            value.pack(anchor="w", pady=(1, 0))
             self.stat_values[key] = value
 
     def _build_main(self, parent: tk.Frame) -> None:
-        """Слева — подключение, озвучка и статус модулей, справа — лента событий."""
+        """Слева — подключение и озвучка, справа — лента событий."""
         main = tk.Frame(parent, bg=BG)
-        main.grid(row=2, column=0, sticky="nsew", pady=(0, GAP))
-        main.columnconfigure(0, weight=0, minsize=376)
+        main.grid(row=2, column=0, sticky="nsew", pady=(0, GAP + 2))
+        main.columnconfigure(0, weight=0, minsize=344)
         main.columnconfigure(1, weight=1)
         main.rowconfigure(0, weight=1)
 
         left = tk.Frame(main, bg=BG)
-        left.grid(row=0, column=0, sticky="new", padx=(0, SIDE_GAP))
+        left.grid(row=0, column=0, sticky="new", padx=(0, 10))
         left.columnconfigure(0, weight=1)
         self._build_connect(left).grid(row=0, column=0, sticky="ew")
         self._build_voice(left).grid(row=1, column=0, sticky="ew", pady=(GAP, 0))
@@ -482,112 +345,103 @@ class App:
         """Подключение: ник, кнопка, подключённый ник и статус."""
         card, body = self._card(parent, "Подключение")
         tk.Label(body, text="Ник стримера", bg=PANEL, fg=MUTED, font=FONT_SMALL,
-                 anchor="w").pack(anchor="w", pady=(6, 3))
-        frame, entry = self._field(body, self.v_user, prefix="@")
-        frame.pack(fill="x")
-        entry.bind("<Return>", lambda e: self.toggle_connect())
-        self.entry_user = entry
+                 anchor="w").pack(anchor="w", pady=(7, 3))
+        field = TextField(body, self.v_user, prefix="@")
+        field.pack(fill="x")
+        self.entry_user = field.entry
+        self.entry_user.bind("<Return>", lambda e: self.toggle_connect())
 
-        self.btn_connect = self._button(body, "Подключиться", self.toggle_connect, primary=True)
-        self.btn_connect.pack(fill="x", pady=(6, 2))
+        self.btn_connect = RoundButton(body, "Подключиться", self.toggle_connect,
+                                       kind="primary", icon=icon_power, pady=7)
+        self.btn_connect.pack(fill="x", pady=(7, 2))
 
         self._nick_label = self._info_row(body, "Подключённый ник", "—", ACCENT)
         self._status_label = self._info_row(body, "Статус подключения", "Не подключено", ORANGE)
         return card
 
     def _build_voice(self, parent: tk.Misc) -> Card:
-        """Озвучка: выбор голоса, проверка и своя фраза."""
+        """Озвучка: выбор голоса и проверка."""
         card, body = self._card(parent, "Озвучка")
         picker = tk.Frame(body, bg=PANEL)
-        picker.pack(fill="x", pady=(6, 0))
+        picker.pack(fill="x", pady=(7, 0))
         picker.columnconfigure(0, weight=1)
-        self.cmb_voice = ttk.Combobox(picker, textvariable=self.v_voice, state="readonly",
-                                      style="Dark.TCombobox", font=FONT, width=1,
-                                      values=[VOICES[v] for v in self.voice_ids])
+        self.cmb_voice = Select(picker, self.v_voice, [VOICES[v] for v in self.voice_ids],
+                                command=self._changed, bg=PANEL)
         self.cmb_voice.grid(row=0, column=0, sticky="ew")
-        self.cmb_voice.bind("<<ComboboxSelected>>", lambda e: self._changed())
-        self._button(picker, "▶ Проверить", self.test_voice).grid(row=0, column=1, padx=(6, 0))
-
-        manual = tk.Frame(body, bg=PANEL)
-        manual.pack(fill="x", pady=(5, 0))
-        manual.columnconfigure(0, weight=1)
-        frame, field = self._field(manual, self.v_manual)
-        frame.grid(row=0, column=0, sticky="ew", padx=(0, 6))
-        field.bind("<Return>", lambda e: self.speak_manual())
-        self._button(manual, "Озвучить текст", self.speak_manual).grid(row=0, column=1)
+        self.btn_test = RoundButton(body, "Проверить голос", self.test_voice, kind="secondary",
+                                    icon=icon_play, pady=6)
+        self.btn_test.pack(fill="x", pady=(6, 0))
         return card
 
     def _build_feed(self, parent: tk.Misc) -> Card:
         """Справа — лента событий: чат, подарки, подписки, входы зрителей."""
         card, body = self._card(
-            parent, "Лента событий", "▶ — что озвучивается сейчас",
-            actions=(("⏭ Пропустить", self.engine.skip), ("✕ Очистить", self.engine.clear)))
+            parent, "Лента событий", "Что озвучивается сейчас",
+            actions=(("Пропустить", self.engine.skip, icon_skip),
+                     ("Очистить", self.engine.clear, icon_trash)))
         area = tk.Frame(body, bg=PANEL)
-        area.pack(fill="both", expand=True, pady=(10, 0))
+        area.pack(fill="both", expand=True, pady=(8, 0))
         area.columnconfigure(0, weight=1)
         area.rowconfigure(0, weight=1)
 
-        self.log = tk.Text(area, wrap="word", state="disabled", font=FONT, bg=FIELD, fg=FG,
-                           height=8, width=20, relief="flat", bd=0, highlightthickness=1,
-                           highlightbackground=BORDER, highlightcolor=BORDER, padx=12, pady=10,
-                           insertbackground=FG, spacing1=1, spacing3=3)
+        self.log = tk.Text(area, wrap="word", state="disabled", font=FONT, bg=PANEL, fg=FG,
+                           height=8, width=20, relief="flat", bd=0, highlightthickness=0,
+                           padx=2, pady=2, insertbackground=FG, spacing1=1, spacing3=4)
         scroll = ttk.Scrollbar(area, command=self.log.yview, style="Dark.Vertical.TScrollbar")
         self.log.configure(yscrollcommand=scroll.set)
         self.log.grid(row=0, column=0, sticky="nsew")
-        scroll.grid(row=0, column=1, sticky="ns", padx=(6, 0))
+        scroll.grid(row=0, column=1, sticky="ns", padx=(8, 0))
         for level, color in LOG_COLORS.items():
             self.log.tag_configure(level, foreground=color)
 
-        # Пустое состояние поверх ленты — показывается, только когда событий нет.
-        self._placeholder = tk.Frame(area, bg=FIELD)
-        icon = tk.Canvas(self._placeholder, width=52, height=52, bg=FIELD, highlightthickness=0)
-        icon.pack()
-        icon.create_oval(2, 2, 50, 50, fill="#1b1e22", outline=BORDER)
-        icon.create_text(26, 26, text="✉", fill=MUTED, font=("Segoe UI", 16))
-        tk.Label(self._placeholder, text="Событий пока нет", bg=FIELD, fg=FG,
-                 font=FONT_BOLD).pack(pady=(10, 4))
+        # Пустое состояние — показывается, только когда событий нет.
+        self._placeholder = tk.Frame(area, bg=PANEL)
+        tk.Label(self._placeholder, text="Событий пока нет", bg=PANEL, fg=FG,
+                 font=FONT_BOLD).pack()
         tk.Label(self._placeholder, text="Эфир ещё не начался — подключимся автоматически,\n"
                                          "как только он пойдёт.",
-                 bg=FIELD, fg=MUTED, font=FONT_SMALL, justify="center").pack()
+                 bg=PANEL, fg=MUTED, font=FONT_SMALL, justify="center").pack(pady=(6, 0))
         return card
 
     def _build_filters(self, parent: tk.Frame) -> None:
-        """«Что озвучивать» — отрисованные флажки вместо крестиков."""
+        """«Что озвучивать» — сглаженные флажки в четыре колонки."""
         card, body = self._card(parent, "Что озвучивать")
-        card.grid(row=3, column=0, sticky="ew", pady=(0, GAP - 2))
+        card.grid(row=3, column=0, sticky="ew", pady=(0, GAP))
         area = tk.Frame(body, bg=PANEL)
-        area.pack(fill="x", pady=(6, 0))
+        area.pack(fill="x", pady=(7, 0))
         columns = 4
         for index, (key, (text, _)) in enumerate(self.flags.items()):
             row, column = divmod(index, columns)
             box = Checkbox(area, text, self.flag_vars[key], self._changed)
-            box.grid(row=row, column=column, sticky="w", pady=1)
+            box.grid(row=row, column=column, sticky="w", pady=2)
             self._flag_widgets[key] = box
         for column in range(columns):
             area.columnconfigure(column, weight=1, uniform="flags")
+        tk.Label(body, text="Старые сообщения при входе не читаются всегда. "
+                            "Подписчик — по данным TikTok или по подписке в этом эфире.",
+                 bg=PANEL, fg=MUTED, font=FONT_SMALL, anchor="w").pack(anchor="w",
+                                                                     pady=(6, 0))
 
     def _build_footer(self, parent: tk.Frame) -> None:
         foot = tk.Frame(parent, bg=BG)
-        foot.grid(row=4, column=0, sticky="ew")
+        foot.grid(row=4, column=0, sticky="ew", pady=(2, 0))
         foot.columnconfigure(1, weight=1)
         tk.Label(foot, text=f"{APP_NAME} · версия {__version__}", bg=BG, fg=MUTED,
                  font=FONT_SMALL).grid(row=0, column=0, sticky="w")
         live = tk.Frame(foot, bg=BG)
-        live.grid(row=0, column=2, sticky="e", padx=(0, 16))
+        live.grid(row=0, column=2, sticky="e", padx=(0, 18))
         tk.Label(live, text="В эфире", bg=BG, fg=MUTED, font=FONT_SMALL).pack(side="left",
-                                                                           padx=(0, 5))
+                                                                            padx=(0, 5))
         self.stat_values["uptime"] = tk.Label(live, text="—", bg=BG, fg=FG, font=FONT_SMALL)
         self.stat_values["uptime"].pack(side="left")
-        self.btn_check = tk.Button(foot, text="Проверить обновления",
-                                   command=lambda: self._start_update_check(manual=True),
-                                   bg=BG, fg=MUTED, activebackground=BG, activeforeground=FG,
-                                   relief="flat", bd=0, font=FONT_SMALL, cursor="hand2")
-        self.btn_check.grid(row=0, column=3, sticky="e", padx=(0, 16))
-        self.btn_update = self._button(foot, "⬆ Обновить", self.apply_update, primary=True)
-        self.btn_update.grid(row=0, column=4, sticky="e", padx=(0, 16))
+        self.btn_check = RoundButton(foot, "Проверить обновления",
+                                     lambda: self._start_update_check(manual=True),
+                                     kind="ghost", font=FONT_SMALL, padx=8, pady=4)
+        self.btn_check.grid(row=0, column=3, sticky="e", padx=(0, 10))
+        self.btn_update = RoundButton(foot, "Обновить", self.apply_update, kind="primary",
+                                      icon=icon_download, font=FONT_SMALL, padx=10, pady=4)
+        self.btn_update.grid(row=0, column=4, sticky="e")
         self.btn_update.grid_remove()
-        self.lbl_queue = tk.Label(foot, text="В очереди: 0", bg=BG, fg=MUTED, font=FONT_SMALL)
-        self.lbl_queue.grid(row=0, column=5, sticky="e")
 
     # ---- настройки -----------------------------------------------------------
 
@@ -599,6 +453,7 @@ class App:
             current,
             username=self.v_user.get().strip(),
             voice=voice,
+            only_new=True,  # старые сообщения при входе не читаем всегда
             **{key: bool(var.get()) for key, var in self.flag_vars.items()},
         ).validated()
         self.settings = new
@@ -640,7 +495,7 @@ class App:
     def test_voice(self) -> None:
         self._collect()
         self.engine.clear()
-        self.controller.speak(SAMPLE_PHRASE)
+        self.controller.speak("Проверка голоса. Озвучка чата TikTok готова к работе.")
 
     def speak_manual(self) -> None:
         text = self.v_manual.get().strip()
@@ -677,7 +532,7 @@ class App:
                 self._log("info", f"Установлена последняя версия ({__version__}).")
             return
         self._update_info = result
-        self.btn_update.configure(text=f"⬆ Обновить до {result.version}", state="normal")
+        self.btn_update.configure(text=f"Обновить до {result.version}", state="normal")
         self.btn_update.grid()
         self._log("info", f"Доступна новая версия {result.version}. Нажмите «Обновить» внизу окна.")
 
@@ -694,7 +549,7 @@ class App:
         if not messagebox.askyesno(APP_NAME, f"Скачать версию {info.version} и перезапустить программу?"):
             return
         self._updating = True
-        self.btn_update.configure(state="disabled", text="Скачиваю… 0%")
+        self.btn_update.configure(text="Скачивание… 0%")
         target = Path(sys.executable)
 
         def work() -> None:
@@ -713,7 +568,7 @@ class App:
             updater.launch_replacer(path, target)
         except Exception as ex:
             self._updating = False
-            self.btn_update.configure(state="normal", text="⬆ Повторить обновление")
+            self.btn_update.configure(state="normal", text="Повторить обновление")
             self._log("error", f"Не удалось запустить обновление: {ex}")
             return False
         self._log("info", "Обновление скачано. Перезапускаюсь…")
@@ -723,9 +578,8 @@ class App:
     # ---- состояние, лента и статистика ---------------------------------------
 
     def _apply_state(self, state: str) -> None:
-        """Статус в шапке, в левой колонке и в блоке «Статус модулей»."""
+        """Статус в шапке и в левой колонке."""
         text, color = STATE_VIEW.get(state, (state, MUTED))
-        self._conn_state = state
         self._chip.set(text, color)
         nick = self.v_user.get().strip()
         connected = state in ("connected", "reconnecting", "offline")
@@ -739,7 +593,7 @@ class App:
 
     def _log(self, level: str, message: str) -> None:
         stamp = time.strftime("%H:%M:%S")
-        prefix = "▶ " if level == "speak" else ""
+        prefix = "→ " if level == "speak" else ""
         self.log.configure(state="normal")
         self.log.insert("end", f"[{stamp}] {prefix}{message}\n", level)
         lines = int(self.log.index("end-1c").split(".")[0])
@@ -787,10 +641,10 @@ class App:
                 elif kind == "update":
                     self._on_update_result(item[1], item[2])
                 elif kind == "progress":
-                    self.btn_update.configure(text=f"Скачиваю… {item[1]}%")
+                    self.btn_update.configure(text=f"Скачивание… {item[1]}%")
                 elif kind == "update_failed":
                     self._updating = False
-                    self.btn_update.configure(state="normal", text="⬆ Повторить обновление")
+                    self.btn_update.configure(state="normal", text="Повторить обновление")
                     self._log("error", f"Обновление не удалось: {item[1]}")
                 elif kind == "update_ready":
                     if self._finish_update(item[1], item[2]):
@@ -798,7 +652,6 @@ class App:
         except queue.Empty:
             pass
         self._refresh_stats()
-        self.lbl_queue.configure(text=f"В очереди: {self.engine.pending()}")
         self.root.after(100, self._drain)
 
     def close(self) -> None:
