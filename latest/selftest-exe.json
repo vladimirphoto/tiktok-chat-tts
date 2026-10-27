@@ -9,14 +9,14 @@
       "name": "Импорт библиотек и модулей",
       "ok": true,
       "required": true,
-      "seconds": 2.58,
+      "seconds": 2.77,
       "detail": "импортировано модулей: 14"
     },
     {
       "name": "Настройки",
       "ok": true,
       "required": true,
-      "seconds": 0.02,
+      "seconds": 0.01,
       "detail": "сохранение и чтение настроек работают"
     },
     {
@@ -37,7 +37,7 @@
       "name": "Синтез: ru-RU-SvetlanaNeural",
       "ok": true,
       "required": true,
-      "seconds": 0.62,
+      "seconds": 0.69,
       "detail": "42336 байт, ≈7.1 с речи"
     },
     {
@@ -51,43 +51,43 @@
       "name": "Синтез: en-US-EmmaMultilingualNeural",
       "ok": true,
       "required": false,
-      "seconds": 0.61,
+      "seconds": 0.66,
       "detail": "31680 байт, ≈5.3 с речи"
     },
     {
       "name": "Синтез: fr-FR-VivienneMultilingualNeural",
       "ok": true,
       "required": false,
-      "seconds": 0.58,
+      "seconds": 0.69,
       "detail": "30240 байт, ≈5.0 с речи"
     },
     {
       "name": "Синтез: de-DE-SeraphinaMultilingualNeural",
       "ok": true,
       "required": false,
-      "seconds": 0.67,
+      "seconds": 0.62,
       "detail": "36432 байт, ≈6.1 с речи"
     },
     {
       "name": "Воспроизведение (MCI)",
       "ok": false,
       "required": false,
-      "seconds": 0.59,
+      "seconds": 0.72,
       "detail": "PlayerError: MCI «open»: A problem occurred in initializing MCI."
     },
     {
       "name": "Очередь: синтез → воспроизведение",
       "ok": false,
       "required": false,
-      "seconds": 1.06,
+      "seconds": 1.11,
       "detail": "RuntimeError: Ошибка воспроизведения: MCI «open»: A problem occurred in initializing MCI."
     },
     {
       "name": "TikTok: попытка подключения к @tiktok",
       "ok": true,
       "required": false,
-      "seconds": 1.67,
-      "detail": "offline: Стример сейчас не в эфире. Повтор через 30 с."
+      "seconds": 1.55,
+      "detail": "offline: Стример сейчас не в эфире (или TikTok не отдаёт эфир). Проверьте ник. Повтор через 30 с."
     }
   ]
 }

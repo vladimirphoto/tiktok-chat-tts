@@ -30,62 +30,62 @@ test_synth_error_is_reported_and_queue_continues (tests.test_engine.EngineTests.
 test_uses_current_voice_rate_pitch_volume (tests.test_engine.EngineTests.test_uses_current_voice_rate_pitch_volume) ... ok
 test_builds_with_defaults (tests.test_gui.GuiTests.test_builds_with_defaults) ... ok
 test_close_saves_and_shuts_down (tests.test_gui.GuiTests.test_close_saves_and_shuts_down) ... ok
-test_connect_chat_flow_and_disconnect (tests.test_gui.GuiTests.test_connect_chat_flow_and_disconnect) ... invalid command name "2557182633088_save"
+test_connect_chat_flow_and_disconnect (tests.test_gui.GuiTests.test_connect_chat_flow_and_disconnect) ... invalid command name "3010611664704_save"
     while executing
-"2557182633088_save"
+"3010611664704_save"
     ("after" script)
-invalid command name "2557185231040_drain"
+invalid command name "3010613483008_drain"
     while executing
-"2557185231040_drain"
+"3010613483008_drain"
     ("after" script)
-invalid command name "2557184129216_drain"
+invalid command name "3010613488704_drain"
     while executing
-"2557184129216_drain"
+"3010613488704_drain"
     ("after" script)
-invalid command name "2557182631872_save"
+invalid command name "3010610813376_save"
     while executing
-"2557182631872_save"
+"3010610813376_save"
     ("after" script)
 ok
 test_invalid_spinbox_value_keeps_previous (tests.test_gui.GuiTests.test_invalid_spinbox_value_keeps_previous) ... ok
-test_invalid_username_is_reported (tests.test_gui.GuiTests.test_invalid_username_is_reported) ... invalid command name "2557182626816_drain"
+test_invalid_username_is_reported (tests.test_gui.GuiTests.test_invalid_username_is_reported) ... invalid command name "3010610811456_drain"
     while executing
-"2557182626816_drain"
+"3010610811456_drain"
     ("after" script)
-invalid command name "2557185238272_save"
+invalid command name "3010610813888_save"
     while executing
-"2557185238272_save"
+"3010610813888_save"
     ("after" script)
-invalid command name "2557184685056_drain"
+invalid command name "3010612885184_drain"
     while executing
-"2557184685056_drain"
+"3010612885184_drain"
     ("after" script)
 ok
 test_log_is_trimmed (tests.test_gui.GuiTests.test_log_is_trimmed) ... ok
-test_settings_are_collected_and_saved (tests.test_gui.GuiTests.test_settings_are_collected_and_saved) ... invalid command name "2557182605504_drain"
+test_settings_are_collected_and_saved (tests.test_gui.GuiTests.test_settings_are_collected_and_saved) ... invalid command name "3010610784448_drain"
     while executing
-"2557182605504_drain"
+"3010610784448_drain"
     ("after" script)
-invalid command name "2557182605440_save"
+invalid command name "3010610808320_save"
     while executing
-"2557182605440_save"
+"3010610808320_save"
     ("after" script)
-invalid command name "2557093674816_save"
+invalid command name "3010610807168_save"
     while executing
-"2557093674816_save"
+"3010610807168_save"
     ("after" script)
-invalid command name "2557184611904_drain"
+invalid command name "3010613510592_drain"
     while executing
-"2557184611904_drain"
+"3010613510592_drain"
     ("after" script)
-invalid command name "2557182603712_save"
+invalid command name "3010610787136_save"
     while executing
-"2557182603712_save"
+"3010610787136_save"
     ("after" script)
 ok
-test_test_voice_and_manual_speech (tests.test_gui.GuiTests.test_test_voice_and_manual_speech) ... invalid command name "2557182422592_drain"
+test_test_voice_and_manual_speech (tests.test_gui.GuiTests.test_test_voice_and_manual_speech) ... invalid command name "3010610296000_drain"
     while executing
-"2557182422592_drain"
+"3010610296000_drain"
     ("after" script)
 ok
 test_command_sequence_and_volume (tests.test_player.MciPlayerTests.test_command_sequence_and_volume) ... ok
@@ -137,6 +137,9 @@ test_short_text_unchanged (tests.test_textproc.TruncateTests.test_short_text_unc
 test_messages_mention_retry_delay (tests.test_tiktok.DescribeTests.test_messages_mention_retry_delay) ... ok
 test_invalid (tests.test_tiktok.ParseUsernameTests.test_invalid) ... ok
 test_variants (tests.test_tiktok.ParseUsernameTests.test_variants) ... ok
+test_empty_room_id_means_offline (tests.test_tiktok.RealClassifyTests.test_empty_room_id_means_offline) ... ok
+test_failed_parse_room_id_means_offline (tests.test_tiktok.RealClassifyTests.test_failed_parse_room_id_means_offline) ... ok
+test_other_value_error_stays_other (tests.test_tiktok.RealClassifyTests.test_other_value_error_stays_other) ... ok
 test_age_restricted_is_fatal (tests.test_tiktok.ServiceTests.test_age_restricted_is_fatal) ... ok
 test_connects_forwards_events_and_stops (tests.test_tiktok.ServiceTests.test_connects_forwards_events_and_stops) ... ok
 test_double_start_rejected (tests.test_tiktok.ServiceTests.test_double_start_rejected) ... ok
@@ -157,6 +160,6 @@ test_success_passes_arguments (tests.test_tts.SynthesizerTests.test_success_pass
 test_timeout_is_error (tests.test_tts.SynthesizerTests.test_timeout_is_error) ... ok
 
 ----------------------------------------------------------------------
-Ran 100 tests in 18.244s
+Ran 103 tests in 17.544s
 
 OK
