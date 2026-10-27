@@ -74,7 +74,7 @@ class Recorder:
 
     def handlers(self):
         return Handlers(
-            lambda n, t, ts: self.comments.append((n, t, ts)),
+            lambda n, t, ts, f=None: self.comments.append((n, t, ts)),
             lambda n, g, c: self.gifts.append((n, g, c)),
             lambda n: self.follows.append(n),
             lambda: None,
@@ -228,6 +228,28 @@ class ServiceTests(unittest.TestCase):
         self.assertTrue(wait_for(lambda: rec.states().count("connected") == 2))
         svc.stop()
         self.assertEqual([u for u, _ in lib.made], ["a1", "b2"])
+
+
+class FollowerTests(unittest.TestCase):
+    def test_reads_follow_status(self):
+        import types
+
+        followed = types.SimpleNamespace(follow_info=types.SimpleNamespace(follow_status=1))
+        stranger = types.SimpleNamespace(follow_info=types.SimpleNamespace(follow_status=0))
+        self.assertTrue(tiktok.follower_of(types.SimpleNamespace(user=followed)))
+        self.assertFalse(tiktok.follower_of(types.SimpleNamespace(user=stranger)))
+
+    def test_reads_boolean_flag(self):
+        import types
+
+        user = types.SimpleNamespace(is_follower=True)
+        self.assertTrue(tiktok.follower_of(types.SimpleNamespace(user=user)))
+
+    def test_unknown_stays_none(self):
+        import types
+
+        self.assertIsNone(tiktok.follower_of(types.SimpleNamespace(user=types.SimpleNamespace())))
+        self.assertIsNone(tiktok.follower_of(types.SimpleNamespace()))
 
 
 class DescribeTests(unittest.TestCase):
