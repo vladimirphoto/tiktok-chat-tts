@@ -161,7 +161,7 @@ class GuiTests(unittest.TestCase):
             self.root.update()
             width, height = self.root.winfo_width(), self.root.winfo_height()
             for name, widget in (("озвучка", app.cmb_voice), ("подключение", app.btn_connect),
-                                 ("фильтры", app.lbl_queue), ("лента", app.log)):
+                                 ("фильтры", app._flag_widgets["read_gifts"]), ("лента", app.log)):
                 bottom = widget.winfo_rooty() - self.root.winfo_rooty() + widget.winfo_height()
                 right = widget.winfo_rootx() - self.root.winfo_rootx() + widget.winfo_width()
                 self.assertGreater(widget.winfo_height(), 10, f"{name}: {scaling}")
