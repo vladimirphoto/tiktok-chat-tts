@@ -30,62 +30,62 @@ test_synth_error_is_reported_and_queue_continues (tests.test_engine.EngineTests.
 test_uses_current_voice_rate_pitch_volume (tests.test_engine.EngineTests.test_uses_current_voice_rate_pitch_volume) ... ok
 test_builds_with_defaults (tests.test_gui.GuiTests.test_builds_with_defaults) ... ok
 test_close_saves_and_shuts_down (tests.test_gui.GuiTests.test_close_saves_and_shuts_down) ... ok
-test_connect_chat_flow_and_disconnect (tests.test_gui.GuiTests.test_connect_chat_flow_and_disconnect) ... invalid command name "2068413441088_save"
+test_connect_chat_flow_and_disconnect (tests.test_gui.GuiTests.test_connect_chat_flow_and_disconnect) ... invalid command name "2557182633088_save"
     while executing
-"2068413441088_save"
+"2557182633088_save"
     ("after" script)
-invalid command name "2068416109760_drain"
+invalid command name "2557185231040_drain"
     while executing
-"2068416109760_drain"
+"2557185231040_drain"
     ("after" script)
-invalid command name "2068416106496_drain"
+invalid command name "2557184129216_drain"
     while executing
-"2068416106496_drain"
+"2557184129216_drain"
     ("after" script)
-FAIL
+invalid command name "2557182631872_save"
+    while executing
+"2557182631872_save"
+    ("after" script)
+ok
 test_invalid_spinbox_value_keeps_previous (tests.test_gui.GuiTests.test_invalid_spinbox_value_keeps_previous) ... ok
-test_invalid_username_is_reported (tests.test_gui.GuiTests.test_invalid_username_is_reported) ... invalid command name "2068413432896_drain"
+test_invalid_username_is_reported (tests.test_gui.GuiTests.test_invalid_username_is_reported) ... invalid command name "2557182626816_drain"
     while executing
-"2068413432896_drain"
+"2557182626816_drain"
     ("after" script)
-invalid command name "2068416116736_save"
+invalid command name "2557185238272_save"
     while executing
-"2068416116736_save"
+"2557185238272_save"
     ("after" script)
-invalid command name "2068413439680_save"
+invalid command name "2557184685056_drain"
     while executing
-"2068413439680_save"
-    ("after" script)
-invalid command name "2068415488832_drain"
-    while executing
-"2068415488832_drain"
+"2557184685056_drain"
     ("after" script)
 ok
 test_log_is_trimmed (tests.test_gui.GuiTests.test_log_is_trimmed) ... ok
-test_settings_are_collected_and_saved (tests.test_gui.GuiTests.test_settings_are_collected_and_saved) ... invalid command name "2068413239808_drain"
+test_settings_are_collected_and_saved (tests.test_gui.GuiTests.test_settings_are_collected_and_saved) ... invalid command name "2557182605504_drain"
     while executing
-"2068413239808_drain"
+"2557182605504_drain"
     ("after" script)
-invalid command name "2068413414080_save"
+invalid command name "2557182605440_save"
     while executing
-"2068413414080_save"
+"2557182605440_save"
     ("after" script)
-invalid command name "2068413411072_save"
+invalid command name "2557093674816_save"
     while executing
-"2068413411072_save"
+"2557093674816_save"
     ("after" script)
-invalid command name "2068416138880_drain"
+invalid command name "2557184611904_drain"
     while executing
-"2068416138880_drain"
+"2557184611904_drain"
     ("after" script)
-invalid command name "2068413378048_save"
+invalid command name "2557182603712_save"
     while executing
-"2068413378048_save"
+"2557182603712_save"
     ("after" script)
 ok
-test_test_voice_and_manual_speech (tests.test_gui.GuiTests.test_test_voice_and_manual_speech) ... invalid command name "2068413106240_drain"
+test_test_voice_and_manual_speech (tests.test_gui.GuiTests.test_test_voice_and_manual_speech) ... invalid command name "2557182422592_drain"
     while executing
-"2068413106240_drain"
+"2557182422592_drain"
     ("after" script)
 ok
 test_command_sequence_and_volume (tests.test_player.MciPlayerTests.test_command_sequence_and_volume) ... ok
@@ -156,15 +156,7 @@ test_retries_then_succeeds (tests.test_tts.SynthesizerTests.test_retries_then_su
 test_success_passes_arguments (tests.test_tts.SynthesizerTests.test_success_passes_arguments) ... ok
 test_timeout_is_error (tests.test_tts.SynthesizerTests.test_timeout_is_error) ... ok
 
-======================================================================
-FAIL: test_connect_chat_flow_and_disconnect (tests.test_gui.GuiTests.test_connect_chat_flow_and_disconnect)
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\tests\test_gui.py", line 69, in test_connect_chat_flow_and_disconnect
-    self.assertIn("Маша: Привет всем", log_text(self.app))
-AssertionError: 'Маша: Привет всем' not found in '[05:38:53] TikTok Chat TTS 1.0.0. Введите ник стримера и нажмите «Подключиться».\n[05:38:53] Подключаюсь к @streamer…\n[05:38:53] Подключено к @streamer\n\n'
+Ran 100 tests in 18.244s
 
-----------------------------------------------------------------------
-Ran 100 tests in 14.902s
-
-FAILED (failures=1)
+OK

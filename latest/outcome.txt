@@ -1,5 +1,5 @@
-unit=failure
-selftest_source=failure
+unit=success
+selftest_source=success
 build=success
-selftest_exe=failure
+selftest_exe=success
 gui=success
