@@ -8,7 +8,7 @@ test_selftest_writes_report_even_when_network_is_down (tests.test_cli.ReportTest
   warnings.warn(  # deprecated in 14.0 - 2024-11-09
 C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages\TikTokLive\client\ws\ws_connect.py:6: DeprecationWarning: websockets.exceptions.InvalidStatusCode is deprecated
   from websockets.exceptions import InvalidStatusCode  # type: ignore[attr-defined]
-C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\subprocess.py:1127: ResourceWarning: subprocess 7924 is still running
+C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\subprocess.py:1127: ResourceWarning: subprocess 3592 is still running
   _warn("subprocess %s is still running" % self.pid,
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
 ok
@@ -37,91 +37,103 @@ test_synth_error_is_reported_and_queue_continues (tests.test_engine.EngineTests.
 test_uses_current_voice_and_fixed_volume (tests.test_engine.EngineTests.test_uses_current_voice_and_fixed_volume) ... ok
 test_builds_with_defaults (tests.test_gui.GuiTests.test_builds_with_defaults) ... ok
 test_close_saves_and_shuts_down (tests.test_gui.GuiTests.test_close_saves_and_shuts_down) ... ok
-test_connect_chat_flow_and_disconnect (tests.test_gui.GuiTests.test_connect_chat_flow_and_disconnect) ... invalid command name "2305807836608_drain"
+test_connect_chat_flow_and_disconnect (tests.test_gui.GuiTests.test_connect_chat_flow_and_disconnect) ... invalid command name "2304400626176_drain"
     while executing
-"2305807836608_drain"
+"2304400626176_drain"
     ("after" script)
-invalid command name "2305807454656_drain"
+invalid command name "2304401288768_drain"
     while executing
-"2305807454656_drain"
+"2304401288768_drain"
     ("after" script)
 ok
 test_everything_visible_at_default_size_and_any_scaling (tests.test_gui.GuiTests.test_everything_visible_at_default_size_and_any_scaling)
-Озвучка, фильтры и подвал целиком помещаются в окно при масштабе 100–200 %. ... invalid command name "2305805264768_drain"
+Озвучка, фильтры и подвал целиком помещаются в окно при масштабе 100–200 %. ... invalid command name "2304398425728_drain"
     while executing
-"2305805264768_drain"
+"2304398425728_drain"
     ("after" script)
-invalid command name "2305805301824_save"
+invalid command name "2304398447168_save"
     while executing
-"2305805301824_save"
+"2304398447168_save"
     ("after" script)
-invalid command name "2305811369856_drain"
+invalid command name "2304404508544_drain"
     while executing
-"2305811369856_drain"
+"2304404508544_drain"
     ("after" script)
-ERROR
+ok
 test_format_helpers (tests.test_gui.GuiTests.test_format_helpers) ... ok
-test_invalid_username_is_reported (tests.test_gui.GuiTests.test_invalid_username_is_reported) ... invalid command name "2305805294976_drain"
+test_invalid_username_is_reported (tests.test_gui.GuiTests.test_invalid_username_is_reported) ... invalid command name "2304391947008_drain"
     while executing
-"2305805294976_drain"
+"2304391947008_drain"
     ("after" script)
-invalid command name "2305811555776_drain"
+invalid command name "2304404659840_drain"
     while executing
-"2305811555776_drain"
+"2304404659840_drain"
+    ("after" script)
+invalid command name "2304404708480_drain"
+    while executing
+"2304404708480_drain"
+    ("after" script)
+invalid command name "2304404805184_drain"
+    while executing
+"2304404805184_drain"
+    ("after" script)
+invalid command name "2304404853184_drain"
+    while executing
+"2304404853184_drain"
     ("after" script)
 ok
 test_log_is_trimmed (tests.test_gui.GuiTests.test_log_is_trimmed) ... ok
 test_no_advanced_button (tests.test_gui.GuiTests.test_no_advanced_button) ... ok
 test_no_advanced_settings (tests.test_gui.GuiTests.test_no_advanced_settings) ... ok
 test_no_voice_tuning_widgets (tests.test_gui.GuiTests.test_no_voice_tuning_widgets) ... ok
-test_settings_are_collected_and_saved (tests.test_gui.GuiTests.test_settings_are_collected_and_saved) ... invalid command name "2305805323584_drain"
+test_settings_are_collected_and_saved (tests.test_gui.GuiTests.test_settings_are_collected_and_saved) ... invalid command name "2304398339648_drain"
     while executing
-"2305805323584_drain"
+"2304398339648_drain"
     ("after" script)
-invalid command name "2305805320256_save"
+invalid command name "2304398337792_save"
     while executing
-"2305805320256_save"
+"2304398337792_save"
     ("after" script)
-invalid command name "2305811684672_drain"
+invalid command name "2304404999552_drain"
     while executing
-"2305811684672_drain"
+"2304404999552_drain"
     ("after" script)
-invalid command name "2305805207424_drain"
+invalid command name "2304398328512_drain"
     while executing
-"2305805207424_drain"
+"2304398328512_drain"
     ("after" script)
-invalid command name "2305811685696_drain"
+invalid command name "2304405009984_drain"
     while executing
-"2305811685696_drain"
+"2304405009984_drain"
     ("after" script)
-invalid command name "2305811835776_drain"
+invalid command name "2304405209344_drain"
     while executing
-"2305811835776_drain"
+"2304405209344_drain"
     ("after" script)
 ok
 test_stats_cards_follow_controller (tests.test_gui.GuiTests.test_stats_cards_follow_controller) ... ok
-test_test_voice_and_manual_speech (tests.test_gui.GuiTests.test_test_voice_and_manual_speech) ... invalid command name "2305811925248_drain"
+test_test_voice_and_manual_speech (tests.test_gui.GuiTests.test_test_voice_and_manual_speech) ... invalid command name "2304405278016_drain"
     while executing
-"2305811925248_drain"
+"2304405278016_drain"
     ("after" script)
-invalid command name "2305812004608_drain"
+invalid command name "2304405345728_drain"
     while executing
-"2305812004608_drain"
-    ("after" script)
-ok
-test_update_button_hidden_until_new_version (tests.test_gui.GuiTests.test_update_button_hidden_until_new_version) ... invalid command name "2305812106112_drain"
-    while executing
-"2305812106112_drain"
+"2304405345728_drain"
     ("after" script)
 ok
-test_update_check_errors_are_quiet_unless_manual (tests.test_gui.GuiTests.test_update_check_errors_are_quiet_unless_manual) ... invalid command name "2305812143232_drain"
+test_update_button_hidden_until_new_version (tests.test_gui.GuiTests.test_update_button_hidden_until_new_version) ... invalid command name "2304405397952_drain"
     while executing
-"2305812143232_drain"
+"2304405397952_drain"
     ("after" script)
 ok
-test_update_failure_re_enables_button (tests.test_gui.GuiTests.test_update_failure_re_enables_button) ... invalid command name "2305727283968_drain"
+test_update_check_errors_are_quiet_unless_manual (tests.test_gui.GuiTests.test_update_check_errors_are_quiet_unless_manual) ... invalid command name "2304471253248_drain"
     while executing
-"2305727283968_drain"
+"2304471253248_drain"
+    ("after" script)
+ok
+test_update_failure_re_enables_button (tests.test_gui.GuiTests.test_update_failure_re_enables_button) ... invalid command name "2304471365952_drain"
+    while executing
+"2304471365952_drain"
     ("after" script)
 ok
 test_command_sequence_and_volume (tests.test_player.MciPlayerTests.test_command_sequence_and_volume) ... ok
@@ -210,17 +222,7 @@ test_self_update_only_for_frozen_windows (tests.test_updater.ScriptTests.test_se
 test_is_newer_compares_numbers_not_text (tests.test_updater.VersionTests.test_is_newer_compares_numbers_not_text) ... ok
 test_parse (tests.test_updater.VersionTests.test_parse) ... ok
 
-======================================================================
-ERROR: test_everything_visible_at_default_size_and_any_scaling (tests.test_gui.GuiTests.test_everything_visible_at_default_size_and_any_scaling)
-Озвучка, фильтры и подвал целиком помещаются в окно при масштабе 100–200 %.
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\tests\test_gui.py", line 164, in test_everything_visible_at_default_size_and_any_scaling
-    ("фильтры", app.lbl_queue), ("лента", app.log)):
-                ^^^^^^^^^^^^^
-AttributeError: 'App' object has no attribute 'lbl_queue'. Did you mean: 'ui_queue'?
+Ran 130 tests in 22.926s
 
-----------------------------------------------------------------------
-Ran 130 tests in 21.067s
-
-FAILED (errors=1)
+OK
