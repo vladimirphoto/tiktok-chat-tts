@@ -466,7 +466,7 @@ class App:
         """Слева — подключение, озвучка и статус модулей, справа — лента событий."""
         main = tk.Frame(parent, bg=BG)
         main.grid(row=2, column=0, sticky="nsew", pady=(0, GAP))
-        main.columnconfigure(0, weight=0, minsize=330)
+        main.columnconfigure(0, weight=0, minsize=352)
         main.columnconfigure(1, weight=1)
         main.rowconfigure(0, weight=1)
 
