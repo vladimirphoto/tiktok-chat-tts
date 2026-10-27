@@ -8,7 +8,7 @@ test_selftest_writes_report_even_when_network_is_down (tests.test_cli.ReportTest
   warnings.warn(  # deprecated in 14.0 - 2024-11-09
 C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\site-packages\TikTokLive\client\ws\ws_connect.py:6: DeprecationWarning: websockets.exceptions.InvalidStatusCode is deprecated
   from websockets.exceptions import InvalidStatusCode  # type: ignore[attr-defined]
-C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\subprocess.py:1127: ResourceWarning: subprocess 8656 is still running
+C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\subprocess.py:1127: ResourceWarning: subprocess 3372 is still running
   _warn("subprocess %s is still running" % self.pid,
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
 ok
@@ -105,19 +105,7 @@ test_variants (tests.test_tiktok.ParseUsernameTests.test_variants) ... ok
 test_empty_room_id_means_offline (tests.test_tiktok.RealClassifyTests.test_empty_room_id_means_offline) ... ok
 test_failed_parse_room_id_means_offline (tests.test_tiktok.RealClassifyTests.test_failed_parse_room_id_means_offline) ... ok
 test_other_value_error_stays_other (tests.test_tiktok.RealClassifyTests.test_other_value_error_stays_other) ... ok
-test_age_restricted_is_fatal (tests.test_tiktok.ServiceTests.test_age_restricted_is_fatal) ... Exception ignored in: <function Variable.__del__ at 0x00000252AC1E8180>
-Traceback (most recent call last):
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 414, in __del__
-    if self._tk.getboolean(self._tk.call("info", "exists", self._name)):
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: main thread is not in main loop
-Exception ignored in: <function Variable.__del__ at 0x00000252AC1E8180>
-Traceback (most recent call last):
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 414, in __del__
-    if self._tk.getboolean(self._tk.call("info", "exists", self._name)):
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: main thread is not in main loop
-FAIL
+test_age_restricted_is_fatal (tests.test_tiktok.ServiceTests.test_age_restricted_is_fatal) ... ok
 test_connects_forwards_events_and_stops (tests.test_tiktok.ServiceTests.test_connects_forwards_events_and_stops) ... ok
 test_double_start_rejected (tests.test_tiktok.ServiceTests.test_double_start_rejected) ... ok
 test_not_found_is_fatal_no_retry (tests.test_tiktok.ServiceTests.test_not_found_is_fatal_no_retry) ... ok
@@ -131,26 +119,8 @@ test_estimate_seconds (tests.test_tts.FormatTests.test_estimate_seconds) ... ok
 test_mp3_header_detection (tests.test_tts.FormatTests.test_mp3_header_detection) ... ok
 test_rate_and_pitch_format (tests.test_tts.FormatTests.test_rate_and_pitch_format) ... ok
 test_voice_catalogue (tests.test_tts.FormatTests.test_voice_catalogue) ... ok
-test_gives_up_with_tts_error (tests.test_tts.SynthesizerTests.test_gives_up_with_tts_error) ... Exception ignored in: <function Variable.__del__ at 0x00000252AC1E8180>
-Traceback (most recent call last):
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 414, in __del__
-    if self._tk.getboolean(self._tk.call("info", "exists", self._name)):
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: main thread is not in main loop
-ok
-test_retries_then_succeeds (tests.test_tts.SynthesizerTests.test_retries_then_succeeds) ... Exception ignored in: <function Variable.__del__ at 0x00000252AC1E8180>
-Traceback (most recent call last):
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 414, in __del__
-    if self._tk.getboolean(self._tk.call("info", "exists", self._name)):
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: main thread is not in main loop
-Exception ignored in: <function Variable.__del__ at 0x00000252AC1E8180>
-Traceback (most recent call last):
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 414, in __del__
-    if self._tk.getboolean(self._tk.call("info", "exists", self._name)):
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: main thread is not in main loop
-ok
+test_gives_up_with_tts_error (tests.test_tts.SynthesizerTests.test_gives_up_with_tts_error) ... ok
+test_retries_then_succeeds (tests.test_tts.SynthesizerTests.test_retries_then_succeeds) ... ok
 test_success_passes_arguments (tests.test_tts.SynthesizerTests.test_success_passes_arguments) ... ok
 test_timeout_is_error (tests.test_tts.SynthesizerTests.test_timeout_is_error) ... ok
 test_network_error_is_wrapped (tests.test_updater.CheckTests.test_network_error_is_wrapped) ... ok
@@ -177,24 +147,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_close_saves_and_shuts_down (tests.test_gui.GuiTests.test_close_saves_and_shuts_down)
@@ -205,24 +167,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_connect_chat_flow_and_disconnect (tests.test_gui.GuiTests.test_connect_chat_flow_and_disconnect)
@@ -233,24 +187,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_everything_visible_at_default_size_and_any_scaling (tests.test_gui.GuiTests.test_everything_visible_at_default_size_and_any_scaling)
@@ -262,24 +208,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_format_helpers (tests.test_gui.GuiTests.test_format_helpers)
@@ -290,24 +228,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_invalid_username_is_reported (tests.test_gui.GuiTests.test_invalid_username_is_reported)
@@ -318,24 +248,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_log_is_trimmed (tests.test_gui.GuiTests.test_log_is_trimmed)
@@ -346,24 +268,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_no_advanced_button (tests.test_gui.GuiTests.test_no_advanced_button)
@@ -374,24 +288,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_no_advanced_settings (tests.test_gui.GuiTests.test_no_advanced_settings)
@@ -402,24 +308,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_no_voice_tuning_widgets (tests.test_gui.GuiTests.test_no_voice_tuning_widgets)
@@ -430,24 +328,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_settings_are_collected_and_saved (tests.test_gui.GuiTests.test_settings_are_collected_and_saved)
@@ -458,24 +348,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_stats_cards_follow_controller (tests.test_gui.GuiTests.test_stats_cards_follow_controller)
@@ -486,24 +368,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_test_voice_and_manual_speech (tests.test_gui.GuiTests.test_test_voice_and_manual_speech)
@@ -514,24 +388,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_update_button_hidden_until_new_version (tests.test_gui.GuiTests.test_update_button_hidden_until_new_version)
@@ -542,24 +408,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_update_check_errors_are_quiet_unless_manual (tests.test_gui.GuiTests.test_update_check_errors_are_quiet_unless_manual)
@@ -570,24 +428,16 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ======================================================================
 ERROR: test_update_failure_re_enables_button (tests.test_gui.GuiTests.test_update_failure_re_enables_button)
@@ -598,34 +448,18 @@ Traceback (most recent call last):
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 264, in __init__
     self._build()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 392, in _build
-    self._build_header(outer)
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 420, in _build_header
-    self._chip = StatusChip(head, "Не подключено", MUTED)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 161, in __init__
-    self._resize()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 172, in _resize
-    self.draw()
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 178, in draw
-    self.canvas.create_polygon(rounded_points(0, 0, w - 1, h - 1, (h - 1) / 2),
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2889, in create_polygon
-    return self._create('polygon', args, kw)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2863, in _create
-    return self.tk.getint(self.tk.call(
-                          ^^^^^^^^^^^^^
-_tkinter.TclError: unknown option "-close"
-
-======================================================================
-FAIL: test_age_restricted_is_fatal (tests.test_tiktok.ServiceTests.test_age_restricted_is_fatal)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\tests\test_tiktok.py", line 158, in test_age_restricted_is_fatal
-    self.assertTrue(wait_for(lambda: not svc.running))
-AssertionError: False is not true
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 394, in _build
+    self._build_main(outer)
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 455, in _build_main
+    self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\a\tiktok-chat-tts\tiktok-chat-tts\ttchat\gui.py", line 522, in _build_feed
+    self.log.grid(row=0, column=0, sticky="nsew")
+  File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\tkinter\__init__.py", line 2580, in grid_configure
+    self.tk.call(
+_tkinter.TclError: cannot use geometry manager grid inside .!frame.!frame3.!frame2.!frame which already has slaves managed by pack
 
 ----------------------------------------------------------------------
-Ran 130 tests in 15.580s
+Ran 130 tests in 15.678s
 
-FAILED (failures=1, errors=16)
+FAILED (errors=16)
