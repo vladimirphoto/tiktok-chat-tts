@@ -1,14 +1,14 @@
-[OK  ] Импорт библиотек и модулей (1.5 c) — импортировано модулей: 15
-[OK  ] Настройки (0.0 c) — сохранение и чтение настроек работают
+[OK  ] Импорт библиотек и модулей (1.97 c) — импортировано модулей: 15
+[OK  ] Настройки (0.01 c) — сохранение и чтение настроек работают
 [OK  ] Фильтры текста (0.0 c) — фраза: «Маша: Привет, всем привет!»
-[OK  ] Каталог голосов Microsoft (0.22 c) — всего голосов: 322; русские женские: ru-RU-SvetlanaNeural
-[OK  ] Синтез: ru-RU-SvetlanaNeural (0.53 c) — 42336 байт, ≈7.1 с речи
-[OK  ] Синтез: en-US-AvaMultilingualNeural (0.52 c) — 27792 байт, ≈4.6 с речи
-[OK  ] Синтез: en-US-EmmaMultilingualNeural (0.41 c) — 31680 байт, ≈5.3 с речи
-[OK  ] Синтез: fr-FR-VivienneMultilingualNeural (0.5 c) — 30240 байт, ≈5.0 с речи
-[OK  ] Синтез: de-DE-SeraphinaMultilingualNeural (0.47 c) — 36432 байт, ≈6.1 с речи
-[warn] Воспроизведение (MCI) (0.44 c) — PlayerError: MCI «open»: A problem occurred in initializing MCI.
-[warn] Очередь: синтез → воспроизведение (0.91 c) — RuntimeError: Ошибка воспроизведения: MCI «open»: A problem occurred in initializing MCI.
-[OK  ] Обновление: проверка, скачивание и замена файла (2.12 c) — версия найдена, файл скачан, sha256 сошёлся, exe заменён скриптом обновления
-[OK  ] TikTok: попытка подключения к @tiktok (1.97 c) — offline: Стример сейчас не в эфире (или TikTok не отдаёт эфир). Проверьте ник. Повтор через 30 с.
+[OK  ] Каталог голосов Microsoft (0.58 c) — всего голосов: 322; русские женские: ru-RU-SvetlanaNeural
+[OK  ] Синтез: ru-RU-SvetlanaNeural (0.83 c) — 42336 байт, ≈7.1 с речи
+[OK  ] Синтез: en-US-AvaMultilingualNeural (0.64 c) — 27792 байт, ≈4.6 с речи
+[OK  ] Синтез: en-US-EmmaMultilingualNeural (0.74 c) — 31680 байт, ≈5.3 с речи
+[OK  ] Синтез: fr-FR-VivienneMultilingualNeural (0.73 c) — 30240 байт, ≈5.0 с речи
+[OK  ] Синтез: de-DE-SeraphinaMultilingualNeural (0.81 c) — 36432 байт, ≈6.1 с речи
+[warn] Воспроизведение (MCI) (0.62 c) — PlayerError: MCI «open»: A problem occurred in initializing MCI.
+[warn] Очередь: синтез → воспроизведение (1.14 c) — RuntimeError: Ошибка воспроизведения: MCI «open»: A problem occurred in initializing MCI.
+[OK  ] Обновление: проверка, скачивание и замена файла (2.14 c) — версия найдена, файл скачан, sha256 сошёлся, exe заменён скриптом обновления
+[OK  ] TikTok: попытка подключения к @tiktok (1.26 c) — offline: Стример сейчас не в эфире (или TikTok не отдаёт эфир). Проверьте ник. Повтор через 30 с.
 ИТОГ: ВСЁ В ПОРЯДКЕ
