@@ -66,7 +66,7 @@ class GuiTests(unittest.TestCase):
         self.assertTrue(pump(self.root, lambda: "Подключено" in self.app.lbl_state.cget("text")))
         self.app.controller.on_comment("Маша", "Привет всем", None)
         self.assertTrue(pump(self.root, lambda: self.player.played))
-        self.assertIn("Маша: Привет всем", log_text(self.app))
+        self.assertTrue(pump(self.root, lambda: "Маша: Привет всем" in log_text(self.app)))
         self.assertEqual(self.synth.calls[0][0], "Маша: Привет всем")
         self.app.toggle_connect()  # отключаемся
         self.assertTrue(pump(self.root, lambda: self.app.btn_connect.cget("text") == "Подключиться"))
@@ -84,12 +84,12 @@ class GuiTests(unittest.TestCase):
         self.app.v_volume.set(40)
         self.app.flag_vars["read_nick"].set(False)
         self.app.v_blacklist.set("слово")
-        self.app.cmb_voice.set("Дарья — молодой и звонкий")
+        self.app.cmb_voice.set("Ава — мультиязычный, читает по-русски")
         self.app._changed()
         self.assertEqual(self.app.settings.rate, 25)
         self.assertEqual(self.app.settings.volume, 40)
         self.assertFalse(self.app.settings.read_nick)
-        self.assertEqual(self.app.settings.voice, "ru-RU-DariyaNeural")
+        self.assertEqual(self.app.settings.voice, "en-US-AvaMultilingualNeural")
         self.assertTrue(pump(self.root, lambda: self.store.path.exists(), timeout=3))
         self.assertEqual(self.store.load().blacklist, "слово")
 

@@ -107,7 +107,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Публикация релиза с exe
-        if: always() && hashFiles('dist/TikTokChatTTS.exe') != ''
+        if: always() && hashFiles('dist/TikTokChatTTS.exe') != '' && steps.unit.outcome == 'success' && steps.selftest_exe.outcome == 'success'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -133,3 +133,10 @@ jobs:
           git add -A
           git commit -q -m "Отчёт проверок: запуск ${{ github.run_number }}, коммит ${GITHUB_SHA::7}" || true
           git push origin ci-report
+
+      - name: Красный статус, если проверки не прошли
+        if: always() && (steps.unit.outcome != 'success' || steps.selftest_src.outcome != 'success' || steps.build.outcome != 'success' || steps.selftest_exe.outcome != 'success' || steps.gui.outcome != 'success')
+        shell: bash
+        run: |
+          echo "Не все проверки прошли, см. reports/outcome.txt и ветку ci-report"
+          exit 1

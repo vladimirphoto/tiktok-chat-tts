@@ -22,7 +22,7 @@ class FormatTests(unittest.TestCase):
 
     def test_voice_catalogue(self):
         self.assertIn("ru-RU-SvetlanaNeural", tts.VOICES)
-        self.assertIn("ru-RU-DariyaNeural", tts.VOICES)
+        self.assertNotIn("ru-RU-DariyaNeural", tts.VOICES)  # в каталоге Microsoft такого голоса нет
         self.assertNotIn("ru-RU-DmitryNeural", tts.VOICES)  # только женские голоса
 
 

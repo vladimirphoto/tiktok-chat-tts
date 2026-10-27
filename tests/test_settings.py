@@ -19,12 +19,12 @@ class SettingsTests(unittest.TestCase):
 
     def test_from_dict_ignores_junk(self):
         s = from_dict({"username": 5, "volume": "громко", "rate": 12.7, "read_nick": "yes",
-                       "unknown": 1, "voice": "ru-RU-DariyaNeural"})
+                       "unknown": 1, "voice": "en-US-AvaMultilingualNeural"})
         self.assertEqual(s.username, "")
         self.assertEqual(s.volume, 80)
         self.assertEqual(s.rate, 12)
         self.assertTrue(s.read_nick)
-        self.assertEqual(s.voice, "ru-RU-DariyaNeural")
+        self.assertEqual(s.voice, "en-US-AvaMultilingualNeural")
 
     def test_bool_is_not_int(self):
         self.assertEqual(from_dict({"volume": True}).volume, 80)

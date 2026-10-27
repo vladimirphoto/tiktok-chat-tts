@@ -5,11 +5,10 @@ from __future__ import annotations
 import asyncio
 from typing import Dict
 
-# Только женские голоса. Первые два — родные русские, остальные — мультиязычные
-# нейроголоса Microsoft, которые тоже читают по-русски (качество слегка отличается).
+# Только женские голоса. Первый — родной русский (у Microsoft Edge TTS женский русский
+# голос один), остальные — мультиязычные нейроголоса, которые тоже читают по-русски.
 VOICES: Dict[str, str] = {
     "ru-RU-SvetlanaNeural": "Светлана — мягкий и тёплый (рекомендуется)",
-    "ru-RU-DariyaNeural": "Дарья — молодой и звонкий",
     "en-US-AvaMultilingualNeural": "Ава — мультиязычный, читает по-русски",
     "en-US-EmmaMultilingualNeural": "Эмма — мультиязычный, читает по-русски",
     "fr-FR-VivienneMultilingualNeural": "Вивьен — мультиязычный, читает по-русски",

@@ -49,7 +49,7 @@ class EngineTests(unittest.TestCase):
         self.assertEqual([m for lvl, m in events if lvl == "speak"], ["раз", "два", "три"])
 
     def test_uses_current_voice_rate_pitch_volume(self):
-        s = replace(Settings(), voice="ru-RU-DariyaNeural", rate=20, pitch=-3, volume=55)
+        s = replace(Settings(), voice="en-US-AvaMultilingualNeural", rate=20, pitch=-3, volume=55)
         engine, synth, player, _ = make_engine(settings=s)
         engine.start()
         try:
@@ -57,7 +57,7 @@ class EngineTests(unittest.TestCase):
             self.assertTrue(wait_for(lambda: player.played))
         finally:
             engine.stop()
-        self.assertEqual(synth.calls[0], ("привет", "ru-RU-DariyaNeural", 20, -3))
+        self.assertEqual(synth.calls[0], ("привет", "en-US-AvaMultilingualNeural", 20, -3))
         self.assertEqual(player.played[0][1], 55)
 
     def test_empty_text_not_queued(self):
