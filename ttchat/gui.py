@@ -300,7 +300,8 @@ class App:
 
     # ---- строительные блоки --------------------------------------------------------
 
-    def _card(self, parent: tk.Misc, title: str, subtitle: str = "", pad: int = CARD_PAD,
+    def _card(self, parent: tk.Misc, title: Optional[str] = None, subtitle: str = "",
+              pad: int = CARD_PAD,
               actions: Optional[Tuple[Tuple[str, Callable[[], None]], ...]] = None,
               title_font: tuple = FONT_H2, title_color: str = FG
               ) -> Tuple[tk.Frame, tk.Frame]:
@@ -311,6 +312,8 @@ class App:
         body = tk.Frame(outer, bg=PANEL)
         body.pack(fill="both", expand=True, padx=pad, pady=pad)
 
+        if not title and not actions:
+            return outer, body
         head = tk.Frame(body, bg=PANEL)
         head.pack(fill="x", anchor="w")
         head.columnconfigure(0, weight=1)
@@ -392,6 +395,7 @@ class App:
         self._build_header(outer)
         self._build_stats(outer)
         self._build_main(outer)
+        self._build_voice(outer)
         self._build_filters(outer)
         self._build_footer(outer)
 
@@ -439,19 +443,14 @@ class App:
             self.stat_values[key] = value
 
     def _build_main(self, parent: tk.Frame) -> None:
-        """Слева — подключение и озвучка, справа — лента событий."""
+        """Слева — страница подключения, справа — лента событий."""
         main = tk.Frame(parent, bg=BG)
         main.grid(row=2, column=0, sticky="nsew", pady=(0, 8))
         main.columnconfigure(0, weight=0, minsize=330)
         main.columnconfigure(1, weight=1)
         main.rowconfigure(0, weight=1)
 
-        left = tk.Frame(main, bg=BG)
-        left.grid(row=0, column=0, sticky="nsew", padx=(0, 10))
-        left.columnconfigure(0, weight=1)
-        self._build_connect(left).grid(row=0, column=0, sticky="ew")
-        self._build_voice(left).grid(row=1, column=0, sticky="ew", pady=(8, 0))
-
+        self._build_connect(main).grid(row=0, column=0, sticky="new", padx=(0, 10))
         self._build_feed(main).grid(row=0, column=1, sticky="nsew", padx=(10, 0))
 
     def _build_connect(self, parent: tk.Frame) -> tk.Frame:
@@ -479,30 +478,27 @@ class App:
         return outer
 
     def _build_voice(self, parent: tk.Frame) -> tk.Frame:
-        """Аккуратный выбор озвучки: голос, проверка и своя фраза."""
-        outer, body = self._card(parent, "Озвучка")
-        tk.Label(body, text="Голос", bg=PANEL, fg=MUTED, font=FONT_SMALL, anchor="w").pack(
-            anchor="w", pady=(8, 3))
-
-        picker = tk.Frame(body, bg=PANEL)
-        picker.pack(fill="x")
-        picker.columnconfigure(0, weight=1)
-        self.cmb_voice = ttk.Combobox(picker, textvariable=self.v_voice, state="readonly",
-                                      style="Dark.TCombobox", font=FONT,
+        """Аккуратный выбор озвучки: одна строка — голос, проверка и своя фраза."""
+        outer, body = self._card(parent, pad=10)
+        outer.grid(row=3, column=0, sticky="ew", pady=(0, 8))
+        row = tk.Frame(body, bg=PANEL)
+        row.pack(fill="x")
+        tk.Label(row, text="Озвучка", bg=PANEL, fg=FG, font=FONT_H2).pack(side="left",
+                                                                           padx=(4, 14))
+        tk.Label(row, text="Голос", bg=PANEL, fg=MUTED, font=FONT_SMALL).pack(side="left",
+                                                                               padx=(0, 8))
+        self.cmb_voice = ttk.Combobox(row, textvariable=self.v_voice, state="readonly",
+                                      style="Dark.TCombobox", font=FONT, width=30,
                                       values=[VOICES[v] for v in self.voice_ids])
-        self.cmb_voice.grid(row=0, column=0, sticky="ew")
+        self.cmb_voice.pack(side="left")
         self.cmb_voice.bind("<<ComboboxSelected>>", lambda e: self._changed())
-        self._button(picker, "▶ Проверить", self.test_voice).grid(row=0, column=1, padx=(6, 0))
-
-        manual = tk.Frame(body, bg=PANEL)
-        manual.pack(fill="x", pady=(6, 0))
-        manual.columnconfigure(0, weight=1)
-        field = tk.Entry(manual, textvariable=self.v_manual, bg=FIELD, fg=FG,
-                         insertbackground=FG, relief="flat", bd=0, font=FONT,
-                         highlightthickness=1, highlightbackground=BORDER, highlightcolor=BORDER)
-        field.grid(row=0, column=0, sticky="ew", ipady=6, padx=(0, 6))
+        self._button(row, "▶ Проверить", self.test_voice).pack(side="left", padx=(8, 0))
+        self._button(row, "Озвучить свой текст", self.speak_manual).pack(side="right")
+        field = tk.Entry(row, textvariable=self.v_manual, bg=FIELD, fg=FG, insertbackground=FG,
+                         relief="flat", bd=0, font=FONT, highlightthickness=1,
+                         highlightbackground=BORDER, highlightcolor=BORDER)
+        field.pack(side="right", fill="x", expand=True, ipady=5, padx=(16, 8))
         field.bind("<Return>", lambda e: self.speak_manual())
-        self._button(manual, "Озвучить свой текст", self.speak_manual).grid(row=0, column=1)
         return outer
 
     def _build_feed(self, parent: tk.Frame) -> tk.Frame:
@@ -538,7 +534,7 @@ class App:
     def _build_filters(self, parent: tk.Frame) -> None:
         """«Что озвучивать» — отрисованные флажки вместо крестиков."""
         outer, body = self._card(parent, "Что озвучивать")
-        outer.grid(row=3, column=0, sticky="ew", pady=(0, 4))
+        outer.grid(row=4, column=0, sticky="ew", pady=(0, 4))
         # Заголовок карточки упакован через pack, поэтому флажки-сетка — в отдельном фрейме.
         area = tk.Frame(body, bg=PANEL)
         area.pack(fill="x", pady=(4, 0))
@@ -553,7 +549,7 @@ class App:
 
     def _build_footer(self, parent: tk.Frame) -> None:
         foot = tk.Frame(parent, bg=BG)
-        foot.grid(row=4, column=0, sticky="ew")
+        foot.grid(row=5, column=0, sticky="ew")
         foot.columnconfigure(1, weight=1)
         tk.Label(foot, text=f"{APP_NAME} · версия {__version__}", bg=BG, fg=MUTED,
                  font=FONT_SMALL).grid(row=0, column=0, sticky="w")
