@@ -239,3 +239,28 @@ class DescribeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class RealClassifyTests(unittest.TestCase):
+    """Классификация настоящих ошибок TikTokLive (пропускается, если библиотеки нет)."""
+
+    def setUp(self):
+        try:
+            import TikTokLive  # noqa: F401
+        except Exception:
+            self.skipTest("TikTokLive не установлена")
+        self.lib = tiktok.RealLibrary()
+
+    def test_empty_room_id_means_offline(self):
+        try:
+            int("")
+        except ValueError as ex:
+            self.assertEqual(self.lib.classify(ex), tiktok.OFFLINE)
+
+    def test_other_value_error_stays_other(self):
+        self.assertEqual(self.lib.classify(ValueError("что-то другое")), tiktok.OTHER)
+
+    def test_failed_parse_room_id_means_offline(self):
+        from TikTokLive.client.web.routes.fetch_room_id_live_html import FailedParseRoomIdError
+
+        self.assertEqual(self.lib.classify(FailedParseRoomIdError("нет SIGI_STATE")), tiktok.OFFLINE)

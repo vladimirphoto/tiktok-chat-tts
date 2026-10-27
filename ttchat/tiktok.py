@@ -112,6 +112,16 @@ class RealLibrary:
             return AGE
         if isinstance(error, (e.WebcastBlockedError, e.SignAPIError)):
             return BLOCKED
+        # Если эфира нет, TikTok отдаёт пустой ID комнаты, и библиотека падает на int('') —
+        # ValueError «invalid literal for int()». Для пользователя это тот же случай «не в эфире».
+        if isinstance(error, ValueError) and "invalid literal for int()" in str(error):
+            return OFFLINE
+        try:
+            from TikTokLive.client.web.routes.fetch_room_id_live_html import FailedParseRoomIdError
+        except Exception:
+            FailedParseRoomIdError = None  # noqa: N806
+        if FailedParseRoomIdError is not None and isinstance(error, FailedParseRoomIdError):
+            return OFFLINE
         return OTHER
 
 
@@ -249,7 +259,7 @@ class TikTokService:
     def _describe(kind: str, ex: BaseException, delay: float) -> str:
         wait = f"Повтор через {int(delay)} с."
         if kind == OFFLINE:
-            return f"Стример сейчас не в эфире. {wait}"
+            return f"Стример сейчас не в эфире (или TikTok не отдаёт эфир). Проверьте ник. {wait}"
         if kind == RATE_LIMIT:
             return f"Сервис подписи ограничил число подключений. {wait} Можно указать свой Euler-ключ."
         if kind == BLOCKED:
