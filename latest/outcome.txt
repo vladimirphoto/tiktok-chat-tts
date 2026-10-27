@@ -1,4 +1,4 @@
-unit=success
+unit=failure
 selftest_source=success
 build=success
 selftest_exe=success
